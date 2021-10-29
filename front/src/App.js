@@ -6,10 +6,9 @@ import Sidebar from "./components/common/Sidebar";
 function App() {
   return (
     <div className="App">
-      <Header/>
+      <Header />
       <Router>
-
-        <Sidebar/>
+        <Sidebar />
       </Router>
     </div>
   );
