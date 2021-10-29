@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { fonts, colors } from "../../../styles";
 
 export const Side = styled.div`
+  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
