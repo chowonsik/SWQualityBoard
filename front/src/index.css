@@ -2,10 +2,13 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+
   -webkit-tap-highlight-color: transparent;
 }
 
 body {
+  color: #2f3640;
+  background-color: #f1f2f6;
   margin: 0;
   font-family: "Nanum Gothic", sans-serif;
   -webkit-font-smoothing: antialiased;
