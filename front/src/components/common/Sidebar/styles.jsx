@@ -2,16 +2,21 @@ import styled from "styled-components";
 import { fonts, colors } from "../../../styles";
 
 export const Side = styled.div`
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 200px;
-  height: 100vh;
   background-color: ${colors.white};
+  z-index: -1;
 `;
 
 export const Menu = styled.ul`
+  margin-top: 65px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
