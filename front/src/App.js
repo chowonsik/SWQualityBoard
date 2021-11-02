@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"; // 히스토리 모드 제거
 import Header from "./components/common/Header";
 import Sidebar from "./components/common/Sidebar";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Sidebar />
         <Center>
           <Switch>
+            <Route path="/" exact={true} component={Home} />
             <Route path="/login" exact={true} component={Login} />
           </Switch>
         </Center>
@@ -26,8 +28,6 @@ const Center = styled.div`
   left: 200px;
   display: flex;
   flex-direction: row;
-  width: 100%;
-  height: 100%;
 `;
 
 export default App;
