@@ -12,4 +12,5 @@ export const Wrapper = styled.div`
   font-size: ${fonts.xl};
   font-weight: 700;
   padding-left: 24px;
+  z-index: 99;
 `;
