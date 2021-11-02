@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  margin: 1rem;
+  margin: 2rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 1.5rem;
