@@ -46,7 +46,7 @@ public enum ResponseStatus {
     UNAUTHORIZED(401, "권한이 없습니다."),
     UNAUTHORIZED_TOKEN(401, "유효하지 않은 토큰입니다."),
     UNAUTHORIZED_USER(401, "인증되지 않은 유저입니다."),
-
+    UNAUTHORIZED_BAD_CREDENTIALS(401, "자격 증명에 실패하였습니다."),
     // 403 Forbidden - 클라이언트가 권한이 없기 때문에 작업을 진행할 수 없는 경우
     FORBIDDEN(403, "권한이 없습니다."),
     FORBIDDEN_ACCESS(403, "접근이 거부되었습니다."),
@@ -55,7 +55,7 @@ public enum ResponseStatus {
 
     // 404 Not Found - 클라이언트가 요청한 자원이 존재하지 않다.
     NOT_FOUND(404, "NOT FOUND"),
-    NOT_FOUND_USER(404, "사용자 정보가 존재하지 않습니다."),
+    NOT_FOUND_USER(404, "해당하는 이메일을 가진 유저가 존재하지 않습니다."),
     NOT_FOUND_AUTHORITY(404, "권한을 찾을 수 없습니다."),
 
     // 405 Method Not Allowed - 클라이언트의 요청이 허용되지 않는 메소드인 경우
