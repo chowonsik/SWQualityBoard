@@ -11,11 +11,16 @@ import {
   TableContainer,
   Wrapper,
 } from "./styles";
+import RangeCalendar from "../../components/common/RangeCalendar";
 
 function System() {
   const [selectShow, setSelectShow] = useState(false);
   const [systems, setSystems] = useState([]);
   const [indicator, setIndicator] = useState("기능적합성");
+  const [dateRange, setDateRange] = useState([null, null]);
+  const [data, setData] = useState({});
+  const [selectedData, setSelectedData] = useState({});
+
   const allCheckRef = useRef(null);
 
   // 체크박스 체크 이벤트 핸들링
@@ -43,56 +48,84 @@ function System() {
     return `${selectedSystems[0].name}외 ${selectedSystems.length - 1}개`;
   }
 
-  function getChartOptions() {
-    const options = {
-      grid: { top: 8, right: 8, bottom: 24, left: 36 },
+  function getChartOption() {
+    const option = {
+      title: {
+        text: "시스템 신뢰도",
+      },
+      tooltip: {
+        trigger: "axis",
+      },
+      legend: {
+        data: ["시스템 A", "시스템 B", "시스템 C"],
+      },
+      grid: {
+        left: "3%",
+        right: "4%",
+        bottom: "3%",
+        top: 40,
+        containLabel: true,
+      },
+
       xAxis: {
         type: "category",
         boundaryGap: false,
-        data: [
-          "2021/10/19",
-          "2021/10/20",
-          "2021/10/21",
-          "2021/10/22",
-          "2021/10/23",
-          "2021/10/24",
-          "2021/10/25",
-          "2021/10/26",
-          "2021/10/27",
-          "2021/10/28",
-          "2021/10/29",
-          "2021/10/30",
-          "2021/10/31",
-          "2021/11/1",
-        ],
+        data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
       },
       yAxis: {
         type: "value",
       },
       series: [
         {
-          data: [67, 68, 67, 68, 69, 70, 71, 67, 68, 67, 68, 69, 70, 100],
+          name: "시스템 A",
           type: "line",
-          smooth: false,
+          stack: "Total",
+          data: [120, 132, 101, 134, 90, 230, 210],
+        },
+        {
+          name: "시스템 B",
+          type: "line",
+          stack: "Total",
+          data: [220, 182, 191, 234, 290, 330, 310],
+        },
+        {
+          name: "시스템 C",
+          type: "line",
+          stack: "Total",
+          data: [150, 232, 201, 154, 190, 330, 410],
         },
       ],
-      tooltip: {
-        trigger: "axis",
-      },
     };
-    return options;
+    return option;
   }
 
-  useEffect(() => {
+  // 시스템 설정(api로할지)
+  function initSystems() {
     let newSystems = [];
     for (let i = 0; i < 10; i++) {
       const name = `시스템 ${String.fromCharCode(65 + i)}`;
       newSystems.push({ name: name, isChecked: i === 0 ? true : false });
     }
     setSystems(newSystems);
+  }
+
+  // 기간 일주일 전 ~ 오늘로 설정
+  function initDateRange() {
+    const date = new Date();
+    const prevDate = new Date(date);
+    prevDate.setDate(prevDate.getDate() - 7);
+    setDateRange([prevDate, date]);
+  }
+
+  function initData() {}
+
+  useEffect(() => {
+    initSystems();
+    initDateRange();
   }, []);
 
   useEffect(() => {
+    // 전체 선택 핸들링
     if (allCheckRef.current) {
       const selectedSystems = systems.filter((system) => system.isChecked);
       if (selectedSystems.length === systems.length) {
@@ -106,7 +139,7 @@ function System() {
   return (
     <Wrapper>
       <Selectors>
-        <SystemSelectorContainer>
+        <SystemSelectorContainer selectShow={selectShow}>
           <span className="selected-system">{getSelectedSystemString()}</span>
           <span
             className="icon"
@@ -143,11 +176,12 @@ function System() {
             </SystemSelector>
           )}
         </SystemSelectorContainer>
-        <DateSelectorContainer>달력</DateSelectorContainer>
+        <DateSelectorContainer>
+          <RangeCalendar dateRange={dateRange} setDateRange={setDateRange} />
+        </DateSelectorContainer>
       </Selectors>
-      <ChartIndicator>{indicator}</ChartIndicator>
       <ChartContainer>
-        <ReactECharts option={getChartOptions()} />
+        <ReactECharts option={getChartOption()} opts={{ height: 400 }} />
       </ChartContainer>
       <TableContainer>테이블</TableContainer>
     </Wrapper>

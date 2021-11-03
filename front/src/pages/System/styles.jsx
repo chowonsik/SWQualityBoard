@@ -26,6 +26,8 @@ export const SystemSelectorContainer = styled.div`
     cursor: pointer;
     display: flex;
     align-items: center;
+    transform: ${(props) => (props.selectShow ? "rotateX(180deg)" : "")};
+    transition: all ease-in 0.1s;
   }
 `;
 export const DateSelectorContainer = styled.div``;
@@ -33,6 +35,7 @@ export const DateSelectorContainer = styled.div``;
 export const ChartContainer = styled(Card)`
   width: calc((100vw - 200px) * 0.8);
   padding: 20px;
+  height: 450px;
 `;
 export const TableContainer = styled(Card)`
   width: calc((100vw - 200px) * 0.8);
