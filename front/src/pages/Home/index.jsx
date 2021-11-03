@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import EChartsReact from "echarts-for-react";
 
 import Card from "../../components/common/Card";
-import { Wrapper } from "./styles";
+import { Wrapper, CardContent } from "./styles";
 function Home() {
   const [curWidth, setCurWidth] = useState(window.outerWidth);
   const [cardWidth, setCardWidth] = useState(500);
@@ -18,9 +19,39 @@ function Home() {
       setCardHeight(200);
     }
   }, [curWidth]);
+  const optionObj = {
+    xAxis: {
+      type: "category",
+      data: ["Mon", "Tue", "Wed", "Thu"],
+    },
+    yAxis: {
+      type: "value",
+    },
+    series: [
+      {
+        data: [120, 200, 150, 80],
+        type: "bar",
+      },
+    ],
+  };
+  const optsObj = {
+    width: 350,
+    height: 200,
+  };
   return (
     <Wrapper>
-      <Card width={cardWidth} height={cardHeight}></Card>
+      <Card width={cardWidth} height={cardHeight}>
+        <h3>중대결함수</h3>
+        <CardContent>
+          <div>
+            <p>Critical: 1</p>
+            <p>High: 4</p>
+            <p>Medium: 2</p>
+            <p>Low: 2</p>
+          </div>
+          <EChartsReact option={optionObj} opts={optsObj} />
+        </CardContent>
+      </Card>
       <Card width={cardWidth} height={cardHeight}></Card>
       <Card width={cardWidth} height={cardHeight}></Card>
       <Card width={cardWidth} height={cardHeight}></Card>
