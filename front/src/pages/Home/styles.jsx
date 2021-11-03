@@ -25,3 +25,7 @@ export const CardContent = styled.div`
     justify-items: center;
   }
 `;
+
+export const CardWrapper = styled.div`
+  position: relative;
+`;
