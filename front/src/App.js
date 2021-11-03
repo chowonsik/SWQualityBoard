@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom"; // íž
 import Header from "./components/common/Header";
 import Sidebar from "./components/common/Sidebar";
 import Login from "./pages/Login";
+import System from "./pages/System";
 function App() {
   return (
     <div className="App">
@@ -13,6 +14,7 @@ function App() {
         <Center>
           <Switch>
             <Route path="/login" exact={true} component={Login} />
+            <Route path="/system" exact={true} component={System} />
           </Switch>
         </Center>
       </Router>
@@ -26,8 +28,7 @@ const Center = styled.div`
   left: 200px;
   display: flex;
   flex-direction: row;
-  width: 100%;
-  height: 100%;
+  width: calc(100% - 200px);
 `;
 
 export default App;
