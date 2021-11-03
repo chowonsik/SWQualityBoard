@@ -28,6 +28,7 @@ const Center = styled.div`
   left: 200px;
   display: flex;
   flex-direction: row;
+  width: calc(100% - 200px);
 `;
 
 export default App;
