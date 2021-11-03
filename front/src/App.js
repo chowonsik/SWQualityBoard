@@ -5,6 +5,7 @@ import Header from "./components/common/Header";
 import Sidebar from "./components/common/Sidebar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import System from "./pages/System";
 function App() {
   return (
     <div className="App">
@@ -15,6 +16,7 @@ function App() {
           <Switch>
             <Route path="/" exact={true} component={Home} />
             <Route path="/login" exact={true} component={Login} />
+            <Route path="/system" exact={true} component={System} />
           </Switch>
         </Center>
       </Router>
