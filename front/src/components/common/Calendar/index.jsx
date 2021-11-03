@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight } from "react-bootstrap-icons";
 require("react-datepicker/dist/react-datepicker.css");
 registerLocale("ko", ko);
 
-function Calendar() {
+function Calendar({ startDate, setStartDate }) {
   const months = [
     "1월",
     "2월",
@@ -22,8 +22,6 @@ function Calendar() {
     "11월",
     "12월",
   ];
-
-  const [startDate, setStartDate] = useState(new Date());
 
   return (
     <Wrapper>
