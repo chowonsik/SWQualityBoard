@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"; // 히스토리 모드 제거
 import Header from "./components/common/Header";
 import Sidebar from "./components/common/Sidebar";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import System from "./pages/System";
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Sidebar />
         <Center>
           <Switch>
+            <Route path="/" exact={true} component={Home} />
             <Route path="/login" exact={true} component={Login} />
             <Route path="/system" exact={true} component={System} />
           </Switch>
