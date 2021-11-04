@@ -18,14 +18,14 @@ export const Wrapper = styled.div`
 export const CardContent = styled.div`
   display: flex;
   justify-content: space-between;
-  height: 80%;
-  & > div {
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-  }
 `;
 
 export const CardWrapper = styled.div`
   position: relative;
+`;
+
+export const TitleAndMoreBtn = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.75rem;
 `;
