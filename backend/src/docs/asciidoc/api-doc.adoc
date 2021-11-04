@@ -1,0 +1,79 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+= API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:docinfo: shared-head
+
+[[introduction]]
+== 소개
+
+swqualityboard API
+
+[[common]]
+== 공통 사항
+
+API에 관계없이 아래 사항을 지켜주셔야 합니다.
+
+=== Domain
+
+|===
+| 환경 | Domain
+
+| 개발서버
+| `https://k5f004.p.ssafy.io`
+
+|===
+
+=== Common Response
+
+&#160;
+
+== 1. 개요
+
+== 2. Auth API
+
+=== 2-1. 로그인
+
+==== 로그인 성공
+include::{snippets}/authApi/authenticate/successful/request-fields.adoc[]
+
+include::{snippets}/authApi/authenticate/successful/response-fields.adoc[]
+
+Request Example
+
+include::{snippets}/authApi/authenticate/successful/http-request.adoc[]
+
+Response Example
+
+include::{snippets}/authApi/authenticate/successful/http-response.adoc[]
+
+==== 로그인 실패 - 자격증명
+include::{snippets}/authApi/authenticate/failure_credential/request-fields.adoc[]
+
+include::{snippets}/authApi/authenticate/failure_credential/response-fields.adoc[]
+
+Request Example
+
+include::{snippets}/authApi/authenticate/failure_credential/http-request.adoc[]
+
+Response Example
+
+include::{snippets}/authApi/authenticate/failure_credential/http-response.adoc[]
+
+==== 로그인 실패 - 존재하지않는 유저
+include::{snippets}/authApi/authenticate/failure_not_found/request-fields.adoc[]
+
+include::{snippets}/authApi/authenticate/failure_not_found/response-fields.adoc[]
+Request Example
+
+include::{snippets}/authApi/authenticate/failure_not_found/http-request.adoc[]
+
+Response Example
+
+include::{snippets}/authApi/authenticate/failure_not_found/http-response.adoc[]
