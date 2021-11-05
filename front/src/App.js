@@ -5,6 +5,8 @@ import Header from "./components/common/Header";
 import Sidebar from "./components/common/Sidebar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Team from "./pages/Team";
+
 function App() {
   return (
     <div className="App">
@@ -15,6 +17,7 @@ function App() {
           <Switch>
             <Route path="/" exact={true} component={Home} />
             <Route path="/login" exact={true} component={Login} />
+            <Route path="/team/:id" exact={true} component={Team} />
           </Switch>
         </Center>
       </Router>
@@ -28,6 +31,7 @@ const Center = styled.div`
   left: 200px;
   display: flex;
   flex-direction: row;
+  width: calc(100% - 200px);
 `;
 
 export default App;
