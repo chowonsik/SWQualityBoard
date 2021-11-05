@@ -39,12 +39,8 @@ const Center = styled.div`
   left: ${(props) => (props.sidebarOpened ? "200px" : 0)};
   display: flex;
   flex-direction: row;
-<<<<<<< HEAD
-  width: calc(100% - 200px);
-=======
   width: ${(props) => (props.sidebarOpened ? "calc(100% - 200px)" : "100%")};
   transition: all ease 0.3s;
->>>>>>> da08836195a25ae9c4eed256f58e55236f9286d5
 `;
 
 export default App;
