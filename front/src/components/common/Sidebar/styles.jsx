@@ -3,20 +3,19 @@ import { fonts, colors } from "../../../styles";
 
 export const Side = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
+  top: 65px;
+  left: ${(props) => (props.sidebarOpened ? 0 : "-200px")};
   bottom: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 200px;
   background-color: ${colors.white};
-  z-index: -1;
+  z-index: 50;
+  transition: all ease 0.3s;
 `;
 
 export const Menu = styled.ul`
-  margin-top: 65px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
