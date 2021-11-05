@@ -2,10 +2,13 @@ package com.swqualityboard.serviceImpl;
 
 import com.swqualityboard.configuration.util.SecurityUtil;
 import com.swqualityboard.dao.AuthorityRepository;
+import com.swqualityboard.dao.TeamRepository;
 import com.swqualityboard.dao.UserRepository;
 import com.swqualityboard.dto.user.signup.SignUpInput;
 import com.swqualityboard.entity.Authority;
+import com.swqualityboard.entity.Team;
 import com.swqualityboard.entity.User;
+import com.swqualityboard.exception.team.TeamNotFoundException;
 import com.swqualityboard.exception.user.AuthorityNotFoundException;
 import com.swqualityboard.exception.user.UserDuplicateEmailException;
 import com.swqualityboard.exception.user.UserDuplicateNicknameException;
@@ -19,9 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static com.swqualityboard.response.ResponseStatus.*;
 
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
+    private final TeamRepository teamRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -54,8 +56,16 @@ public class UserServiceImpl implements UserService {
         );
         Set<Authority> authorities = new HashSet<>();
         authorities.add(adminAuthority);
+        List<String> teams = new ArrayList<>();
+        for (String team : signUpInput.getTeams()) {
+            Team t = teamRepository.findByName(team).orElseThrow(
+                    () -> new TeamNotFoundException("해당 팀이 존재하지 않습니다.")
+            );
+
+            teams.add(t.getId());
+        }
         user = User.builder().email(signUpInput.getEmail()).password(password)
-                .nickname(signUpInput.getNickname()).authorities(authorities).status("ACTIVATE").build();
+                .nickname(signUpInput.getNickname()).authorities(authorities).teams(teams).status("ACTIVATE").build();
 
         userRepository.save(user);
 
