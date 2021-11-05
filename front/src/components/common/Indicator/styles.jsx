@@ -10,10 +10,13 @@ export const Title = styled.div`
   &:hover {
     cursor: pointer;
   }
+  &:hover + div {
+    display: block;
+  }
 `;
 
 export const IndicatorHelp = styled.div`
-  display: ${(props) => (props.showHelp ? "block" : "none")};
+  display: none;
   position: absolute;
   width: 250px;
   border-radius: 12px;

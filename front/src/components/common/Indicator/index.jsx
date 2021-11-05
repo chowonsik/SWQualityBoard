@@ -23,26 +23,13 @@ function getIndicatorHelp(indicatorTitle) {
 
 function Indicator({ indicatorTitle, fontSize, isBold }) {
   const [help, setHelp] = useState(getIndicatorHelp(indicatorTitle));
-  const [showHelp, setShowHelp] = useState(false);
 
-  function handleMouseEnter(e) {
-    setShowHelp(true);
-  }
-
-  function handleMouseLeave(e) {
-    setShowHelp(false);
-  }
   return (
     <Wrapper>
-      <Title
-        fontSize={fontSize}
-        isBold={isBold}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
+      <Title fontSize={fontSize} isBold={isBold}>
         {indicatorTitle}
       </Title>
-      <IndicatorHelp showHelp={showHelp}>{help}</IndicatorHelp>
+      <IndicatorHelp>{help}</IndicatorHelp>
     </Wrapper>
   );
 }
