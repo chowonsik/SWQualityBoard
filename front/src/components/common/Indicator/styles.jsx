@@ -2,17 +2,15 @@ import styled from "styled-components";
 import { fonts, colors } from "../../../styles";
 export const Wrapper = styled.div`
   position: relative;
+  &:hover > div:last-child {
+    display: block;
+  }
 `;
 
 export const Title = styled.div`
   font-size: ${(props) => fonts[props.fontSize]};
   font-weight: ${(props) => (props.isBold ? "bold" : "none")};
-  &:hover {
-    cursor: pointer;
-  }
-  &:hover + div {
-    display: block;
-  }
+  cursor: pointer;
 `;
 
 export const IndicatorHelp = styled.div`
