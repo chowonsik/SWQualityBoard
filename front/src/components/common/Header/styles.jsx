@@ -14,3 +14,14 @@ export const Wrapper = styled.div`
   padding-left: 24px;
   z-index: 99;
 `;
+
+export const Title = styled.div``;
+
+export const Icon = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  margin-right: 18px;
+  cursor: pointer;
+`;
