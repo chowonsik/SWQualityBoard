@@ -1,27 +1,68 @@
 import { useState, useEffect } from "react";
 
 import Card from "../../components/common/Card";
+import Calendar from "../../components/common/Calendar";
 import CardHover from "../../components/common/CardHover";
 import HomeChart from "../../components/Home/HomeChart";
 import CountValue from "../../components/Home/CountValue";
 import PercentValue from "../../components/Home/PercentValue";
-import { Wrapper, CardWrapper, CardContent, TitleAndMoreBtn } from "./styles";
+import Indicator from "../../components/common/Indicator";
+import {
+  Wrapper,
+  CardWrapper,
+  CardContent,
+  TitleAndMoreBtn,
+  Grid,
+  DateContainer,
+  TodayContainer,
+} from "./styles";
 import { Box, BoxArrowUpRight } from "react-bootstrap-icons";
+
+function getToday() {
+  const days = ["일", "월", "화", "수", "목", "금", "토"];
+  const months = [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
+  ];
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = months[now.getMonth()];
+  const date = now.getDate();
+  const day = days[now.getDay()];
+  const result = `${year}.${month}.${date} ${day}`;
+  return result;
+}
 
 function Home() {
   const [curWidth, setCurWidth] = useState(window.outerWidth);
-  const [cardWidth, setCardWidth] = useState(500);
+  const [cardWidth, setCardWidth] = useState(550);
   const [cardHeight, setCardHeight] = useState(250);
+  const [startDate, setStartDate] = useState(new Date());
+  const [today, setToday] = useState(getToday());
+  const [dateContainerWidth, setDateContainerWidth] = useState("100%");
   useEffect(() => {
     if (curWidth > 768 && curWidth <= 1024) {
-      setCardWidth(480);
+      setCardWidth(450);
       setCardHeight(240);
+      setDateContainerWidth("100vw");
     } else if (curWidth > 375 && curWidth <= 768) {
       setCardWidth(400);
       setCardHeight(200);
+      setDateContainerWidth("100vw");
     } else if (curWidth <= 375) {
-      setCardWidth(350);
+      setCardWidth(360);
       setCardHeight(200);
+      setDateContainerWidth("100vw");
     }
   }, [curWidth]);
   function handleClickMoreMenu(e) {
@@ -41,96 +82,120 @@ function Home() {
       hoverCard.style.display = "none";
     }
   }
+
   return (
     <Wrapper>
-      <CardWrapper width={cardWidth} height={cardHeight}>
-        <Card width={cardWidth} height={cardHeight}>
-          <TitleAndMoreBtn>
-            <h3>중대결함수</h3>
-            <BoxArrowUpRight onClick={handleClickMoreMenu} />
-          </TitleAndMoreBtn>
-          <CardContent>
-            <CountValue data={defectsData} />
-            <HomeChart
-              isPie={false}
-              chartData={defects}
-              width={cardWidth * (2 / 3)}
-              height={cardHeight}
-            />
-          </CardContent>
-        </Card>
-        <CardHover
-          width={cardWidth}
-          height={cardHeight}
-          onClickClose={handleClickClose}
-        />
-      </CardWrapper>
-      <CardWrapper width={cardWidth} height={cardHeight}>
-        <Card width={cardWidth} height={cardHeight}>
-          <TitleAndMoreBtn>
-            <h3>시스템 신뢰도</h3>
-            <BoxArrowUpRight onClick={handleClickMoreMenu} />
-          </TitleAndMoreBtn>
-          <CardContent>
-            <CountValue data={reliabilityData} />
-            <HomeChart
-              isPie={true}
-              chartData={systemReliability}
-              width={cardWidth * (2 / 3)}
-              height={cardHeight}
-            />
-          </CardContent>
-        </Card>
-        <CardHover
-          width={cardWidth}
-          height={cardHeight}
-          onClickClose={handleClickClose}
-        />
-      </CardWrapper>
-      <CardWrapper width={cardWidth} height={cardHeight}>
-        <Card width={cardWidth} height={cardHeight}>
-          <TitleAndMoreBtn>
-            <h3>구조품질지수</h3>
-            <BoxArrowUpRight onClick={handleClickMoreMenu} />
-          </TitleAndMoreBtn>
-          <CardContent>
-            <CountValue data={structuralData} />
-            <HomeChart
-              isPie={false}
-              chartData={structuralQuality}
-              width={cardWidth * (2 / 3)}
-              height={cardHeight}
-            />
-          </CardContent>
-        </Card>
-        <CardHover
-          width={cardWidth}
-          height={cardHeight}
-          onClickClose={handleClickClose}
-        />
-      </CardWrapper>
-      <CardWrapper width={cardWidth} height={cardHeight}>
-        <Card width={cardWidth} height={cardHeight}>
-          <TitleAndMoreBtn>
-            <h3>테스트커버리지</h3>
-            <BoxArrowUpRight onClick={handleClickMoreMenu} />
-          </TitleAndMoreBtn>
-          <CardContent>
-            <PercentValue data={coverageData} />
-            <HomeChart
-              isPie={true}
-              chartData={testCoverage}
-              width={cardWidth * (2 / 3)}
-              height={cardHeight}
-            />
-          </CardContent>
-        </Card>
-        <CardHover
-          width={cardWidth}
-          height={cardHeight}
-          onClickClose={handleClickClose}
-        />
-      </CardWrapper>
+      <DateContainer width={dateContainerWidth}>
+        <TodayContainer>{today}</TodayContainer>
+        <Calendar startDate={startDate} setStartDate={setStartDate} />
+      </DateContainer>
+
+      <Grid>
+        <CardWrapper width={cardWidth} height={cardHeight}>
+          <Card width={cardWidth} height={cardHeight}>
+            <TitleAndMoreBtn>
+              <Indicator
+                indicatorTitle={"중대결함수"}
+                fontSize={"lg"}
+                isBold={true}
+              />
+              <BoxArrowUpRight onClick={handleClickMoreMenu} />
+            </TitleAndMoreBtn>
+            <CardContent>
+              <CountValue data={defectsData} />
+              <HomeChart
+                isPie={false}
+                chartData={defects}
+                width={cardWidth * (2 / 3)}
+                height={cardHeight}
+              />
+            </CardContent>
+          </Card>
+          <CardHover
+            width={cardWidth}
+            height={cardHeight}
+            onClickClose={handleClickClose}
+          />
+        </CardWrapper>
+        <CardWrapper width={cardWidth} height={cardHeight}>
+          <Card width={cardWidth} height={cardHeight}>
+            <TitleAndMoreBtn>
+              <Indicator
+                indicatorTitle={"시스템신뢰도"}
+                fontSize={"lg"}
+                isBold={true}
+              />
+              <BoxArrowUpRight onClick={handleClickMoreMenu} />
+            </TitleAndMoreBtn>
+            <CardContent>
+              <CountValue data={reliabilityData} />
+              <HomeChart
+                isPie={true}
+                chartData={systemReliability}
+                width={cardWidth * (2 / 3)}
+                height={cardHeight}
+              />
+            </CardContent>
+          </Card>
+          <CardHover
+            width={cardWidth}
+            height={cardHeight}
+            onClickClose={handleClickClose}
+          />
+        </CardWrapper>
+        <CardWrapper width={cardWidth} height={cardHeight}>
+          <Card width={cardWidth} height={cardHeight}>
+            <TitleAndMoreBtn>
+              <Indicator
+                indicatorTitle={"구조품질지수"}
+                fontSize={"lg"}
+                isBold={true}
+              />
+              <BoxArrowUpRight onClick={handleClickMoreMenu} />
+            </TitleAndMoreBtn>
+            <CardContent>
+              <CountValue data={structuralData} />
+              <HomeChart
+                isPie={false}
+                chartData={structuralQuality}
+                width={cardWidth * (2 / 3)}
+                height={cardHeight}
+              />
+            </CardContent>
+          </Card>
+          <CardHover
+            width={cardWidth}
+            height={cardHeight}
+            onClickClose={handleClickClose}
+          />
+        </CardWrapper>
+        <CardWrapper width={cardWidth} height={cardHeight}>
+          <Card width={cardWidth} height={cardHeight}>
+            <TitleAndMoreBtn>
+              <Indicator
+                indicatorTitle={"테스트커버리지"}
+                fontSize={"lg"}
+                isBold={true}
+              />
+              <BoxArrowUpRight onClick={handleClickMoreMenu} />
+            </TitleAndMoreBtn>
+            <CardContent>
+              <PercentValue data={coverageData} />
+              <HomeChart
+                isPie={true}
+                chartData={testCoverage}
+                width={cardWidth * (2 / 3)}
+                height={cardHeight}
+              />
+            </CardContent>
+          </Card>
+          <CardHover
+            width={cardWidth}
+            height={cardHeight}
+            onClickClose={handleClickClose}
+          />
+        </CardWrapper>
+      </Grid>
     </Wrapper>
   );
 }
