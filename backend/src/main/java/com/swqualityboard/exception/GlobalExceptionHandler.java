@@ -1,15 +1,13 @@
 package com.swqualityboard.exception;
 
-import com.swqualityboard.exception.user.AuthorityNotFoundException;
-import com.swqualityboard.exception.user.UnauthorizedException;
-import com.swqualityboard.exception.user.UserDuplicateEmailException;
-import com.swqualityboard.exception.user.UserDuplicateNicknameException;
+import com.swqualityboard.exception.user.*;
 import com.swqualityboard.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -62,6 +60,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             AuthorityNotFoundException ex) {
         log.debug("존재하지 않는 권한", ex);
         return new ResponseEntity<>(new Response<>(NOT_FOUND_AUTHORITY), HttpStatus.NOT_FOUND);
+    }
+
+    // 존재하지 않는 유저 정보 조회에 대한 에러 핸들러
+    @ExceptionHandler(UserNotFoundException.class)
+    public final ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex) {
+        log.debug("존재하지 않는 유저", ex);
+        return new ResponseEntity<>(new Response<>(NOT_FOUND_USER), HttpStatus.NOT_FOUND);
+    }
+
+    // 비밀번호 불일치에 대한 에러 핸들러
+    @ExceptionHandler(BadCredentialsException.class)
+    public final ResponseEntity<Object> handleBadCredentialsException(BadCredentialsException ex) {
+        log.debug("비밀번호 불일치", ex);
+        return new ResponseEntity<>(new Response<>(UNAUTHORIZED_BAD_CREDENTIALS), HttpStatus.UNAUTHORIZED);
     }
 
 }
