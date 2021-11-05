@@ -1,5 +1,6 @@
 package com.swqualityboard.exception;
 
+import com.swqualityboard.exception.team.TeamNotFoundException;
 import com.swqualityboard.exception.user.*;
 import com.swqualityboard.response.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -76,4 +77,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new Response<>(UNAUTHORIZED_BAD_CREDENTIALS), HttpStatus.UNAUTHORIZED);
     }
 
+    // 존재하지 않는 팀 조회에 대한 에러 핸들러
+    @ExceptionHandler(TeamNotFoundException.class)
+    public final ResponseEntity<Object> handleTeamNotFoundException(
+            TeamNotFoundException ex) {
+        log.debug("존재하지 않는 팀", ex);
+        return new ResponseEntity<>(new Response<>(NOT_FOUND_TEAM), HttpStatus.NOT_FOUND);
+    }
 }
