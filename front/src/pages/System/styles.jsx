@@ -17,6 +17,11 @@ export const Selectors = styled.div`
   justify-content: space-between;
   font-size: ${fonts.xxl};
   position: relative;
+  @media screen and (max-width: 375px) {
+    flex-direction: column;
+    font-size: ${fonts.md};
+    gap: 20px;
+  }
 `;
 
 export const SystemSelectorContainer = styled.div`
@@ -39,7 +44,7 @@ export const ChartContainer = styled(Card)`
 `;
 export const TableContainer = styled(Card)`
   width: calc((100vw - 200px) * 0.8);
-  height: 400px;
+  height: auto;
 `;
 
 export const SystemSelector = styled(Card)`

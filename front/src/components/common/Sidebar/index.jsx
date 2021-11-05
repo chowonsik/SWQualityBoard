@@ -1,14 +1,14 @@
 import { Side, MenuItem, Profile, Menu, ItemContainer } from "./styles";
 import { NavLink } from "react-router-dom";
 
-function Sidebar() {
+function Sidebar({ sidebarOpened }) {
   const menus = [
     { name: "품질 지표 현황", path: "/" },
     { name: "팀 관리", path: "/team" },
     { name: "시스템 관리", path: "/system" },
   ];
   return (
-    <Side>
+    <Side sidebarOpened={sidebarOpened}>
       <Menu>
         <Profile>
           <span className="username">김민환</span>
