@@ -23,14 +23,14 @@ function getIndicatorHelp(indicatorTitle) {
 
 function Indicator({ indicatorTitle, fontSize, isBold }) {
   const [help, setHelp] = useState(getIndicatorHelp(indicatorTitle));
-  const [showHelp, setshowHelp] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
 
   function handleMouseEnter(e) {
-    setshowHelp(true);
+    setShowHelp(true);
   }
 
   function handleMouseLeave(e) {
-    setshowHelp(false);
+    setShowHelp(false);
   }
   return (
     <Wrapper>
