@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "react-bootstrap-icons";
-import ReactECharts from "echarts-for-react";
 import {
   ChartContainer,
   ChartIndicator,
@@ -13,10 +12,13 @@ import {
 } from "./styles";
 import RangeCalendar from "../../components/common/RangeCalendar";
 
+import Chart from "../../components/system/Chart";
+import MyTable from "../../components/system/Table";
+
 function System() {
   const [selectShow, setSelectShow] = useState(false);
   const [systems, setSystems] = useState([]);
-  const [indicator, setIndicator] = useState("기능적합성");
+  const [indicator, setIndicator] = useState("테스트");
   const [dateRange, setDateRange] = useState([null, null]);
   const [data, setData] = useState({});
   const [selectedData, setSelectedData] = useState({});
@@ -48,63 +50,16 @@ function System() {
     return `${selectedSystems[0].name}외 ${selectedSystems.length - 1}개`;
   }
 
-  function getChartOption() {
-    const option = {
-      title: {
-        text: "시스템 신뢰도",
-      },
-      tooltip: {
-        trigger: "axis",
-      },
-      legend: {
-        data: ["시스템 A", "시스템 B", "시스템 C"],
-      },
-      grid: {
-        left: "3%",
-        right: "4%",
-        bottom: "3%",
-        top: 40,
-        containLabel: true,
-      },
-
-      xAxis: {
-        type: "category",
-        boundaryGap: false,
-        data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-      },
-      yAxis: {
-        type: "value",
-      },
-      series: [
-        {
-          name: "시스템 A",
-          type: "line",
-          stack: "Total",
-          data: [120, 132, 101, 134, 90, 230, 210],
-        },
-        {
-          name: "시스템 B",
-          type: "line",
-          stack: "Total",
-          data: [220, 182, 191, 234, 290, 330, 310],
-        },
-        {
-          name: "시스템 C",
-          type: "line",
-          stack: "Total",
-          data: [150, 232, 201, 154, 190, 330, 410],
-        },
-      ],
-    };
-    return option;
-  }
-
   // 시스템 설정(api로할지)
   function initSystems() {
     let newSystems = [];
     for (let i = 0; i < 10; i++) {
       const name = `시스템 ${String.fromCharCode(65 + i)}`;
-      newSystems.push({ name: name, isChecked: i === 0 ? true : false });
+      newSystems.push({
+        name: name,
+        isChecked: i === 0 ? true : false,
+        system: String.fromCharCode(65 + i),
+      });
     }
     setSystems(newSystems);
   }
@@ -117,12 +72,53 @@ function System() {
     setDateRange([prevDate, date]);
   }
 
-  function initData() {}
+  function initData() {
+    const data = {};
+    const startDate = new Date(2021, 0, 1);
+    const curDate = new Date();
+    for (let i = 0; i < 10; i++) {
+      const system = String.fromCharCode(65 + i);
+      data[system] = [];
+    }
+    while (startDate < curDate) {
+      for (let i = 0; i < 10; i++) {
+        const system = String.fromCharCode(65 + i);
+        const testCoverage = parseInt(Math.random() * 50 + 50);
+        data[system].push({
+          date: new Date(startDate),
+          testCoverage: testCoverage,
+        });
+      }
+      startDate.setDate(startDate.getDate() + 1);
+    }
+    setData(data);
+  }
+  // 시스템, 기간에 따라 데이터 선택
+  function selectData() {
+    const selectedSystems = systems.filter((item) => item.isChecked);
+    const selectedData = {};
+    for (let system of selectedSystems) {
+      const range = [...dateRange];
+      range[0].setHours(0, 0, 0);
+      range[1].setHours(23, 59, 59);
+      selectedData[system.system] = data[system.system].filter(
+        (item) => item.date >= range[0] && item.date <= range[1]
+      );
+    }
+    setSelectedData(selectedData);
+  }
 
   useEffect(() => {
     initSystems();
     initDateRange();
+    initData();
   }, []);
+
+  useEffect(() => {
+    if (dateRange[1]) {
+      selectData();
+    }
+  }, [systems, dateRange]);
 
   useEffect(() => {
     // 전체 선택 핸들링
@@ -181,9 +177,11 @@ function System() {
         </DateSelectorContainer>
       </Selectors>
       <ChartContainer>
-        <ReactECharts option={getChartOption()} opts={{ height: 400 }} />
+        <Chart selectedData={selectedData} />
       </ChartContainer>
-      <TableContainer>테이블</TableContainer>
+      <TableContainer>
+        <MyTable />
+      </TableContainer>
     </Wrapper>
   );
 }
