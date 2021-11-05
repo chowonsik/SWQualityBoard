@@ -24,7 +24,7 @@ function IndicatorItem({
   return (
     <Wrapper>
       <dt className="indicator-name">{name}</dt>
-      <dd className={"indicator-value " + (valueColor && valueColor)}>
+      <dd className={"indicator-value " + valueColor}>
         {emoji && getEmojiCase()}
         <span>{value}</span>
       </dd>
