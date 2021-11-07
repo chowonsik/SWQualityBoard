@@ -1,19 +1,25 @@
 import { Wrapper } from "./styles";
 import { EmojiSmile, EmojiNeutral, EmojiFrown } from "react-bootstrap-icons";
 
-function IndicatorItem({
-  name = "코드리뷰율",
-  value = "82%",
-  emoji = false,
-  standard = [],
-  valueColor = "",
-}) {
-  function getEmojiCase() {
-    let emojiCase;
+function IndicatorItem({ name, value, emoji = false, standard, valueColor }) {
+  function checkStandard() {
     const valueNum = parseInt(value.replace(/[^0-9]/g, ""));
+    console.log(valueNum);
     if (valueNum >= standard[0]) {
-      emojiCase = <EmojiSmile className="emoji green" />;
+      return "good";
     } else if (valueNum >= standard[1]) {
+      return "neutral";
+    } else {
+      return "bad";
+    }
+  }
+
+  function getEmoji() {
+    let emojiCase;
+    const result = checkStandard();
+    if (result === "good") {
+      emojiCase = <EmojiSmile className="emoji green" />;
+    } else if (result === "neutral") {
       emojiCase = <EmojiNeutral className="emoji yellow" />;
     } else {
       emojiCase = <EmojiFrown className="emoji red" />;
@@ -25,7 +31,7 @@ function IndicatorItem({
     <Wrapper>
       <dt className="indicator-name">{name}</dt>
       <dd className={"indicator-value " + valueColor}>
-        {emoji && getEmojiCase()}
+        {emoji && getEmoji()}
         <span>{value}</span>
       </dd>
     </Wrapper>
