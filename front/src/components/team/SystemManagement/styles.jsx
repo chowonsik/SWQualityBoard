@@ -40,6 +40,15 @@ export const Wrapper = styled.div`
       font-size: 42px;
     }
   }
+  .green {
+    color: ${colors.green};
+  }
+  .yellow {
+    color: ${colors.yellow};
+  }
+  .red {
+    color: ${colors.red};
+  }
 `;
 
 export const IndicatorName = styled.h4`
