@@ -5,6 +5,7 @@ import lombok.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,4 +30,7 @@ public class SignUpInput {
 
     @NotEmpty(message = "권한을 입력해주세요.")
     private String role;
+
+    @NotEmpty(message = "팀을 입력해주세요.")
+    private List<String> teams;
 }
