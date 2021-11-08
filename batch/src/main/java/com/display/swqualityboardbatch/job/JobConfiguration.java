@@ -1,6 +1,7 @@
 package com.display.swqualityboardbatch.job;
 
 import com.display.swqualityboardbatch.dao.mongo.SystemRepository;
+import com.display.swqualityboardbatch.dao.mongo.TeamRepository;
 import com.display.swqualityboardbatch.dto.*;
 import com.display.swqualityboardbatch.entity.mongo.*;
 
@@ -33,27 +34,19 @@ public class JobConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final SystemRepository systemRepository;
+    private final TeamRepository teamRepository;
     private final MongoTemplate mongoTemplate;
 
     @Bean
     public Job job() {
         return jobBuilderFactory.get("job")
-                .start(systemReliabilityReaderStep())
-                .next(systemReceptionRateReaderStep())
+                .start(systemReceptionRateReaderStep())
                 .next(staticAnalysisReaderStep())
-                .next(leadTimeAndDeliveryRateReaderStep())
                 .next(functionalSuitabilityReaderStep())
                 .next(conventionRateReaderStep())
                 .next(codeReviewReaderStep())
-                .build();
-    }
-
-    @Bean
-    public Step systemReliabilityReaderStep() {
-        return stepBuilderFactory.get("systemReliabilityReaderStep")
-                .<SystemReliabilityDto, SystemReliabilityDto>chunk(4)
-                .reader(systemReliabilityReader())
-                .writer(systemReliabilityWriter())
+                .next(systemReliabilityReaderStep())
+                .next(leadTimeAndDeliveryRateReaderStep())
                 .build();
     }
 
@@ -76,15 +69,6 @@ public class JobConfiguration {
     }
 
     @Bean
-    public Step leadTimeAndDeliveryRateReaderStep() {
-        return stepBuilderFactory.get("leadTimeAndDeliveryRateReaderStep")
-                .<LeadTimeAndDeliveryRateDto, LeadTimeAndDeliveryRateDto>chunk(6)
-                .reader(leadTimeAndDeliveryRateReader())
-                .writer(leadTimeAndDeliveryRateWriter())
-                .build();
-    }
-
-    @Bean
     public Step functionalSuitabilityReaderStep() {
         return stepBuilderFactory.get("functionalSuitabilityReaderStep")
                 .<FunctionalSuitabilityDto, FunctionalSuitabilityDto>chunk(5)
@@ -96,18 +80,36 @@ public class JobConfiguration {
     @Bean
     public Step conventionRateReaderStep() {
         return stepBuilderFactory.get("conventionRateReaderStep")
-                .<CodeReviewDto, CodeReviewDto>chunk(4)
-                .reader(codeReviewReader())
-                .writer(codeReviewWriter())
+                .<ConventionRateDto, ConventionRateDto>chunk(4)
+                .reader(conventionRateReader())
+                .writer(conventionRateWriter())
                 .build();
     }
 
     @Bean
     public Step codeReviewReaderStep() {
         return stepBuilderFactory.get("codeReviewReaderStep")
-                .<SystemReliabilityDto, SystemReliabilityDto>chunk(5)
+                .<CodeReviewDto, CodeReviewDto>chunk(5)
+                .reader(codeReviewReader())
+                .writer(codeReviewWriter())
+                .build();
+    }
+
+    @Bean
+    public Step systemReliabilityReaderStep() {
+        return stepBuilderFactory.get("systemReliabilityReaderStep")
+                .<SystemReliabilityDto, SystemReliabilityDto>chunk(4)
                 .reader(systemReliabilityReader())
                 .writer(systemReliabilityWriter())
+                .build();
+    }
+
+    @Bean
+    public Step leadTimeAndDeliveryRateReaderStep() {
+        return stepBuilderFactory.get("leadTimeAndDeliveryRateReaderStep")
+                .<LeadTimeAndDeliveryRateDto, LeadTimeAndDeliveryRateDto>chunk(6)
+                .reader(leadTimeAndDeliveryRateReader())
+                .writer(leadTimeAndDeliveryRateWriter())
                 .build();
     }
 
@@ -136,6 +138,16 @@ public class JobConfiguration {
                 update.set("createdAt", date);
 
                 mongoTemplate.upsert(query, update, Reliability.class);
+
+                String pattern = "yyyy-MM";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                String createdAt = simpleDateFormat.format(date);
+                Query query2 = new Query();
+                query2.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
+                Update updateSystem = new Update();
+                updateSystem.set("mtbf", item.getMtbf());
+
+                mongoTemplate.updateMulti(query2, updateSystem, SystemQuality.class);
             }
         };
     }
@@ -154,7 +166,9 @@ public class JobConfiguration {
         return items -> {
             for (SystemReceptionRateDto item : items) {
                 System system = systemRepository.findByName(item.getSystem()).orElse(null);
+                Team team = teamRepository.findByName(item.getTeam()).orElse(null);
                 if (system == null) continue;
+                if (team == null) continue;
 
                 Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(item.getDate());
                 Query query = new Query();
@@ -165,6 +179,19 @@ public class JobConfiguration {
                 update.set("createdAt", date);
 
                 mongoTemplate.upsert(query, update, ReceptionRate.class);
+
+                String pattern = "yyyy-MM-dd";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                String createdAt = simpleDateFormat.format(date);
+                Query query2 = new Query();
+                query2.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
+                Update updateTeam = new Update();
+                updateTeam.set("team_id", team.getId());
+                updateTeam.set("system_id", system.getId());
+                updateTeam.set("receptionRate", item.getRate());
+                updateTeam.set("createdAt", createdAt);
+
+                mongoTemplate.upsert(query2, updateTeam, TeamQuality.class);
             }
         };
     }
@@ -201,6 +228,25 @@ public class JobConfiguration {
                 update.set("createdAt", date);
 
                 mongoTemplate.upsert(query, update, StaticAnalysis.class);
+
+                String pattern = "yyyy-MM-dd";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                String createdAt = simpleDateFormat.format(date);
+                Query query2 = new Query();
+                query2.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
+                Update updateSystem = new Update();
+                updateSystem.set("system_id", system.getId());
+                updateSystem.set("critical", item.getCritical());
+                updateSystem.set("high", item.getHigh());
+                updateSystem.set("medium", item.getMedium());
+                updateSystem.set("low", item.getLow());
+                updateSystem.set("complexity", item.getComplexity());
+                updateSystem.set("overlapping", item.getOverlapping());
+                updateSystem.set("scale", item.getScale());
+                updateSystem.set("testCoverage", item.getTestCoverage());
+                updateSystem.set("createdAt", createdAt);
+
+                mongoTemplate.upsert(query2, updateSystem, SystemQuality.class);
             }
         };
     }
@@ -219,7 +265,9 @@ public class JobConfiguration {
         return items -> {
             for (LeadTimeAndDeliveryRateDto item : items) {
                 System system = systemRepository.findByName(item.getSystem()).orElse(null);
+                Team team = teamRepository.findByName(item.getTeam()).orElse(null);
                 if (system == null) continue;
+                if (team == null) continue;
 
                 Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(item.getDate());
                 Query query = new Query();
@@ -232,6 +280,18 @@ public class JobConfiguration {
                 update.set("createdAt", date);
 
                 mongoTemplate.upsert(query, update, LeadTimeAndDeliveryRate.class);
+
+                String pattern = "yyyy-MM";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                String createdAt = simpleDateFormat.format(date);
+                Query query2 = new Query();
+                query2.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
+                Update updateTeam = new Update();
+                updateTeam.set("devLeadTime", item.getDevLeadTime());
+                updateTeam.set("numberRequest", item.getNumberRequest());
+                updateTeam.set("numberOnTimeRequest", item.getNumberOnTimeRequest());
+
+                mongoTemplate.updateMulti(query2, updateTeam, TeamQuality.class);
             }
         };
     }
@@ -263,6 +323,19 @@ public class JobConfiguration {
                 update.set("createdAt", date);
 
                 mongoTemplate.upsert(query, update, FunctionalSuitability.class);
+
+                String pattern = "yyyy-MM-dd";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                String createdAt = simpleDateFormat.format(date);
+                Query query2 = new Query();
+                query2.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
+                Update updateSystem = new Update();
+                updateSystem.set("system_id", system.getId());
+                updateSystem.set("numberRequest", item.getNumberRequest());
+                updateSystem.set("numberSuitableImplementation", item.getNumberSuitableImplementation());
+                updateSystem.set("createdAt", createdAt);
+
+                mongoTemplate.upsert(query2, updateSystem, SystemQuality.class);
             }
         };
     }
@@ -281,7 +354,9 @@ public class JobConfiguration {
         return items -> {
             for (ConventionRateDto item : items) {
                 System system = systemRepository.findByName(item.getSystem()).orElse(null);
+                Team team = teamRepository.findByName(item.getTeam()).orElse(null);
                 if (system == null) continue;
+                if (team == null) continue;
 
                 Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(item.getDate());
                 Query query = new Query();
@@ -292,6 +367,19 @@ public class JobConfiguration {
                 update.set("createdAt", date);
 
                 mongoTemplate.upsert(query, update, ConventionRate.class);
+
+                String pattern = "yyyy-MM-dd";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                String createdAt = simpleDateFormat.format(date);
+                Query query2 = new Query();
+                query2.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
+                Update updateTeam = new Update();
+                updateTeam.set("team_id", team.getId());
+                updateTeam.set("system_id", system.getId());
+                updateTeam.set("conventionRate", item.getRate());
+                updateTeam.set("createdAt", createdAt);
+
+                mongoTemplate.upsert(query2, updateTeam, TeamQuality.class);
             }
         };
     }
@@ -310,7 +398,9 @@ public class JobConfiguration {
         return items -> {
             for (CodeReviewDto item : items) {
                 System system = systemRepository.findByName(item.getSystem()).orElse(null);
+                Team team = teamRepository.findByName(item.getTeam()).orElse(null);
                 if (system == null) continue;
+                if (team == null) continue;
 
                 Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(item.getDate());
                 Query query = new Query();
@@ -322,6 +412,20 @@ public class JobConfiguration {
                 update.set("createdAt", date);
 
                 mongoTemplate.upsert(query, update, CodeReview.class);
+
+                String pattern = "yyyy-MM-dd";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                String createdAt = simpleDateFormat.format(date);
+                Query query2 = new Query();
+                query2.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
+                Update updateTeam = new Update();
+                updateTeam.set("team_id", team.getId());
+                updateTeam.set("system_id", system.getId());
+                updateTeam.set("totalNumberPeople", item.getTotalNumberPeople());
+                updateTeam.set("reviewedNumberPeople", item.getReviewedNumberPeople());
+                updateTeam.set("createdAt", createdAt);
+
+                mongoTemplate.upsert(query2, updateTeam, TeamQuality.class);
             }
         };
     }
