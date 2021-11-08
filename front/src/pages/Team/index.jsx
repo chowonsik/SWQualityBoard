@@ -10,18 +10,14 @@ import {
   SystemTab,
   TeamManagement,
 } from "./styles";
+import { standard } from "../../data/standard";
+
+const standardTeam = standard.team;
 
 function Team() {
   const teamName = "개발 1팀";
   const systems = ["시스템A", "시스템B", "시스템C"];
   const [activeTab, setActiveTab] = useState(0);
-
-  const standard = {
-    codeReview: [90, 80, 70],
-    codeConvention: [90, 80, 70],
-    onTimeDelivery: [90, 80, 70],
-    systemReception: [90, 80, 70],
-  };
 
   function getChartOption() {
     // api 요청
@@ -87,26 +83,26 @@ function Team() {
                   emoji
                   name="코드리뷰율"
                   value="62%"
-                  standard={standard.codeReview}
+                  standard={standardTeam.코드리뷰율}
                 />
                 <IndicatorItem
                   emoji
                   name="코딩컨벤션 준수율"
                   value="80%"
-                  standard={standard.codeConvention}
+                  standard={standardTeam.컨벤션준수율}
                 />
               </div>
               <div className="team-indicators__second">
                 <IndicatorItem
                   emoji
                   name="정시 납기율"
-                  standard={standard.onTimeDelivery}
+                  standard={standardTeam.정시납기율}
                   value="90%"
                 />
                 <IndicatorItem
                   emoji
                   name="시스템 접수율"
-                  standard={standard.systemReception}
+                  standard={standardTeam.시스템접수율}
                   value="70%"
                 />
                 <IndicatorItem name="개발 리드타임" value="52h" />
