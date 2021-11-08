@@ -23,8 +23,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Slf4j
 @Configuration
@@ -127,13 +127,13 @@ public class JobConfiguration {
                 System system = systemRepository.findByName(item.getSystem()).orElse(null);
                 if (system == null) continue;
 
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'kk:mm:ss.SSS'Z'");
+                Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(item.getDate());
                 Query query = new Query();
-                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(LocalDate.parse(item.getDate(), formatter)));
+                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(date));
                 Update update = new Update();
                 update.set("system_id", system.getId());
                 update.set("mtbf", item.getMtbf());
-                update.set("createdAt", LocalDate.parse(item.getDate(), formatter));
+                update.set("createdAt", date);
 
                 mongoTemplate.upsert(query, update, Reliability.class);
             }
@@ -156,13 +156,13 @@ public class JobConfiguration {
                 System system = systemRepository.findByName(item.getSystem()).orElse(null);
                 if (system == null) continue;
 
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'kk:mm:ss.SSS'Z'");
+                Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(item.getDate());
                 Query query = new Query();
-                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(LocalDate.parse(item.getDate(), formatter)));
+                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(date));
                 Update update = new Update();
                 update.set("system_id", system.getId());
                 update.set("receptionRate", item.getRate());
-                update.set("createdAt", LocalDate.parse(item.getDate(), formatter));
+                update.set("createdAt", date);
 
                 mongoTemplate.upsert(query, update, ReceptionRate.class);
             }
@@ -185,9 +185,9 @@ public class JobConfiguration {
                 System system = systemRepository.findByName(item.getSystem()).orElse(null);
                 if (system == null) continue;
 
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'kk:mm:ss.SSS'Z'");
+                Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(item.getDate());
                 Query query = new Query();
-                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(LocalDate.parse(item.getDate(), formatter)));
+                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(date));
                 Update update = new Update();
                 update.set("system_id", system.getId());
                 update.set("critical", item.getCritical());
@@ -198,7 +198,7 @@ public class JobConfiguration {
                 update.set("overlapping", item.getOverlapping());
                 update.set("scale", item.getScale());
                 update.set("testCoverage", item.getTestCoverage());
-                update.set("createdAt", LocalDate.parse(item.getDate(), formatter));
+                update.set("createdAt", date);
 
                 mongoTemplate.upsert(query, update, StaticAnalysis.class);
             }
@@ -221,15 +221,15 @@ public class JobConfiguration {
                 System system = systemRepository.findByName(item.getSystem()).orElse(null);
                 if (system == null) continue;
 
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'kk:mm:ss.SSS'Z'");
+                Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(item.getDate());
                 Query query = new Query();
-                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(LocalDate.parse(item.getDate(), formatter)));
+                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(date));
                 Update update = new Update();
                 update.set("system_id", system.getId());
                 update.set("devLeadTime", item.getDevLeadTime());
                 update.set("numberRequest", item.getNumberRequest());
                 update.set("numberOnTimeRequest", item.getNumberOnTimeRequest());
-                update.set("createdAt", LocalDate.parse(item.getDate(), formatter));
+                update.set("createdAt", date);
 
                 mongoTemplate.upsert(query, update, LeadTimeAndDeliveryRate.class);
             }
@@ -252,14 +252,15 @@ public class JobConfiguration {
                 System system = systemRepository.findByName(item.getSystem()).orElse(null);
                 if (system == null) continue;
 
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'kk:mm:ss.SSS'Z'");
+                Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(item.getDate());
+
                 Query query = new Query();
-                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(LocalDate.parse(item.getDate(), formatter)));
+                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(date));
                 Update update = new Update();
                 update.set("system_id", system.getId());
                 update.set("numberRequest", item.getNumberRequest());
                 update.set("numberSuitableImplementation", item.getNumberSuitableImplementation());
-                update.set("createdAt", LocalDate.parse(item.getDate(), formatter));
+                update.set("createdAt", date);
 
                 mongoTemplate.upsert(query, update, FunctionalSuitability.class);
             }
@@ -282,13 +283,13 @@ public class JobConfiguration {
                 System system = systemRepository.findByName(item.getSystem()).orElse(null);
                 if (system == null) continue;
 
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'kk:mm:ss.SSS'Z'");
+                Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(item.getDate());
                 Query query = new Query();
-                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(LocalDate.parse(item.getDate(), formatter)));
+                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(date));
                 Update update = new Update();
                 update.set("system_id", system.getId());
                 update.set("conventionRate", item.getRate());
-                update.set("createdAt", LocalDate.parse(item.getDate(), formatter));
+                update.set("createdAt", date);
 
                 mongoTemplate.upsert(query, update, ConventionRate.class);
             }
@@ -311,14 +312,14 @@ public class JobConfiguration {
                 System system = systemRepository.findByName(item.getSystem()).orElse(null);
                 if (system == null) continue;
 
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'kk:mm:ss.SSS'Z'");
+                Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(item.getDate());
                 Query query = new Query();
-                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(LocalDate.parse(item.getDate(), formatter)));
+                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(date));
                 Update update = new Update();
                 update.set("system_id", system.getId());
                 update.set("totalNumberPeople", item.getTotalNumberPeople());
                 update.set("reviewedNumberPeople", item.getReviewedNumberPeople());
-                update.set("createdAt", LocalDate.parse(item.getDate(), formatter));
+                update.set("createdAt", date);
 
                 mongoTemplate.upsert(query, update, CodeReview.class);
             }
