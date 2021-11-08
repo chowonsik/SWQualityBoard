@@ -197,6 +197,7 @@ public class JobConfiguration {
                 update.set("complexity", item.getComplexity());
                 update.set("overlapping", item.getOverlapping());
                 update.set("scale", item.getScale());
+                update.set("testCoverage", item.getTestCoverage());
                 update.set("createdAt", LocalDate.parse(item.getDate(), formatter));
 
                 mongoTemplate.upsert(query, update, StaticAnalysis.class);
