@@ -6,7 +6,7 @@ import Sidebar from "./components/common/Sidebar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Team from "./pages/Team";
-
+import ChartByItem from "./pages/ChartByItem";
 import System from "./pages/System";
 import { useEffect, useState } from "react";
 function App() {
@@ -26,6 +26,11 @@ function App() {
             <Route path="/login" exact={true} component={Login} />
             <Route path="/team/:id" exact={true} component={Team} />
             <Route path="/system" exact={true} component={System} />
+            <Route
+              path="/detail/chart/:name"
+              exact={true}
+              component={ChartByItem}
+            />
           </Switch>
         </Center>
       </Router>
