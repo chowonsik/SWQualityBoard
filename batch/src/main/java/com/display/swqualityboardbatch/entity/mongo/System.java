@@ -1,4 +1,4 @@
-package com.swqualityboard.entity;
+package com.display.swqualityboardbatch.entity.mongo;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -17,23 +17,17 @@ import java.util.Set;
 
 @Builder
 @Getter @Setter
-@Document(collection = "user")
-public class User {
+@Document(collection = "system")
+public class System {
     @Id
     private String id;
     @Indexed(unique = true, direction = IndexDirection.DESCENDING)
-    private String email;
-    private String password;
-    private String nickname;
-    private String status;
+    private String name;
 
     @CreatedDate
     private LocalDateTime createdAt;
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
-    @DBRef
-    private Set<Authority> authorities;
-    private List<String> teams;
-    
+
 }

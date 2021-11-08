@@ -1,4 +1,4 @@
-package com.swqualityboard.entity;
+package com.display.swqualityboardbatch.entity.mongo;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -34,6 +33,5 @@ public class User {
     private LocalDateTime updatedAt;
     @DBRef
     private Set<Authority> authorities;
-    private List<String> teams;
     
 }
