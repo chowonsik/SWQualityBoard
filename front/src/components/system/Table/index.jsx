@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useState } from "react";
-
+import Indicator from "../../common/Indicator";
 const columns = [
   { id: "date", label: "", minWidth: 120, align: "center" },
   { id: "critical", label: "critical", minWidth: 50, align: "center" },
@@ -213,11 +213,15 @@ function MyTable({ data }) {
               <TableCell align="center" colSpan={1}>
                 일자
               </TableCell>
-              <TableCell align="center" colSpan={4}>
-                중대결함수
+              <TableCell
+                align="center"
+                colSpan={4}
+                style={{ margin: "0 auto" }}
+              >
+                <Indicator indicatorTitle={"중대결함수"} />
               </TableCell>
               <TableCell align="center" colSpan={3}>
-                구조품질지수
+                <Indicator indicatorTitle={"구조품질지수"} />
               </TableCell>
               <TableCell align="center" colSpan={1}>
                 시스템 신뢰도
@@ -226,7 +230,7 @@ function MyTable({ data }) {
                 테스트 커버리지
               </TableCell>
               <TableCell align="center" colSpan={1}>
-                기능적합성
+                <Indicator indicatorTitle={"기능적합성"} />
               </TableCell>
               <TableCell align="center" colSpan={1}>
                 비고
@@ -237,7 +241,7 @@ function MyTable({ data }) {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ top: 57, minWidth: column.minWidth }}
+                  style={{ top: 57, minWidth: column.minWidth, zIndex: 0 }}
                 >
                   {column.label}
                 </TableCell>

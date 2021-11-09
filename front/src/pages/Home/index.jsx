@@ -99,6 +99,7 @@ function Home() {
                 fontSize={"lg"}
                 isBold={true}
               />
+
               <BoxArrowUpRight onClick={handleClickMoreMenu} />
             </TitleAndMoreBtn>
             <CardContent>
