@@ -68,4 +68,18 @@ public class MemoServiceImpl implements MemoService {
                 .body(new Response<>(null, SUCCESS_UPDATE_MEMO));
     }
 
+    @Override
+    @Transactional
+    public ResponseEntity<Response<Object>> deleteMemo(String memoId) {
+
+        Memo memo = memoRepository.findById(memoId).orElseThrow(
+                () -> new MemoNotFoundException("해당 메모를 찾을 수 없습니다.")
+        );
+
+        memoRepository.delete(memo);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new Response<>(null, SUCCESS_DELETE_MEMO));
+    }
+
 }

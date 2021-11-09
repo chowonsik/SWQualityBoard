@@ -47,4 +47,16 @@ public class MemoController {
         return memoService.updateMemo(id, updateMemoInput);
     }
 
+    /**
+     * 시스템 SW 품질지표 메모 삭제 API [DELETE] /api/memos/{id}
+     *
+     * @return ResponseEntity<Response<Object>>
+     */
+    // Params
+    @DeleteMapping("/memos/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<Response<Object>> deleteMemo(@PathVariable String id) {
+        log.info("[DELETE] /api/memos/" + id);
+        return memoService.deleteMemo(id);
+    }
 }
