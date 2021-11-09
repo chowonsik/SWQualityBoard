@@ -1,6 +1,7 @@
 package com.swqualityboard.exception;
 
 import com.swqualityboard.exception.memo.MemoDuplicateException;
+import com.swqualityboard.exception.memo.MemoNotFoundException;
 import com.swqualityboard.exception.system.SystemNotFoundException;
 import com.swqualityboard.exception.team.TeamNotFoundException;
 import com.swqualityboard.exception.user.*;
@@ -107,5 +108,13 @@ public class GlobalExceptionHandler {
             MemoDuplicateException ex) {
         log.debug("이미존재하는 메모 ", ex);
         return new ResponseEntity<>(new Response<>(EXISTS_MEMO), HttpStatus.CONFLICT);
+    }
+
+    // 존재하지 않는 메모 조회에 대한 에러 핸들러
+    @ExceptionHandler(MemoNotFoundException.class)
+    public final ResponseEntity<Object> handleMemoNotFoundException(
+            MemoNotFoundException ex) {
+        log.debug("존재하지 않는 메모", ex);
+        return new ResponseEntity<>(new Response<>(NOT_FOUND_MEMO), HttpStatus.NOT_FOUND);
     }
 }

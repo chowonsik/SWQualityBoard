@@ -1,6 +1,7 @@
 package com.swqualityboard.controller;
 
 import com.swqualityboard.dto.memo.create.CreateMemoInput;
+import com.swqualityboard.dto.memo.update.UpdateMemoInput;
 import com.swqualityboard.response.Response;
 import com.swqualityboard.service.MemoService;
 import lombok.RequiredArgsConstructor;
@@ -8,10 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -34,6 +32,19 @@ public class MemoController {
     public ResponseEntity<Response<Object>> createMemo(@AuthenticationPrincipal String userEmail, @RequestBody @Valid CreateMemoInput createMemoInput) {
         log.info("[POST] /api/memos");
         return memoService.createMemo(userEmail, createMemoInput);
+    }
+
+    /**
+     * 시스템 SW 품질지표 메모 수정 API [PATCH] /api/memos/{id}
+     *
+     * @return ResponseEntity<Response<Object>>
+     */
+    // Body
+    @PatchMapping("/memos/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<Response<Object>> updateMemo(@PathVariable String id, @RequestBody @Valid UpdateMemoInput updateMemoInput) {
+        log.info("[PATCH] /api/memos/" + id);
+        return memoService.updateMemo(id, updateMemoInput);
     }
 
 }
