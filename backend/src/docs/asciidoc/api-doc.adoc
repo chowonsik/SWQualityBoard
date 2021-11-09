@@ -77,3 +77,23 @@ include::{snippets}/authApi/authenticate/failure_not_found/http-request.adoc[]
 Response Example
 
 include::{snippets}/authApi/authenticate/failure_not_found/http-response.adoc[]
+
+== 3. User API
+
+=== 3-1. 유저 조회
+
+==== 유저 조회 성공
+
+Request Header
+
+include::{snippets}/userApi/select_user/successful/request-headers.adoc[]
+
+include::{snippets}/userApi/select_user/successful/response-fields.adoc[]
+
+Request Example
+
+include::{snippets}/userApi/select_user/successful/http-request.adoc[]
+
+Response Example
+
+include::{snippets}/userApi/select_user/successful/http-response.adoc[]

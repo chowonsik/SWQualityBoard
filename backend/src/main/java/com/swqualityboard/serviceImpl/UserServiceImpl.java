@@ -2,12 +2,18 @@ package com.swqualityboard.serviceImpl;
 
 import com.swqualityboard.configuration.util.SecurityUtil;
 import com.swqualityboard.dao.AuthorityRepository;
+import com.swqualityboard.dao.SystemRepository;
 import com.swqualityboard.dao.TeamRepository;
 import com.swqualityboard.dao.UserRepository;
+import com.swqualityboard.dto.user.select.SystemDto;
+import com.swqualityboard.dto.user.select.TeamDto;
+import com.swqualityboard.dto.user.select.UserInfoOutput;
 import com.swqualityboard.dto.user.signup.SignUpInput;
 import com.swqualityboard.entity.Authority;
+import com.swqualityboard.entity.System;
 import com.swqualityboard.entity.Team;
 import com.swqualityboard.entity.User;
+import com.swqualityboard.exception.system.SystemNotFoundException;
 import com.swqualityboard.exception.team.TeamNotFoundException;
 import com.swqualityboard.exception.user.AuthorityNotFoundException;
 import com.swqualityboard.exception.user.UserDuplicateEmailException;
@@ -34,6 +40,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
     private final TeamRepository teamRepository;
+    private final SystemRepository systemRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -75,21 +82,44 @@ public class UserServiceImpl implements UserService {
                 .body(new Response<>(null, CREATED_USER));
     }
 
-    @Transactional(readOnly = true)
-    public ResponseEntity<Response<User>> getUserWithAuthorities(String email) {
+    @Override
+    public ResponseEntity<Response<Object>> getUserInfo(String email) {
         User user = userRepository.findOneWithAuthoritiesByEmail(email).orElseThrow(
                 () -> new AuthorityNotFoundException("해당 권한이 존재하지 않습니다.")
         );
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new Response<>(user, SUCCESS));
-    }
+        List<TeamDto> teams = new ArrayList<>();
+        List<SystemDto> systems = new ArrayList<>();
+        for (String teamId : user.getTeams()) {
+            Team team = teamRepository.findById(teamId).orElseThrow(
+                    () -> new TeamNotFoundException("해당 팀이 존재하지 않습니다.")
+            );
+            TeamDto teamDto = TeamDto.builder()
+                    .id(team.getId())
+                    .name(team.getName())
+                    .build();
+            teams.add(teamDto);
 
-    @Transactional(readOnly = true)
-    public ResponseEntity<Response<User>> getMyUserWithAuthorities() {
-        User user = SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByEmail).orElseThrow(
-                () -> new AuthorityNotFoundException("해당 권한이 존재하지 않습니다.")
-        );
+            for (String systemId : team.getSystems()) {
+                System system = systemRepository.findById(systemId).orElseThrow(
+                        () -> new SystemNotFoundException("해당 시스템이 존재하지 않습니다.")
+                );
+
+                SystemDto systemDto = SystemDto.builder()
+                        .id(system.getId())
+                        .name(system.getName())
+                        .build();
+                systems.add(systemDto);
+            }
+        }
+        UserInfoOutput userInfoOutput = UserInfoOutput.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .authorities(user.getAuthorities())
+                .teams(teams)
+                .systems(systems)
+                .build();
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new Response<>(user, SUCCESS));
+                .body(new Response<>(userInfoOutput, SUCCESS_SELECT_USER));
     }
 }
