@@ -5,88 +5,87 @@ import {
   ChartIndicator,
   DateSelectorContainer,
   Selectors,
-  SystemSelector,
-  SystemSelectorContainer,
+  TeamSelector,
+  TeamSelectorContainer,
   TableContainer,
   Wrapper,
 } from "./styles";
 import RangeCalendar from "../../components/common/RangeCalendar";
 
-import Chart from "../../components/system/Chart";
-import MyTable from "../../components/system/Table";
-import Memo from "../../components/system/Memo";
+import TeamChart from "../../components/team/Chart";
+import MyTable from "../../components/team/Table";
 
-function System() {
+function TeamTable() {
   const [selectShow, setSelectShow] = useState(false);
-  const [systems, setSystems] = useState([]);
-  const [indicator, setIndicator] = useState("테스트");
-  const [dateRange, setDateRange] = useState([null, null]);
+  const [teams, setTeams] = useState([]);
+  const [indicator, setIndicator] = useState("코드리뷰율");
+  const [dateRange, setDateRange] = useState(initDateRange());
   const [data, setData] = useState({});
   const [selectedData, setSelectedData] = useState({});
-  const [memoOpened, setMemoOpened] = useState(false);
 
   const allCheckRef = useRef(null);
 
   // 체크박스 체크 이벤트 핸들링
   function handleCheck(i) {
-    const newSystems = [...systems];
-    newSystems[i].isChecked = !newSystems[i].isChecked;
-    setSystems(newSystems);
+    const newTeams = [...teams];
+    newTeams[i].isChecked = !newTeams[i].isChecked;
+    setTeams(newTeams);
   }
 
   // 전체선택 체크 핸들링
   function handleAllCheck(check) {
-    const newSystems = systems.map((system) => {
-      return { ...system, isChecked: check };
+    const newTeams = teams.map((team) => {
+      return { ...team, isChecked: check };
     });
-    setSystems(newSystems);
+    setTeams(newTeams);
   }
 
   // 선택된 시스템
-  function getSelectedSystemString() {
-    const selectedSystems = systems.filter((system) => system.isChecked);
-    if (selectedSystems.length === 0) return "선택된 시스템 없음";
-    else if (selectedSystems.length === 1) {
-      return selectedSystems[0].name;
+  function getSelectedTeamString() {
+    const selectedTeams = teams.filter((team) => team.isChecked);
+    if (selectedTeams.length === 0) return "선택된 개발팀 없음";
+    else if (selectedTeams.length === 1) {
+      return selectedTeams[0].name;
     }
-    return `${selectedSystems[0].name}외 ${selectedSystems.length - 1}개`;
+    return `${selectedTeams[0].name}외 ${selectedTeams.length - 1}개`;
   }
 
   // 시스템 설정(api로할지)
-  function initSystems() {
-    let newSystems = [];
-    for (let i = 0; i < 10; i++) {
-      const name = `시스템 ${String.fromCharCode(65 + i)}`;
-      newSystems.push({
+  function initTeams() {
+    let newTeams = [];
+    for (let i = 1; i < 10; i++) {
+      const name = `개발 ${i}팀`;
+      newTeams.push({
         name: name,
-        isChecked: i === 0 ? true : false,
-        system: String.fromCharCode(65 + i),
+        isChecked: i === 1 ? true : false,
+        team: i,
       });
     }
-    setSystems(newSystems);
+    setTeams(newTeams);
   }
 
-  // 기간 일주일 전 ~ 오늘로 설정
   function initDateRange() {
     const date = new Date();
     const prevDate = new Date(date);
-    prevDate.setDate(prevDate.getDate() - 7);
-    setDateRange([prevDate, date]);
+    prevDate.setDate(date.getDate() - 7);
+    prevDate.setHours(0, 0, 0);
+    return [prevDate, date];
   }
 
+  //데이터생성
   function initData() {
     const data = {};
     const startDate = new Date(2021, 0, 1);
     const curDate = new Date();
-    for (let i = 0; i < 10; i++) {
-      const system = String.fromCharCode(65 + i);
-      data[system] = [];
+    for (let i = 1; i < 10; i++) {
+      const team = i;
+      data[team] = [];
     }
     while (startDate < curDate) {
-      for (let i = 0; i < 10; i++) {
-        const system = String.fromCharCode(65 + i);
+      for (let i = 1; i < 10; i++) {
+        const team = i;
         const testCoverage = parseInt(Math.random() * 50 + 50);
-        data[system].push({
+        data[team].push({
           date: new Date(startDate),
           testCoverage: testCoverage,
         });
@@ -95,24 +94,25 @@ function System() {
     }
     setData(data);
   }
+
   // 시스템, 기간에 따라 데이터 선택
   function selectData() {
-    const selectedSystems = systems.filter((item) => item.isChecked);
-    const selectedData = {};
-    for (let system of selectedSystems) {
+    const selectedTeams = teams.filter((item) => item.isChecked);
+    const newData = {};
+    for (let team of selectedTeams) {
       const range = [...dateRange];
       range[0].setHours(0, 0, 0);
       range[1].setHours(23, 59, 59);
-      selectedData[system.system] = data[system.system].filter(
+      newData[team.team] = data[team.team].filter(
         (item) => item.date >= range[0] && item.date <= range[1]
       );
     }
-    setSelectedData(selectedData);
+
+    setSelectedData(newData);
   }
 
   useEffect(() => {
-    initSystems();
-    initDateRange();
+    initTeams();
     initData();
   }, []);
 
@@ -120,25 +120,25 @@ function System() {
     if (dateRange[1]) {
       selectData();
     }
-  }, [systems, dateRange]);
+  }, [teams, dateRange]);
 
   useEffect(() => {
     // 전체 선택 핸들링
     if (allCheckRef.current) {
-      const selectedSystems = systems.filter((system) => system.isChecked);
-      if (selectedSystems.length === systems.length) {
+      const selectedTeams = teams.filter((team) => team.isChecked);
+      if (selectedTeams.length === teams.length) {
         allCheckRef.current.checked = true;
       } else {
         allCheckRef.current.checked = false;
       }
     }
-  }, [systems]);
+  }, [teams]);
 
   return (
     <Wrapper>
       <Selectors>
-        <SystemSelectorContainer selectShow={selectShow}>
-          <span className="selected-system">{getSelectedSystemString()}</span>
+        <TeamSelectorContainer selectShow={selectShow}>
+          <span className="selected-team">{getSelectedTeamString()}</span>
           <span
             className="icon"
             onClick={() => {
@@ -148,7 +148,7 @@ function System() {
             <ChevronDown />
           </span>
           {selectShow && (
-            <SystemSelector>
+            <TeamSelector>
               <label>
                 <input
                   type="checkbox"
@@ -159,36 +159,33 @@ function System() {
                 />
                 전체선택
               </label>
-              {systems.map((system, i) => (
+              {teams.map((team, i) => (
                 <label key={i}>
                   <input
                     type="checkbox"
-                    checked={system.isChecked}
+                    checked={team.isChecked}
                     onChange={() => {
                       handleCheck(i);
                     }}
                   />
-                  {system.name}
+                  {team.name}
                 </label>
               ))}
-            </SystemSelector>
+            </TeamSelector>
           )}
-        </SystemSelectorContainer>
+        </TeamSelectorContainer>
         <DateSelectorContainer>
           <RangeCalendar dateRange={dateRange} setDateRange={setDateRange} />
         </DateSelectorContainer>
       </Selectors>
       <ChartContainer>
-        <Chart selectedData={selectedData} />
+        <TeamChart selectedData={selectedData} />
       </ChartContainer>
       <TableContainer>
-        <MyTable setMemoOpened={setMemoOpened} />
+        <MyTable />
       </TableContainer>
-      {memoOpened && (
-        <Memo memoOpened={memoOpened} setMemoOpened={setMemoOpened} />
-      )}
     </Wrapper>
   );
 }
 
-export default System;
+export default TeamTable;

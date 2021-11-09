@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
 `;
 
 export const Title = styled.div`
-  font-size: ${(props) => fonts[props.fontSize]};
+  font-size: ${(props) => fonts[props.fontSize] || 14};
   font-weight: ${(props) => (props.isBold ? "bold" : "none")};
   cursor: pointer;
 `;
