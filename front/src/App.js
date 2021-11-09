@@ -9,6 +9,7 @@ import Team from "./pages/Team";
 
 import System from "./pages/System";
 import { useEffect, useState } from "react";
+import TeamTable from "./pages/TeamTable";
 function App() {
   const [sidebarOpened, setSidebarOpened] = useState(true);
   function toggleSidebar() {
@@ -24,6 +25,7 @@ function App() {
           <Switch>
             <Route path="/" exact={true} component={Home} />
             <Route path="/login" exact={true} component={Login} />
+            <Route path="/team/table" exact={true} component={TeamTable} />
             <Route path="/team/:id" exact={true} component={Team} />
             <Route path="/system" exact={true} component={System} />
           </Switch>
