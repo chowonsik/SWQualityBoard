@@ -5,5 +5,5 @@ import com.swqualityboard.response.Response;
 import org.springframework.http.ResponseEntity;
 
 public interface SystemService {
-    ResponseEntity<Response<Object>> selectSystems(String email, SystemQualityInput systemQualityInput);
+    ResponseEntity<Response<Object>> selectSystemQuality(String email, SystemQualityInput systemQualityInput);
 }
