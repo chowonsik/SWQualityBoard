@@ -21,7 +21,7 @@ public class TeamController {
     private final TeamService teamService;
 
     /**
-     * 팀 SW 품질 리스트 조회 API [POST] /api/systems
+     * 팀 SW 품질 리스트 조회 API [GET] /api/team-quality
      *
      * @return ResponseEntity<Response<Object>>
      */
