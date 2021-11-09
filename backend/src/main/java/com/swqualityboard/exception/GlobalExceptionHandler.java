@@ -1,5 +1,6 @@
 package com.swqualityboard.exception;
 
+import com.swqualityboard.exception.system.SystemNotFoundException;
 import com.swqualityboard.exception.team.TeamNotFoundException;
 import com.swqualityboard.exception.user.*;
 import com.swqualityboard.response.Response;
@@ -83,5 +84,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             TeamNotFoundException ex) {
         log.debug("존재하지 않는 팀", ex);
         return new ResponseEntity<>(new Response<>(NOT_FOUND_TEAM), HttpStatus.NOT_FOUND);
+    }
+
+    // 존재하지 않는 시스템 조회에 대한 에러 핸들러
+    @ExceptionHandler(SystemNotFoundException.class)
+    public final ResponseEntity<Object> handleSystemNotFoundException(
+            SystemNotFoundException ex) {
+        log.debug("존재하지 않는 시스템", ex);
+        return new ResponseEntity<>(new Response<>(NOT_FOUND_SYSTEM), HttpStatus.NOT_FOUND);
     }
 }

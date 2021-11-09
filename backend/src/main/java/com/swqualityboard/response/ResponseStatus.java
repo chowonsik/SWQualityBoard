@@ -15,6 +15,7 @@ public enum ResponseStatus {
     // 200 OK - 클라이언트의 요청을 서버가 정상적으로 처리했다.
     SUCCESS(200, "요청에 성공하였습니다."),
     SUCCESS_SIGN_IN(200, "로그인에 성공하였습니다."),
+    SUCCESS_SELECT_SYSTEM(200, "시스템 품질지표 조회에 성공하였습니다."),
 
     // 201 Created - 클라이언트의 요청을 서버가 정상적으로 처리했고 새로운 리소스가 생겼다.,
     CREATED(201, "리소스 생성에 성공하였습니다."),
@@ -58,6 +59,7 @@ public enum ResponseStatus {
     NOT_FOUND_USER(404, "해당하는 이메일을 가진 유저가 존재하지 않습니다."),
     NOT_FOUND_AUTHORITY(404, "권한을 찾을 수 없습니다."),
     NOT_FOUND_TEAM(404, "해당 팀을 찾을 수 없습니다."),
+    NOT_FOUND_SYSTEM(404, "해당 시스템을 찾을 수 없습니다."),
 
     // 405 Method Not Allowed - 클라이언트의 요청이 허용되지 않는 메소드인 경우
     METHOD_NOT_ALLOWED(405, "허용되지 않는 HTTP Method 입니다."),
