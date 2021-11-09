@@ -39,6 +39,7 @@ public class UserController {
      * @return ResponseEntity<Response<Object>>
      */
     @GetMapping("/users")
+    @PreAuthorize("hasAnyRole('DEVELOPER','ADMIN','EXECUTIVE')")
     public ResponseEntity<Response<Object>> getUserInfo(@AuthenticationPrincipal String userEmail) {
         log.info("[GET] /api/users");
         return userService.getUserInfo(userEmail);
