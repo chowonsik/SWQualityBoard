@@ -52,7 +52,7 @@ public class SystemServiceImpl implements SystemService {
                     .system(systemRepository.findById(systemQuality.getSystemId()).orElseThrow(
                             () -> new SystemNotFoundException("해당 시스템이 존재하지 않습니다.")
                     ))
-                    .memo(memoRepository.findBySystemIdAndUserId(systemQuality.getSystemId(), user.getId()).orElse(null))
+                    .memo(memoRepository.findBySystemQualityIdAndUserId(systemQuality.getId(), user.getId()).orElse(null))
                     .critical(systemQuality.getCritical())
                     .high(systemQuality.getHigh())
                     .medium(systemQuality.getMedium())

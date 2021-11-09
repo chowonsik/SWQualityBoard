@@ -12,12 +12,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SystemQualityInput {
-    @NotNull
+    @NotNull(message = "시스템은 null 일 수 없습니다.")
     private List<String> systems;
-    @NotNull
+    @NotNull(message = "시작일은 null 일 수 없습니다.")
     @Pattern(regexp = "\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")
     private String start;
-    @NotNull
+    @NotNull(message = "종료일은 null 일 수 없습니다.")
     @Pattern(regexp = "\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")
     private String end;
 }
