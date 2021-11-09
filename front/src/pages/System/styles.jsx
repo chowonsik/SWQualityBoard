@@ -17,6 +17,7 @@ export const Selectors = styled.div`
   justify-content: space-between;
   font-size: ${fonts.xxl};
   position: relative;
+  padding: 0 20px;
   @media screen and (max-width: 375px) {
     flex-direction: column;
     font-size: ${fonts.md};
@@ -38,12 +39,12 @@ export const SystemSelectorContainer = styled.div`
 export const DateSelectorContainer = styled.div``;
 
 export const ChartContainer = styled(Card)`
-  width: calc((100vw - 200px) * 0.8);
+  width: 80%;
   padding: 20px;
   height: 450px;
 `;
 export const TableContainer = styled(Card)`
-  width: calc((100vw - 200px) * 0.8);
+  width: 80%;
   height: auto;
 `;
 

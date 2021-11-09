@@ -46,45 +46,47 @@ function Chart({ selectedData }) {
     setSeries(newSeries);
   }
 
-  useEffect(() => {
-    changeLegends();
-    changeXAxis();
-    changeSeries();
-  }, [selectedData]);
+  function getOptions() {
+    return {
+      title: {
+        text: "테스트 커버리지",
+      },
+      tooltip: {
+        trigger: "axis",
+      },
+      legend: {
+        data: legends,
+      },
+      grid: {
+        left: "3%",
+        right: "5%",
+        bottom: "3%",
+        top: 40,
+        containLabel: true,
+      },
+      xAxis: {
+        type: "category",
+        boundaryGap: true,
+        data: xAxis,
+      },
+      yAxis: {
+        type: "value",
+      },
+      series: series,
+    };
+  }
 
   useEffect(() => {
-    console.log(series);
-  }, [series]);
+    changeSeries();
+    changeLegends();
+    changeXAxis();
+  }, [selectedData]);
+
   return (
     <ReactECharts
-      option={{
-        title: {
-          text: "테스트 커버리지",
-        },
-        tooltip: {
-          trigger: "axis",
-        },
-        legend: {
-          data: legends,
-        },
-        grid: {
-          left: "3%",
-          right: "5%",
-          bottom: "3%",
-          top: 40,
-          containLabel: true,
-        },
-        xAxis: {
-          type: "category",
-          boundaryGap: true,
-          data: xAxis,
-        },
-        yAxis: {
-          type: "value",
-        },
-        series: series,
-      }}
+      option={getOptions()}
       opts={{ height: 400 }}
+      notMerge={true}
     />
   );
 }
