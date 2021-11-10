@@ -4,7 +4,7 @@ import { fonts } from "../../styles";
 
 export const Wrapper = styled.div`
   width: 100%;
-  padding: 20px 20px 20px 20px;
+  padding: 30px 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,7 +17,6 @@ export const Selectors = styled.div`
   justify-content: space-between;
   font-size: ${fonts.xxl};
   position: relative;
-  padding: 0 20px;
   @media screen and (max-width: 375px) {
     flex-direction: column;
     font-size: ${fonts.md};
@@ -25,7 +24,7 @@ export const Selectors = styled.div`
   }
 `;
 
-export const SystemSelectorContainer = styled.div`
+export const TeamSelectorContainer = styled.div`
   display: flex;
   gap: 10px;
   .icon {
@@ -39,16 +38,16 @@ export const SystemSelectorContainer = styled.div`
 export const DateSelectorContainer = styled.div``;
 
 export const ChartContainer = styled(Card)`
-  width: 80%;
+  width: 100%;
   padding: 20px;
   height: 450px;
 `;
 export const TableContainer = styled(Card)`
-  width: 80%;
+  width: 100%;
   height: auto;
 `;
 
-export const SystemSelector = styled(Card)`
+export const TeamSelector = styled(Card)`
   position: absolute;
   top: 2.5rem;
   left: 0;

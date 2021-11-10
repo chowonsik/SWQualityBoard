@@ -43,4 +43,14 @@ public class Response<T> {
         this.message = status.getMessage();
         this.timestamp = new Date();
     }
+
+    /*
+     실패 시 호출 값 변경
+     */
+    public Response(int statusCode, String message) {
+        this.isSuccess = false;
+        this.statusCode = statusCode;
+        this.message = message;
+        this.timestamp = new Date();
+    }
 }

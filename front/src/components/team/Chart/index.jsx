@@ -18,16 +18,16 @@ function Chart({ selectedData }) {
 
   function changeLegends() {
     const newLegends = [];
-    for (let system in selectedData) {
-      newLegends.push(`시스템 ${system}`);
+    for (let team in selectedData) {
+      newLegends.push(`개발 ${team}팀`);
     }
     setLegends(newLegends);
   }
 
   function changeXAxis() {
     let dates;
-    for (let system in selectedData) {
-      dates = selectedData[system].map((data) => dateToString(data.date));
+    for (let team in selectedData) {
+      dates = selectedData[team].map((data) => dateToString(data.date));
       break;
     }
     setXAxis(dates);
@@ -35,10 +35,10 @@ function Chart({ selectedData }) {
 
   function changeSeries() {
     const newSeries = [];
-    for (let system in selectedData) {
-      const values = selectedData[system].map((data) => data.testCoverage);
+    for (let team in selectedData) {
+      const values = selectedData[team].map((data) => data.testCoverage);
       newSeries.push({
-        name: `시스템 ${system}`,
+        name: `개발 ${team}팀`,
         type: "line",
         data: values,
       });
@@ -46,10 +46,16 @@ function Chart({ selectedData }) {
     setSeries(newSeries);
   }
 
-  function getOptions() {
+  useEffect(() => {
+    changeLegends();
+    changeXAxis();
+    changeSeries();
+  }, [selectedData]);
+
+  function option() {
     return {
       title: {
-        text: "테스트 커버리지",
+        text: "코드리뷰율",
       },
       tooltip: {
         trigger: "axis",
@@ -76,18 +82,8 @@ function Chart({ selectedData }) {
     };
   }
 
-  useEffect(() => {
-    changeSeries();
-    changeLegends();
-    changeXAxis();
-  }, [selectedData]);
-
   return (
-    <ReactECharts
-      option={getOptions()}
-      opts={{ height: 400 }}
-      notMerge={true}
-    />
+    <ReactECharts option={option()} style={{ height: 400 }} notMerge={true} />
   );
 }
 

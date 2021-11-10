@@ -23,6 +23,7 @@ public class SystemQualityOutput {
     private int testCoverage;
     private int numberRequest;
     private int numberSuitableImplementation;
+    private int functionalCompatibility;
     private int mtbf;
     private String createdAt;
 }
