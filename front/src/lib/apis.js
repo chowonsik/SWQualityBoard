@@ -11,9 +11,12 @@ export function requestPost(url, data) {
 }
 
 export function requestGet(url, params) {
-  const requestURL = baseURL + url + "?" + new URLSearchParams(params);
+  const requestURL = params
+    ? baseURL + url + "?" + new URLSearchParams(params)
+    : baseURL + url;
+  console.log(requestURL);
   return fetch(requestURL, {
-    method: "POST",
+    method: "GET",
     headers: getHeader(),
   })
     .then((res) => res.json())
@@ -29,6 +32,6 @@ function getHeader() {
   const token = loginUser.accessToken;
   return {
     "Content-Type": "application/json",
-    "X-ACCESS-TOKEN": token,
+    Authorization: "Bearer " + token,
   };
 }
