@@ -3,7 +3,7 @@ import { useHistory } from "react-router";
 import LoginForm from "../../components/forms/LoginForm";
 
 import useAccount from "../../hooks/useAccount";
-import { userIdValidator, passwordValidator } from "../../validator";
+import { emailValidator, passwordValidator } from "../../validator";
 import ToastMessage from "../../components/common/ToastMessage";
 import { Wrapper } from "./styles";
 import { requestPost, requestGet } from "../../lib/apis";
@@ -12,6 +12,8 @@ function Login() {
   const password = useAccount("", passwordValidator);
   const [curWidth, setCurWidth] = useState(window.outerWidth);
   const [inputWidth, setInputWidth] = useState(500);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastActive, setToastActive] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -76,10 +78,12 @@ function Login() {
 
               break;
             case 401:
-              console.log("자격증명에 실패");
+              setToastActive(true);
+              setToastMessage("정확한 정보를 입력해주세요.");
               break;
             case 404:
-              console.log("존재하지않는 유저");
+              setToastActive(true);
+              setToastMessage("존재하지 않는 사용자입니다.");
               break;
           }
         })
@@ -88,6 +92,11 @@ function Login() {
   }
   return (
     <Wrapper>
+      <ToastMessage
+        isActive={toastActive}
+        setIsActive={setToastActive}
+        message={toastMessage}
+      />
       <LoginForm
         email={email}
         password={password}
