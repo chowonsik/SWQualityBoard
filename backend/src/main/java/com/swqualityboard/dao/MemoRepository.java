@@ -10,5 +10,7 @@ import java.util.Optional;
 public interface MemoRepository extends MongoRepository<Memo, String> {
 
 
-    Optional<Memo> findBySystemIdAndUserId(String systemId, String userId);
+    Optional<Memo> findBySystemQualityIdAndUserId(String systemId, String userId);
+
+    boolean existsBySystemQualityIdAndUserId(String systemId, String userId);
 }

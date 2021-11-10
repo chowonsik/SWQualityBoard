@@ -20,15 +20,15 @@ public class SystemController {
     private final SystemService systemService;
 
     /**
-     * 시스템 리스트 조회 API [POST] /api/systems
+     * 시스템 SW 품질지표 리스트 조회 API [GET] /api/system-quality
      *
      * @return ResponseEntity<Response<Object>>
      */
     // Params
-    @GetMapping("/systems")
-    public ResponseEntity<Response<Object>> selectSystems(@AuthenticationPrincipal String userEmail, @Valid SystemQualityInput systemQualityInput) {
-        log.info("[GET] /api/systems");
-        return systemService.selectSystems(userEmail, systemQualityInput);
+    @GetMapping("/system-quality")
+    public ResponseEntity<Response<Object>> selectSystemQuality(@AuthenticationPrincipal String userEmail, @Valid SystemQualityInput systemQualityInput) {
+        log.info("[GET] /api/system-quality");
+        return systemService.selectSystemQuality(userEmail, systemQualityInput);
     }
 
 }

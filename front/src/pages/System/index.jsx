@@ -14,6 +14,7 @@ import RangeCalendar from "../../components/common/RangeCalendar";
 
 import Chart from "../../components/system/Chart";
 import MyTable from "../../components/system/Table";
+import Memo from "../../components/system/Memo";
 
 function System() {
   const [selectShow, setSelectShow] = useState(false);
@@ -22,6 +23,7 @@ function System() {
   const [dateRange, setDateRange] = useState([null, null]);
   const [data, setData] = useState({});
   const [selectedData, setSelectedData] = useState({});
+  const [memoOpened, setMemoOpened] = useState(false);
 
   const allCheckRef = useRef(null);
 
@@ -180,8 +182,11 @@ function System() {
         <Chart selectedData={selectedData} />
       </ChartContainer>
       <TableContainer>
-        <MyTable />
+        <MyTable setMemoOpened={setMemoOpened} />
       </TableContainer>
+      {memoOpened && (
+        <Memo memoOpened={memoOpened} setMemoOpened={setMemoOpened} />
+      )}
     </Wrapper>
   );
 }
