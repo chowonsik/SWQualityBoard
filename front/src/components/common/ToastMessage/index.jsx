@@ -1,9 +1,18 @@
+import { useEffect } from "react";
 import { Wrapper, Message } from "./styles";
 
-function ToastMessage() {
+function ToastMessage({ isActive, setIsActive, message }) {
+  useEffect(() => {
+    if (isActive) {
+      setTimeout(() => {
+        setIsActive(false);
+      }, 2000);
+    }
+  });
+
   return (
-    <Wrapper>
-      <Message>{"안녕하세요"}</Message>
+    <Wrapper isActive={isActive}>
+      <Message>{message}</Message>
     </Wrapper>
   );
 }

@@ -3,7 +3,8 @@ import { colors, fonts } from "../../../styles";
 
 export const Wrapper = styled.div`
   position: fixed;
-  top: 10rem;
+  top: ${(props) => (props.isActive ? 10 + "rem" : -70 + "px")};
+  opacity: ${(props) => (props.isActive ? "1" : "0")};
   width: 100vw;
   display: flex;
   z-index: 999;
@@ -20,7 +21,7 @@ export const Message = styled.div`
   color: #bebebf;
   color: ${colors.white};
   border-radius: 4px;
-  width: 20vw;
+  width: 30vw;
   word-break: break-all;
   font-size: ${fonts.md};
   font-weight: 200;

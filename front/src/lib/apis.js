@@ -11,9 +11,11 @@ export function requestPost(url, data) {
 }
 
 export function requestGet(url, params) {
-  const requestURL = baseURL + url + "?" + new URLSearchParams(params);
+  const requestURL = params
+    ? baseURL + url + "?" + new URLSearchParams(params)
+    : baseURL + url;
   return fetch(requestURL, {
-    method: "POST",
+    method: "GET",
     headers: getHeader(),
   })
     .then((res) => res.json())
@@ -21,14 +23,13 @@ export function requestGet(url, params) {
 }
 
 function getHeader() {
-  const loginUser = JSON.parse(localStorage.getItem("loginUser"));
-  if (!loginUser)
+  const token = JSON.parse(localStorage.getItem("token"));
+  if (!token)
     return {
       "Content-Type": "application/json",
     };
-  const token = loginUser.accessToken;
   return {
     "Content-Type": "application/json",
-    "X-ACCESS-TOKEN": token,
+    Authorization: "Bearer " + token.accessToken,
   };
 }
