@@ -26,7 +26,7 @@ function App() {
             <Route path="/" exact={true} component={Home} />
             <Route path="/login" exact={true} component={Login} />
             <Route path="/team/table" exact={true} component={TeamTable} />
-            <Route path="/team/:id" exact={true} component={Team} />
+            <Route path="/team" exact={true} component={Team} />
             <Route path="/system" exact={true} component={System} />
           </Switch>
         </Center>
