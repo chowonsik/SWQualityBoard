@@ -77,3 +77,67 @@ include::{snippets}/authApi/authenticate/failure_not_found/http-request.adoc[]
 Response Example
 
 include::{snippets}/authApi/authenticate/failure_not_found/http-response.adoc[]
+
+== 3. User API
+
+=== 3-1. 유저 조회
+
+==== 유저 조회 성공
+
+Request Header
+
+include::{snippets}/userApi/select_user/successful/request-headers.adoc[]
+
+include::{snippets}/userApi/select_user/successful/response-fields.adoc[]
+
+Request Example
+
+include::{snippets}/userApi/select_user/successful/http-request.adoc[]
+
+Response Example
+
+include::{snippets}/userApi/select_user/successful/http-response.adoc[]
+
+== 4. System API
+
+=== 4-1. 시스템 SW 품질지표 조회
+
+==== 시스템 SW 품질지표 조회 성공
+
+Request Header
+
+include::{snippets}/systemApi/select_system_quality/successful/request-headers.adoc[]
+
+include::{snippets}/systemApi/select_system_quality/successful/request-parameters.adoc[]
+
+include::{snippets}/systemApi/select_system_quality/successful/response-fields.adoc[]
+
+Request Example
+
+include::{snippets}/systemApi/select_system_quality/successful/http-request.adoc[]
+
+Response Example
+
+include::{snippets}/systemApi/select_system_quality/successful/http-response.adoc[]
+
+== 5. Team API
+
+=== 5-1. 팀 SW 품질지표 조회
+
+==== 팀 SW 품질지표 조회 성공
+
+Request Header
+
+include::{snippets}/teamApi/select_team_quality/successful/request-headers.adoc[]
+
+include::{snippets}/teamApi/select_team_quality/successful/request-parameters.adoc[]
+
+include::{snippets}/teamApi/select_team_quality/successful/response-fields.adoc[]
+
+Request Example
+
+include::{snippets}/teamApi/select_team_quality/successful/http-request.adoc[]
+
+Response Example
+
+include::{snippets}/teamApi/select_team_quality/successful/http-response.adoc[]
