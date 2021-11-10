@@ -14,7 +14,6 @@ export function requestGet(url, params) {
   const requestURL = params
     ? baseURL + url + "?" + new URLSearchParams(params)
     : baseURL + url;
-  console.log(requestURL);
   return fetch(requestURL, {
     method: "GET",
     headers: getHeader(),
@@ -24,14 +23,13 @@ export function requestGet(url, params) {
 }
 
 function getHeader() {
-  const loginUser = JSON.parse(localStorage.getItem("loginUser"));
-  if (!loginUser)
+  const token = JSON.parse(localStorage.getItem("token"));
+  if (!token)
     return {
       "Content-Type": "application/json",
     };
-  const token = loginUser.accessToken;
   return {
     "Content-Type": "application/json",
-    Authorization: "Bearer " + token,
+    Authorization: "Bearer " + token.accessToken,
   };
 }
