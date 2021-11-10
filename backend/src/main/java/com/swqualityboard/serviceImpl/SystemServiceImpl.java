@@ -63,6 +63,7 @@ public class SystemServiceImpl implements SystemService {
                     .testCoverage(systemQuality.getTestCoverage())
                     .numberRequest(systemQuality.getNumberRequest())
                     .numberSuitableImplementation(systemQuality.getNumberSuitableImplementation())
+                    .functionalCompatibility((int) ((double) systemQuality.getNumberSuitableImplementation()/(double) systemQuality.getNumberRequest()*100))
                     .mtbf(systemQuality.getMtbf())
                     .createdAt(systemQuality.getCreatedAt()).build();
             systemQualityOutputs.add(systemQualityOutput);
