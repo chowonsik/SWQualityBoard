@@ -9,6 +9,9 @@ const useAccount = (initialValue, validator) => {
 
   const onChange = (e) => {
     setValue(e.target.value);
+  };
+
+  const onSubmit = () => {
     if (validator) {
       const result = validator(value);
       setIsValid(result.isValid);
@@ -16,7 +19,7 @@ const useAccount = (initialValue, validator) => {
     }
   };
 
-  return { value, onChange, isValid, errorMessage };
+  return { value, onChange, onSubmit, isValid, errorMessage };
 };
 
 export default useAccount;
