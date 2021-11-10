@@ -1,7 +1,6 @@
 package com.swqualityboard.dto.system;
 
-import com.swqualityboard.entity.Memo;
-import com.swqualityboard.entity.System;
+import com.swqualityboard.dto.memo.MemoDto;
 import lombok.*;
 
 @Getter
@@ -11,8 +10,8 @@ import lombok.*;
 @NoArgsConstructor
 public class SystemQualityOutput {
     private String id;
-    private System system;
-    private Memo memo;
+    private SystemDto system;
+    private MemoDto memo;
     private int critical;
     private int high;
     private int medium;
