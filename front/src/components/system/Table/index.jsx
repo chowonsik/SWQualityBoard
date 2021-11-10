@@ -159,17 +159,6 @@ function MyTable({ data, setMemoOpened }) {
               <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
                 일자
               </TableCell>
-<<<<<<< HEAD
-              <TableCell
-                align="center"
-                colSpan={4}
-                style={{ margin: "0 auto" }}
-              >
-                <Indicator indicatorTitle={"중대결함수"} />
-              </TableCell>
-              <TableCell align="center" colSpan={3}>
-                <Indicator indicatorTitle={"구조품질지수"} />
-=======
               <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
                 시스템
               </TableCell>
@@ -178,7 +167,6 @@ function MyTable({ data, setMemoOpened }) {
               </TableCell>
               <TableCell align="center" colSpan={3} style={{ zIndex: 0 }}>
                 <Indicator indicatorTitle="구조품질지수" />
->>>>>>> develop
               </TableCell>
               <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
                 <Indicator indicatorTitle="시스템신뢰도" />
@@ -186,13 +174,8 @@ function MyTable({ data, setMemoOpened }) {
               <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
                 <Indicator indicatorTitle="테스트커버리지" />
               </TableCell>
-<<<<<<< HEAD
-              <TableCell align="center" colSpan={1}>
-                <Indicator indicatorTitle={"기능적합성"} />
-=======
               <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
                 <Indicator indicatorTitle="기능적합성" />
->>>>>>> develop
               </TableCell>
               <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
                 비고
