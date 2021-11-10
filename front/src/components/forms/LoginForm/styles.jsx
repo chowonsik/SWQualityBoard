@@ -15,12 +15,13 @@ export const InputBox = styled.div`
 `;
 
 export const StyledInput = styled.input`
-  width: 400px;
+  width: ${(props) => props.inputWidth + "px"};
   height: 40px;
   border: none;
+  outline: none;
   border-bottom: 1px solid ${colors.navy};
   color: ${colors.navy};
-  font-size: ${fonts.md};
+  font-size: ${fonts.lg};
   padding: 1rem;
 `;
 
@@ -34,7 +35,8 @@ export const ErrorMessage = styled.div`
 export const StyledButton = styled.button`
   background-color: ${colors.navy};
   color: ${colors.white};
-  width: 400px;
+  width: ${(props) => props.width + "px"};
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
+  font-size: ${fonts.md};
 `;
