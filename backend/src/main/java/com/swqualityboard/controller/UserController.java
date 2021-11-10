@@ -8,7 +8,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
@@ -25,21 +28,21 @@ public class UserController {
      */
     // Body
     @PostMapping("/users/signup")
-    public ResponseEntity<Response<Object>> signUp(@RequestBody SignUpInput signUpInput) {
+    public ResponseEntity<Response<Object>> signUp(@RequestBody @Valid SignUpInput signUpInput) {
         log.info("[POST] /api/users/signup");
         return userService.signUp(signUpInput);
     }
 
+    /**
+     * 유저 조회 API [GET] /api/users
+     *
+     * @return ResponseEntity<Response<Object>>
+     */
     @GetMapping("/users")
     @PreAuthorize("hasAnyRole('DEVELOPER','ADMIN','EXECUTIVE')")
-    public ResponseEntity<Response<User>> getMyUserInfo() {
-        return userService.getMyUserWithAuthorities();
-    }
-
-    @GetMapping("/users/{username}")
-    @PreAuthorize("hasAnyRole('DEVELOPER')")
-    public ResponseEntity<Response<User>> getUserInfo(@PathVariable String username) {
-        return userService.getUserWithAuthorities(username);
+    public ResponseEntity<Response<Object>> getUserInfo(@AuthenticationPrincipal String userEmail) {
+        log.info("[GET] /api/users");
+        return userService.getUserInfo(userEmail);
     }
 
 }
