@@ -49,10 +49,10 @@ public class SystemServiceImpl implements SystemService {
         for (SystemQuality systemQuality : results) {
             SystemQualityOutput systemQualityOutput = SystemQualityOutput.builder()
                     .id(systemQuality.getId())
-                    .system(systemRepository.findById(systemQuality.getSystemId()).orElseThrow(
+                    .system(systemRepository.findBySystemId(systemQuality.getSystemId()).orElseThrow(
                             () -> new SystemNotFoundException("해당 시스템이 존재하지 않습니다.")
                     ))
-                    .memo(memoRepository.findBySystemQualityIdAndUserId(systemQuality.getId(), user.getId()).orElse(null))
+                    .memo(memoRepository.findByMemo(systemQuality.getId(), user.getId()).orElse(null))
                     .critical(systemQuality.getCritical())
                     .high(systemQuality.getHigh())
                     .medium(systemQuality.getMedium())
