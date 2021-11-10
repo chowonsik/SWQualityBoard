@@ -119,3 +119,25 @@ include::{snippets}/systemApi/select_system_quality/successful/http-request.adoc
 Response Example
 
 include::{snippets}/systemApi/select_system_quality/successful/http-response.adoc[]
+
+== 5. Team API
+
+=== 5-1. 팀 SW 품질지표 조회
+
+==== 팀 SW 품질지표 조회 성공
+
+Request Header
+
+include::{snippets}/teamApi/select_team_quality/successful/request-headers.adoc[]
+
+include::{snippets}/teamApi/select_team_quality/successful/request-parameters.adoc[]
+
+include::{snippets}/teamApi/select_team_quality/successful/response-fields.adoc[]
+
+Request Example
+
+include::{snippets}/teamApi/select_team_quality/successful/http-request.adoc[]
+
+Response Example
+
+include::{snippets}/teamApi/select_team_quality/successful/http-response.adoc[]

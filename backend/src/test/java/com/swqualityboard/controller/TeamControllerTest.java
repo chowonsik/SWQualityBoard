@@ -4,12 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.swqualityboard.TestConfig;
 import com.swqualityboard.configuration.annotation.WithAuthUser;
 import com.swqualityboard.configuration.security.SecurityConfig;
-import com.swqualityboard.dto.system.SystemDto;
 import com.swqualityboard.dto.team.TeamDto;
-import com.swqualityboard.dto.user.select.UserInfoOutput;
-import com.swqualityboard.entity.Authority;
+import com.swqualityboard.dto.team.TeamQualityInput;
+import com.swqualityboard.dto.team.TeamQualityOutput;
 import com.swqualityboard.response.Response;
-import com.swqualityboard.service.UserService;
+import com.swqualityboard.service.TeamService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,13 +31,11 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static com.swqualityboard.ApiDocumentUtils.getDocumentRequest;
 import static com.swqualityboard.ApiDocumentUtils.getDocumentResponse;
-import static com.swqualityboard.response.ResponseStatus.*;
+import static com.swqualityboard.response.ResponseStatus.SUCCESS_SELECT_TEAM_QUALITY;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -46,7 +43,10 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -54,12 +54,12 @@ import static org.springframework.test.web.servlet.setup.SharedHttpSessionConfig
 
 @ExtendWith(RestDocumentationExtension.class) // JUnit 5 사용시 문서 스니펫 생성용
 @Import({TestConfig.class})
-@WebMvcTest(controllers = UserController.class, excludeFilters = {
+@WebMvcTest(controllers = TeamController.class, excludeFilters = {
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = SecurityConfig.class)}
 )
-class UserControllerTest {
+class TeamControllerTest {
     @MockBean
-    private UserService userService;
+    private TeamService teamService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -79,46 +79,51 @@ class UserControllerTest {
     }
 
     @WithAuthUser(email = "admin1@gmail.com", role = "ROLE_ADMIN")
-    @DisplayName("유저 조회 성공")
+    @DisplayName("팀 SW 품질지표 조회 성공")
     @Test
-    public void 유저_조회_성공() throws Exception {
+    public void 팀_SW_품질지표_조회_성공() throws Exception {
         //given
-        Set<Authority> authorities = new HashSet<>();
-        Authority authority = Authority.builder()
-                .id("617efacc17060cc9e4117d75")
-                .role("ROLE_ADMIN")
+        TeamDto teamDto = TeamDto.builder()
+                .id("6184da9b17060cc9e4117e1d")
+                .name("개발 1팀")
                 .build();
-        authorities.add(authority);
-        List<TeamDto> teamDtoList = new ArrayList<>();
-        teamDtoList.add(new TeamDto("6184da9b17060cc9e4117e1d","개발 1팀"));
-        List<SystemDto> systemDtoList = new ArrayList<>();
-        systemDtoList.add(new SystemDto("6184c7e317060cc9e4117dc0","A"));
-        systemDtoList.add(new SystemDto("6184d76b17060cc9e4117de1","B"));
-        systemDtoList.add(new SystemDto("6184d77317060cc9e4117de3","C"));
-        UserInfoOutput userInfoOutput = UserInfoOutput.builder()
-                .id("6184d96139ab91305d6fb8de")
-                .email("admin1@gmail.com")
-                .nickname("개발 1팀 관리자")
-                .authorities(authorities)
-                .teams(teamDtoList)
-                .systems(systemDtoList)
+        List<TeamQualityOutput> teamQualityOutputList = new ArrayList<>();
+        TeamQualityOutput teamQualityOutput = TeamQualityOutput.builder()
+                .team(teamDto)
+                .totalNumberPeople(85)
+                .reviewedNumberPeople(51)
+                .codeReviewRate(60)
+                .conventionRate(58)
+                .receptionRate(53)
+                .devLeadTime(223)
+                .deliveryRate(74)
+                .createdAt("2020-10-04")
                 .build();
+        teamQualityOutputList.add(teamQualityOutput);
 
         //when
-        doReturn(ResponseEntity.status(HttpStatus.OK).body(new Response<>(userInfoOutput, SUCCESS_SELECT_USER))).when(userService).getUserInfo(any());
+        doReturn(ResponseEntity.status(HttpStatus.OK).body(new Response<>(teamQualityOutputList, SUCCESS_SELECT_TEAM_QUALITY))).when(teamService).selectTeamQuality(any(TeamQualityInput.class));
 
         //then
-        mockMvc.perform(get("/api/users")
+        mockMvc.perform(get("/api/team-quality")
+                        .queryParam("teams", "6184da9b17060cc9e4117e1d")
+                        .queryParam("start", "2020-10-04")
+                        .queryParam("end","2020-10-04")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer JWT ACCESS TOKEN"))
                 .andDo(print())
                 .andExpect(status().isOk()) // 200
                 .andDo(
                         document(
-                                "userApi/select_user/successful",
+                                "teamApi/select_team_quality/successful",
                                 getDocumentRequest(),
                                 getDocumentResponse(),
                                 requestHeaders(headerWithName("Authorization").description("Bearer JWT Token")),
+                                requestParameters(
+                                        parameterWithName("teams").description("팀 번호 리스트"),
+                                        parameterWithName("start").description("조회 시작일"),
+                                        parameterWithName("end").description("조회 종료일")
+                                ),
                                 responseFields(
                                         fieldWithPath("isSuccess").type(JsonFieldType.BOOLEAN)
                                                 .description("요청 성공 여부"),
@@ -126,32 +131,30 @@ class UserControllerTest {
                                                 .description("응답 상태"),
                                         fieldWithPath("message").type(JsonFieldType.STRING)
                                                 .description("응답 메시지"),
-                                        fieldWithPath("result").type(JsonFieldType.OBJECT)
-                                                .description("유저 조회 결과"),
-                                        fieldWithPath("result.id").type(JsonFieldType.STRING)
-                                                .description("유저 번호"),
-                                        fieldWithPath("result.email").type(JsonFieldType.STRING)
-                                                .description("유저 이메일"),
-                                        fieldWithPath("result.nickname").type(JsonFieldType.STRING)
-                                                .description("유저 이름"),
-                                        fieldWithPath("result.authorities").type(JsonFieldType.ARRAY)
-                                                .description("유저 권한 리스트"),
-                                        fieldWithPath("result.authorities.[].id").type(JsonFieldType.STRING)
-                                                .description("유저 권한 번호"),
-                                        fieldWithPath("result.authorities.[].role").type(JsonFieldType.STRING)
-                                                .description("유저 권한 이름"),
-                                        fieldWithPath("result.teams").type(JsonFieldType.ARRAY)
-                                                .description("팀 목록 결과"),
-                                        fieldWithPath("result.teams.[].id").type(JsonFieldType.STRING)
+                                        fieldWithPath("result").type(JsonFieldType.ARRAY)
+                                                .description("시스템 SW 품질지표 조회 결과"),
+                                        fieldWithPath("result.[].team").type(JsonFieldType.OBJECT)
+                                                .description("팀 정보"),
+                                        fieldWithPath("result.[].team.id").type(JsonFieldType.STRING)
                                                 .description("팀 번호"),
-                                        fieldWithPath("result.teams.[].name").type(JsonFieldType.STRING)
+                                        fieldWithPath("result.[].team.name").type(JsonFieldType.STRING)
                                                 .description("팀 이름"),
-                                        fieldWithPath("result.systems").type(JsonFieldType.ARRAY)
-                                                .description("시스템 목록 결과"),
-                                        fieldWithPath("result.systems.[].id").type(JsonFieldType.STRING)
-                                                .description("시스템 번호"),
-                                        fieldWithPath("result.systems.[].name").type(JsonFieldType.STRING)
-                                                .description("시스템 이름"),
+                                        fieldWithPath("result.[].totalNumberPeople").type(JsonFieldType.NUMBER)
+                                                .description("전체 개발인원"),
+                                        fieldWithPath("result.[].reviewedNumberPeople").type(JsonFieldType.NUMBER)
+                                                .description("코드리뷰 참여인원"),
+                                        fieldWithPath("result.[].codeReviewRate").type(JsonFieldType.NUMBER)
+                                                .description("코드 리뷰율"),
+                                        fieldWithPath("result.[].conventionRate").type(JsonFieldType.NUMBER)
+                                                .description("코딩 컨벤션 준수율"),
+                                        fieldWithPath("result.[].receptionRate").type(JsonFieldType.NUMBER)
+                                                .description("시스템 접수율"),
+                                        fieldWithPath("result.[].devLeadTime").type(JsonFieldType.NUMBER)
+                                                .description("개발리드타임"),
+                                        fieldWithPath("result.[].deliveryRate").type(JsonFieldType.NUMBER)
+                                                .description("정시 납기율"),
+                                        fieldWithPath("result.[].createdAt").type(JsonFieldType.STRING)
+                                                .description("팀 SW 품질지표 생성일"),
                                         fieldWithPath("timestamp").type(JsonFieldType.STRING)
                                                 .description("api 호출 일시")
                                 )
