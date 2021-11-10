@@ -1,4 +1,4 @@
-package com.swqualityboard.dto.user.select;
+package com.swqualityboard.dto.system;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TeamDto {
+public class SystemDto {
     private String id;
     private String name;
 }

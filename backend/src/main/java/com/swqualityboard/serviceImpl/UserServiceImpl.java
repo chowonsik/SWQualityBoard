@@ -1,12 +1,11 @@
 package com.swqualityboard.serviceImpl;
 
-import com.swqualityboard.configuration.util.SecurityUtil;
 import com.swqualityboard.dao.AuthorityRepository;
 import com.swqualityboard.dao.SystemRepository;
 import com.swqualityboard.dao.TeamRepository;
 import com.swqualityboard.dao.UserRepository;
-import com.swqualityboard.dto.user.select.SystemDto;
-import com.swqualityboard.dto.user.select.TeamDto;
+import com.swqualityboard.dto.system.SystemDto;
+import com.swqualityboard.dto.team.TeamDto;
 import com.swqualityboard.dto.user.select.UserInfoOutput;
 import com.swqualityboard.dto.user.signup.SignUpInput;
 import com.swqualityboard.entity.Authority;

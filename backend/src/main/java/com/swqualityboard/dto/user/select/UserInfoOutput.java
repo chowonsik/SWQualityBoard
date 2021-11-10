@@ -1,5 +1,7 @@
 package com.swqualityboard.dto.user.select;
 
+import com.swqualityboard.dto.system.SystemDto;
+import com.swqualityboard.dto.team.TeamDto;
 import com.swqualityboard.entity.Authority;
 import lombok.*;
 

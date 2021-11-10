@@ -1,21 +1,13 @@
 package com.swqualityboard.serviceImpl;
 
 import com.swqualityboard.dao.MemoRepository;
-import com.swqualityboard.dao.SystemRepository;
 import com.swqualityboard.dao.TeamRepository;
 import com.swqualityboard.dao.UserRepository;
-import com.swqualityboard.dto.system.SystemQualityInput;
-import com.swqualityboard.dto.system.SystemQualityOutput;
 import com.swqualityboard.dto.team.TeamQualityInput;
 import com.swqualityboard.dto.team.TeamQualityOutput;
-import com.swqualityboard.entity.SystemQuality;
 import com.swqualityboard.entity.TeamQuality;
-import com.swqualityboard.entity.User;
-import com.swqualityboard.exception.system.SystemNotFoundException;
 import com.swqualityboard.exception.team.TeamNotFoundException;
-import com.swqualityboard.exception.user.UserNotFoundException;
 import com.swqualityboard.response.Response;
-import com.swqualityboard.service.SystemService;
 import com.swqualityboard.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.swqualityboard.response.ResponseStatus.SUCCESS_SELECT_SYSTEM;
+import static com.swqualityboard.response.ResponseStatus.*;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort;
 
 @Service("TeamService")
@@ -39,8 +31,6 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort
 public class TeamServiceImpl implements TeamService {
 
     private final TeamRepository teamRepository;
-    private final MemoRepository memoRepository;
-    private final UserRepository userRepository;
     private final MongoTemplate mongoTemplate;
 
     @Override
@@ -66,7 +56,7 @@ public class TeamServiceImpl implements TeamService {
         List<TeamQualityOutput> teamQualityOutputs = new ArrayList<>();
         for (TeamQuality teamQuality : results) {
             TeamQualityOutput teamQualityOutput = TeamQualityOutput.builder()
-                    .team(teamRepository.findById(teamQuality.getTeamId()).orElseThrow(
+                    .team(teamRepository.findByTeamId(teamQuality.getTeamId()).orElseThrow(
                             () -> new TeamNotFoundException("해당 팀이 존재하지 않습니다.")
                     ))
                     .totalNumberPeople(teamQuality.getTotalNumberPeople())
@@ -82,7 +72,7 @@ public class TeamServiceImpl implements TeamService {
             teamQualityOutputs.add(teamQualityOutput);
         }
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new Response<>(teamQualityOutputs, SUCCESS_SELECT_SYSTEM));
+                .body(new Response<>(teamQualityOutputs, SUCCESS_SELECT_TEAM_QUALITY));
     }
 
 }
