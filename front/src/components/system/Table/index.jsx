@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { flexbox } from "@mui/system";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PencilSquare } from "react-bootstrap-icons";
 import { colors } from "../../../styles";
 import Indicator from "../../common/Indicator";
@@ -23,7 +23,7 @@ const columns = [
   { id: "complexity", label: "복잡도", minWidth: 80, align: "center" },
   { id: "overlapping", label: "중복도", minWidth: 80, align: "center" },
   { id: "scale", label: "규모", minWidth: 70, align: "center" },
-  { id: "systemReliability", label: "", minWidth: 140, align: "center" },
+  { id: "mtbf", label: "", minWidth: 140, align: "center" },
   {
     id: "testCoverage",
     label: "",
@@ -31,111 +31,14 @@ const columns = [
     format: (value) => `${value}%`,
     align: "center",
   },
-  { id: "functionalSuitability", label: "", minWidth: 120, align: "center" },
+  { id: "functionalCompatibility", label: "", minWidth: 120, align: "center" },
   { id: "note", label: "", minWidth: 100, align: "center" },
 ];
 
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
-const rows = [
-  {
-    date: "2021-10-25",
-    system: "시스템 A",
-    critical: 5,
-    high: 5,
-    medium: 5,
-    low: 5,
-    complexity: 5,
-    overlapping: 5,
-    scale: 5,
-    systemReliability: 600,
-    testCoverage: 70,
-    functionalSuitability: 60,
-    note: "",
-  },
-  {
-    date: "2021-10-25",
-    system: "시스템 A",
-    critical: 5,
-    high: 5,
-    medium: 5,
-    low: 5,
-    complexity: 5,
-    overlapping: 5,
-    scale: 5,
-    systemReliability: 600,
-    testCoverage: 70,
-    functionalSuitability: 60,
-    note: "",
-  },
-  {
-    date: "2021-10-25",
-    system: "시스템 A",
-    critical: 5,
-    high: 5,
-    medium: 5,
-    low: 5,
-    complexity: 5,
-    overlapping: 5,
-    scale: 5,
-    systemReliability: 600,
-    testCoverage: 70,
-    functionalSuitability: 60,
-    note: "",
-  },
-  {
-    date: "2021-10-25",
-    system: "시스템 A",
-    critical: 5,
-    high: 5,
-    medium: 5,
-    low: 5,
-    complexity: 5,
-    overlapping: 5,
-    scale: 5,
-    systemReliability: 600,
-    testCoverage: 70,
-    functionalSuitability: 60,
-    note: "",
-  },
-  {
-    date: "2021-10-25",
-    system: "시스템 A",
-    critical: 5,
-    high: 5,
-    medium: 5,
-    low: 5,
-    complexity: 5,
-    overlapping: 5,
-    scale: 5,
-    systemReliability: 600,
-    testCoverage: 70,
-    functionalSuitability: 60,
-    note: "11",
-  },
-  {
-    date: "2021-10-25",
-    system: "시스템 A",
-    critical: 5,
-    high: 5,
-    medium: 5,
-    low: 5,
-    complexity: 5,
-    overlapping: 5,
-    scale: 5,
-    systemReliability: 600,
-    testCoverage: 70,
-    functionalSuitability: 60,
-    note: "",
-  },
-];
-
-function MyTable({ data, setMemoOpened }) {
+function MyTable({ data, setMemoOpened, setIndicator }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rows, setRows] = useState([]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -145,6 +48,31 @@ function MyTable({ data, setMemoOpened }) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  function initRows() {
+    const newRows = data.map((item) => {
+      return {
+        date: item.createdAt,
+        system: `시스템 ${item.system.name}`,
+        critical: item.critical,
+        high: item.high,
+        medium: item.medium,
+        low: item.low,
+        complexity: item.complexity,
+        overlapping: item.overlapping,
+        scale: item.scale,
+        mtbf: item.mtbf,
+        testCoverage: item.testCoverage,
+        functionalCompatibility: item.functionalCompatibility,
+        note: item.memo,
+      };
+    });
+    setRows(newRows);
+  }
+
+  useEffect(() => {
+    initRows();
+  }, [data]);
 
   return (
     <Paper sx={{ width: "100%" }} style={{ boxShadow: "none" }}>
@@ -164,13 +92,34 @@ function MyTable({ data, setMemoOpened }) {
               <TableCell align="center" colSpan={3} style={{ zIndex: 0 }}>
                 <Indicator indicatorTitle="구조품질지수" />
               </TableCell>
-              <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
+              <TableCell
+                align="center"
+                colSpan={1}
+                style={{ zIndex: 0 }}
+                onClick={() => {
+                  setIndicator("mtbf");
+                }}
+              >
                 <Indicator indicatorTitle="시스템신뢰도" />
               </TableCell>
-              <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
+              <TableCell
+                align="center"
+                colSpan={1}
+                style={{ zIndex: 0 }}
+                onClick={() => {
+                  setIndicator("testCoverage");
+                }}
+              >
                 <Indicator indicatorTitle="테스트커버리지" />
               </TableCell>
-              <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
+              <TableCell
+                align="center"
+                colSpan={1}
+                style={{ zIndex: 0 }}
+                onClick={() => {
+                  setIndicator("functionalCompatibility");
+                }}
+              >
                 <Indicator indicatorTitle="기능적합성" />
               </TableCell>
               <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
@@ -183,6 +132,11 @@ function MyTable({ data, setMemoOpened }) {
                   key={column.id}
                   align={column.align}
                   style={{ top: 57, minWidth: column.minWidth, zIndex: 0 }}
+                  onClick={() => {
+                    if (column.label.length > 0) {
+                      setIndicator(column.id);
+                    }
+                  }}
                 >
                   {column.label}
                 </TableCell>

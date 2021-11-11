@@ -21,6 +21,7 @@ function Memo({ setMemoOpened }) {
           name="memo"
           id="memo"
           placeholder="메모를 입력하세요."
+          autoFocus
         ></textarea>
         <div className="buttons">
           <button className="complete" onClick={handleCompleteButtonClick}>
