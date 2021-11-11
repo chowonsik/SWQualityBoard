@@ -29,7 +29,7 @@ function App() {
             <Route path="/team" exact={true} component={Team} />
             <Route path="/system" exact={true} component={System} />
             <Route
-              path="/detail/chart/:name"
+              path="/detail/chart/:type"
               exact={true}
               component={ChartByItem}
             />

@@ -187,7 +187,7 @@ const useHomeChart = (initSystems, initTeams) => {
         value: teams["codeReviewRate"],
         name: "팀평균 코드리뷰율",
         itemStyle: {
-          color: "#FF751A",
+          color: "#2E8B57",
         },
       },
       {
@@ -209,7 +209,7 @@ const useHomeChart = (initSystems, initTeams) => {
         value: teams["conventionRate"],
         name: "팀평균 코딩컨벤션",
         itemStyle: {
-          color: "#FF751A",
+          color: "#2E8B57",
         },
       },
       {
@@ -232,7 +232,7 @@ const useHomeChart = (initSystems, initTeams) => {
         value: teams["receptionRate"],
         name: "팀평균 시스템접수율",
         itemStyle: {
-          color: "#FF751A",
+          color: "#2E8B57",
         },
       },
       {
@@ -257,7 +257,7 @@ const useHomeChart = (initSystems, initTeams) => {
         value: teams["deliveryRate"],
         name: "팀평균 정시 납기율",
         itemStyle: {
-          color: "#FF751A",
+          color: "#2E8B57",
         },
       },
       {

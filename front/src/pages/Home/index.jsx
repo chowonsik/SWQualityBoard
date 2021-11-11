@@ -52,8 +52,7 @@ function Home() {
   const [startDate, setStartDate] = useState(new Date());
   const [today, setToday] = useState(getToday());
   const [dateContainerWidth, setDateContainerWidth] = useState("100%");
-  const [systemCount, setSystemCount] = useState(10);
-  const [teamCount, setTeamCount] = useState(3);
+
   const [systemList, setSystemList] = useState([]);
   const [systemData, setSystemData] = useState({
     critical: [],
@@ -94,6 +93,8 @@ function Home() {
     devLeadTime: 0,
     deliveryRate: 0,
   });
+  const [systemCount, setSystemCount] = useState(10);
+  const [teamCount, setTeamCount] = useState(3);
   const homeChart = useHomeChart(systemAvg, teamAvg);
   // 경영진이 볼 수 있는 팀과 시스템의 정보를 저장
   useEffect(() => {
@@ -128,6 +129,8 @@ function Home() {
   useEffect(() => {
     handleSystemDataAvg(systemData);
     handleTeamDataAvg(teamData);
+    setSystemCount(systemList.length);
+    setTeamCount(teamList.length);
   }, [systemData, teamData]);
 
   // 팀, 시스템의 평균에 대한 차트 속성 구하기
@@ -193,6 +196,7 @@ function Home() {
       devLeadTime,
       deliveryRate,
     };
+    sessionStorage.setItem("teamData", JSON.stringify(teamObj));
     setTeamData(teamObj);
   }
 
@@ -239,6 +243,7 @@ function Home() {
       functionalCompatibility,
       mtbf,
     };
+    sessionStorage.setItem("systemData", JSON.stringify(systemObj));
     setSystemData(systemObj);
   }
 
@@ -283,7 +288,7 @@ function Home() {
     });
     setTeamAvg(teamObj);
   }
-
+  console.log(systemCount);
   return (
     <Wrapper>
       <DateContainer width={dateContainerWidth}>
@@ -342,6 +347,7 @@ function Home() {
           <CardHover
             width={cardWidth}
             height={cardHeight}
+            dataType={"mtbf"}
             onClickClose={handleClickClose}
           />
         </CardWrapper>
@@ -394,6 +400,7 @@ function Home() {
           <CardHover
             width={cardWidth}
             height={cardHeight}
+            dataType={"testCoverage"}
             onClickClose={handleClickClose}
           />
         </CardWrapper>
@@ -420,6 +427,7 @@ function Home() {
           <CardHover
             width={cardWidth}
             height={cardHeight}
+            dataType={"functionalCompatibility"}
             onClickClose={handleClickClose}
           />
         </CardWrapper>
@@ -446,6 +454,7 @@ function Home() {
           <CardHover
             width={cardWidth}
             height={cardHeight}
+            dataType={"receptionRate"}
             onClickClose={handleClickClose}
           />
         </CardWrapper>
@@ -472,6 +481,7 @@ function Home() {
           <CardHover
             width={cardWidth}
             height={cardHeight}
+            dataType={"codeReviewRate"}
             onClickClose={handleClickClose}
           />
         </CardWrapper>
@@ -498,6 +508,7 @@ function Home() {
           <CardHover
             width={cardWidth}
             height={cardHeight}
+            dataType={"conventionRate"}
             onClickClose={handleClickClose}
           />
         </CardWrapper>
@@ -524,6 +535,7 @@ function Home() {
           <CardHover
             width={cardWidth}
             height={cardHeight}
+            dataType={"deliveryRate"}
             onClickClose={handleClickClose}
           />
         </CardWrapper>

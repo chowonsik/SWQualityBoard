@@ -1,13 +1,23 @@
 import { useState, useEffect } from "react";
-
+import { useHistory } from "react-router";
 import Card from "../../components/common/Card";
 import DetailChart from "../../components/ChartByItem/DetailChart";
+import useChartByItem from "../../hooks/useChartByItem";
 import { Wrapper } from "./styles";
 
 function ChartByItem() {
   const [curWidth, setCurWidth] = useState(window.outerWidth);
   const [cardWidth, setCardWidth] = useState(1200);
   const [cardHeight, setCardHeight] = useState(800);
+  const history = useHistory();
+  const [type, setType] = useState(history.location.state.dataType);
+  const [dataList, setDataList] = useState(
+    Object.keys(JSON.parse(sessionStorage.getItem("systemData"))).includes(type)
+      ? JSON.parse(sessionStorage.getItem("systemData"))[type]
+      : JSON.parse(sessionStorage.getItem("teamData"))[type]
+  );
+
+  const chartByItem = useChartByItem(type, dataList);
   useEffect(() => {
     if (curWidth >= 768 && curWidth < 1024) {
       setCardWidth(750);
@@ -20,10 +30,29 @@ function ChartByItem() {
       setCardHeight(200);
     }
   }, [curWidth]);
+
+  useEffect(() => {
+    if (
+      sessionStorage.getItem("systemData") &&
+      sessionStorage.getItem("teamData")
+    ) {
+      const sessionDataList = Object.keys(
+        JSON.parse(sessionStorage.getItem("systemData"))
+      ).includes(type)
+        ? JSON.parse(sessionStorage.getItem("systemData"))
+        : JSON.parse(sessionStorage.getItem("teamData"));
+      setDataList(sessionDataList[type]);
+      chartByItem.setChartByItem(type, dataList);
+    }
+  }, [type]);
+
   return (
     <Wrapper>
       <Card width={cardWidth} height={cardHeight}>
-        <DetailChart chartData={chartData} chartHeight={cardHeight} />
+        <DetailChart
+          chartData={chartByItem.chartData}
+          chartHeight={cardHeight}
+        />
       </Card>
     </Wrapper>
   );
