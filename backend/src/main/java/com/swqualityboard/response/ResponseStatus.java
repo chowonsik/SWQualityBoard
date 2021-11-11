@@ -20,6 +20,7 @@ public enum ResponseStatus {
     SUCCESS_DELETE_MEMO(200, "메모 삭제에 성공하였습니다."),
     SUCCESS_SELECT_USER(200, "유저 조회에 성공하였습니다."),
     SUCCESS_SELECT_TEAM_QUALITY(200, "팀 SW 품질지표 조회에 성공하였습니다."),
+    SUCCESS_SELECT_TEAM_QUALITY_AVG(200, "전체 팀 SW 평균 품질지표 조회에 성공하였습니다."),
 
     // 201 Created - 클라이언트의 요청을 서버가 정상적으로 처리했고 새로운 리소스가 생겼다.,
     CREATED(201, "리소스 생성에 성공하였습니다."),

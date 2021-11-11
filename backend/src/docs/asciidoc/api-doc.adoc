@@ -142,6 +142,24 @@ Response Example
 
 include::{snippets}/teamApi/select_team_quality/successful/http-response.adoc[]
 
+=== 5-2. 팀 SW 품질지표 평균 조회
+
+==== 팀 SW 품질지표 평균 조회 성공
+
+Request Header
+
+include::{snippets}/teamApi/select_team_quality_average/successful/request-headers.adoc[]
+
+include::{snippets}/teamApi/select_team_quality_average/successful/response-fields.adoc[]
+
+Request Example
+
+include::{snippets}/teamApi/select_team_quality_average/successful/http-request.adoc[]
+
+Response Example
+
+include::{snippets}/teamApi/select_team_quality_average/successful/http-response.adoc[]
+
 == 6. Memo API
 
 === 6-1. 메모 작성
