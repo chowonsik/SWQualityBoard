@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 public class Memo {
     @Id
     private String id;
-    @Field("system_id")
-    private String systemId;
+    @Field("system_quality_id")
+    private String systemQualityId;
     @Field("user_id")
     private String userId;
     private String content;

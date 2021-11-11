@@ -16,10 +16,15 @@ public enum ResponseStatus {
     SUCCESS(200, "요청에 성공하였습니다."),
     SUCCESS_SIGN_IN(200, "로그인에 성공하였습니다."),
     SUCCESS_SELECT_SYSTEM(200, "시스템 품질지표 조회에 성공하였습니다."),
+    SUCCESS_UPDATE_MEMO(200, "메모 수정에 성공하였습니다."),
+    SUCCESS_DELETE_MEMO(200, "메모 삭제에 성공하였습니다."),
+    SUCCESS_SELECT_USER(200, "유저 조회에 성공하였습니다."),
+    SUCCESS_SELECT_TEAM_QUALITY(200, "팀 SW 품질지표 조회에 성공하였습니다."),
 
     // 201 Created - 클라이언트의 요청을 서버가 정상적으로 처리했고 새로운 리소스가 생겼다.,
     CREATED(201, "리소스 생성에 성공하였습니다."),
     CREATED_USER(201, "유저 생성에 성공하였습니다."),
+    CREATED_MEMO(201, "메모 생성에 성공하였습니다."),
 
     // 202 Accepted - 클라이언트의 요청은 정상적이나, 서버가 아직 요청을 완료하지 못했다. 비동기
     ACCEPTED(202, "요청에 성공하였습니다."),
@@ -60,6 +65,7 @@ public enum ResponseStatus {
     NOT_FOUND_AUTHORITY(404, "권한을 찾을 수 없습니다."),
     NOT_FOUND_TEAM(404, "해당 팀을 찾을 수 없습니다."),
     NOT_FOUND_SYSTEM(404, "해당 시스템을 찾을 수 없습니다."),
+    NOT_FOUND_MEMO(404, "해당 메모를 찾을 수 없습니다."),
 
     // 405 Method Not Allowed - 클라이언트의 요청이 허용되지 않는 메소드인 경우
     METHOD_NOT_ALLOWED(405, "허용되지 않는 HTTP Method 입니다."),
@@ -68,6 +74,7 @@ public enum ResponseStatus {
     CONFLICT(409, "충돌이 발생하였습니다."),
     EXISTS_EMAIL(409, "이미 존재하는 이메일입니다."),
     EXISTS_NICKNAME(409, "이미 존재하는 닉네임입니다."),
+    EXISTS_MEMO(409, "해당 SW 품질지표 이력에 메모가 존재하고 있습니다."),
 
     // 429 Too Many Requests - 클라이언트가 일정 시간 동안 너무 많은 요청을 보낸 경우
     TOO_MANY_REQUESTS(429, "요청이 너무 많습니다."),

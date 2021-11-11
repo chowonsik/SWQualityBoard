@@ -35,7 +35,7 @@ public class SystemServiceImpl implements SystemService {
     private final MongoTemplate mongoTemplate;
 
     @Override
-    public ResponseEntity<Response<Object>> selectSystems(String email, SystemQualityInput systemQualityInput) {
+    public ResponseEntity<Response<Object>> selectSystemQuality(String email, SystemQualityInput systemQualityInput) {
 
         User user = userRepository.findByEmailAndStatus(email, "ACTIVATE").orElseThrow(
                 () -> new UserNotFoundException("해당하는 이메일이 존재하지 않습니다.")
@@ -49,10 +49,10 @@ public class SystemServiceImpl implements SystemService {
         for (SystemQuality systemQuality : results) {
             SystemQualityOutput systemQualityOutput = SystemQualityOutput.builder()
                     .id(systemQuality.getId())
-                    .system(systemRepository.findById(systemQuality.getSystemId()).orElseThrow(
+                    .system(systemRepository.findBySystemId(systemQuality.getSystemId()).orElseThrow(
                             () -> new SystemNotFoundException("해당 시스템이 존재하지 않습니다.")
                     ))
-                    .memo(memoRepository.findBySystemIdAndUserId(systemQuality.getSystemId(), user.getId()).orElse(null))
+                    .memo(memoRepository.findByMemo(systemQuality.getId(), user.getId()).orElse(null))
                     .critical(systemQuality.getCritical())
                     .high(systemQuality.getHigh())
                     .medium(systemQuality.getMedium())
@@ -63,6 +63,7 @@ public class SystemServiceImpl implements SystemService {
                     .testCoverage(systemQuality.getTestCoverage())
                     .numberRequest(systemQuality.getNumberRequest())
                     .numberSuitableImplementation(systemQuality.getNumberSuitableImplementation())
+                    .functionalCompatibility((int) ((double) systemQuality.getNumberSuitableImplementation()/(double) systemQuality.getNumberRequest()*100))
                     .mtbf(systemQuality.getMtbf())
                     .createdAt(systemQuality.getCreatedAt()).build();
             systemQualityOutputs.add(systemQualityOutput);
