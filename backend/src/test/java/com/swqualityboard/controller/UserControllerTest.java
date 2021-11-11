@@ -8,7 +8,6 @@ import com.swqualityboard.dto.system.SystemDto;
 import com.swqualityboard.dto.team.TeamDto;
 import com.swqualityboard.dto.user.select.UserInfoOutput;
 import com.swqualityboard.entity.Authority;
-import com.swqualityboard.response.Response;
 import com.swqualityboard.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,9 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -38,7 +35,6 @@ import java.util.Set;
 
 import static com.swqualityboard.ApiDocumentUtils.getDocumentRequest;
 import static com.swqualityboard.ApiDocumentUtils.getDocumentResponse;
-import static com.swqualityboard.response.ResponseStatus.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -105,7 +101,7 @@ class UserControllerTest {
                 .build();
 
         //when
-        doReturn(ResponseEntity.status(HttpStatus.OK).body(new Response<>(userInfoOutput, SUCCESS_SELECT_USER))).when(userService).getUserInfo(any());
+        doReturn(userInfoOutput).when(userService).getUserInfo(any());
 
         //then
         mockMvc.perform(get("/api/users")
