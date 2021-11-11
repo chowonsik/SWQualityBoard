@@ -8,15 +8,11 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { flexbox } from "@mui/system";
 import { useState } from "react";
-<<<<<<< HEAD
-import Indicator from "../../common/Indicator";
-=======
 import { PencilSquare } from "react-bootstrap-icons";
 import { colors } from "../../../styles";
 import Indicator from "../../common/Indicator";
 import Memo from "../Memo";
 
->>>>>>> develop
 const columns = [
   { id: "date", label: "", minWidth: 120, align: "center" },
   { id: "system", label: "", minWidth: 100, align: "center" },
