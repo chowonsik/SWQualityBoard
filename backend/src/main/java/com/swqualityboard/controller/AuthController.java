@@ -6,11 +6,14 @@ import com.swqualityboard.response.Response;
 import com.swqualityboard.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.swqualityboard.response.ResponseStatus.SUCCESS_SIGN_IN;
 
 @RestController
 @RequestMapping("/api")
@@ -29,7 +32,8 @@ public class AuthController {
     @PostMapping("/authenticate")
     public ResponseEntity<Response<TokenDto>> authorize(@RequestBody LoginDto loginDto) {
         log.info("[POST] /api/authenticate");
-        return authService.authorize(loginDto);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new Response<>(authService.authorize(loginDto), SUCCESS_SIGN_IN));
     }
 
 

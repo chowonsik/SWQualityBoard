@@ -1,17 +1,22 @@
 package com.swqualityboard.controller;
 
+import com.swqualityboard.dto.user.select.UserInfoOutput;
 import com.swqualityboard.dto.user.signup.SignUpInput;
 import com.swqualityboard.entity.User;
 import com.swqualityboard.response.Response;
 import com.swqualityboard.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import static com.swqualityboard.response.ResponseStatus.CREATED_USER;
+import static com.swqualityboard.response.ResponseStatus.SUCCESS_SELECT_USER;
 
 @RestController
 @RequestMapping("/api")
@@ -30,7 +35,9 @@ public class UserController {
     @PostMapping("/users/signup")
     public ResponseEntity<Response<Object>> signUp(@RequestBody @Valid SignUpInput signUpInput) {
         log.info("[POST] /api/users/signup");
-        return userService.signUp(signUpInput);
+        userService.signUp(signUpInput);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new Response<>(null, CREATED_USER));
     }
 
     /**
@@ -40,9 +47,10 @@ public class UserController {
      */
     @GetMapping("/users")
     @PreAuthorize("hasAnyRole('DEVELOPER','ADMIN','EXECUTIVE')")
-    public ResponseEntity<Response<Object>> getUserInfo(@AuthenticationPrincipal String userEmail) {
+    public ResponseEntity<Response<UserInfoOutput>> getUserInfo(@AuthenticationPrincipal String userEmail) {
         log.info("[GET] /api/users");
-        return userService.getUserInfo(userEmail);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new Response<>(userService.getUserInfo(userEmail), SUCCESS_SELECT_USER));
     }
 
 }

@@ -6,12 +6,15 @@ import com.swqualityboard.response.Response;
 import com.swqualityboard.service.MemoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import static com.swqualityboard.response.ResponseStatus.*;
 
 @RestController
 @RequestMapping("/api")
@@ -31,7 +34,9 @@ public class MemoController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Response<Object>> createMemo(@AuthenticationPrincipal String userEmail, @RequestBody @Valid CreateMemoInput createMemoInput) {
         log.info("[POST] /api/memos");
-        return memoService.createMemo(userEmail, createMemoInput);
+        memoService.createMemo(userEmail, createMemoInput);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new Response<>(null, CREATED_MEMO));
     }
 
     /**
@@ -44,7 +49,9 @@ public class MemoController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Response<Object>> updateMemo(@PathVariable String id, @RequestBody @Valid UpdateMemoInput updateMemoInput) {
         log.info("[PATCH] /api/memos/" + id);
-        return memoService.updateMemo(id, updateMemoInput);
+        memoService.updateMemo(id, updateMemoInput);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new Response<>(null, SUCCESS_UPDATE_MEMO));
     }
 
     /**
@@ -57,6 +64,8 @@ public class MemoController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Response<Object>> deleteMemo(@PathVariable String id) {
         log.info("[DELETE] /api/memos/" + id);
-        return memoService.deleteMemo(id);
+        memoService.deleteMemo(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new Response<>(null, SUCCESS_DELETE_MEMO));
     }
 }

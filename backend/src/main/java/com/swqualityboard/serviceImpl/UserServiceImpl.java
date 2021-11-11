@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ResponseEntity<Response<Object>> signUp(SignUpInput signUpInput) {
+    public void signUp(SignUpInput signUpInput) {
 
         // 1. 유저 생성
         User user;
@@ -75,14 +75,10 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
-
-        // 2. 결과 return
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new Response<>(null, CREATED_USER));
     }
 
     @Override
-    public ResponseEntity<Response<Object>> getUserInfo(String email) {
+    public UserInfoOutput getUserInfo(String email) {
         User user = userRepository.findOneWithAuthoritiesByEmail(email).orElseThrow(
                 () -> new AuthorityNotFoundException("해당 권한이 존재하지 않습니다.")
         );
@@ -110,7 +106,7 @@ public class UserServiceImpl implements UserService {
                 systems.add(systemDto);
             }
         }
-        UserInfoOutput userInfoOutput = UserInfoOutput.builder()
+        return UserInfoOutput.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .nickname(user.getNickname())
@@ -118,7 +114,5 @@ public class UserServiceImpl implements UserService {
                 .teams(teams)
                 .systems(systems)
                 .build();
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new Response<>(userInfoOutput, SUCCESS_SELECT_USER));
     }
 }

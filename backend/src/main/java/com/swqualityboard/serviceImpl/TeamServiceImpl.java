@@ -36,7 +36,7 @@ public class TeamServiceImpl implements TeamService {
     private final MongoTemplate mongoTemplate;
 
     @Override
-    public ResponseEntity<Response<Object>> selectTeamQuality(TeamQualityInput teamQualityInput) {
+    public List<TeamQualityOutput> selectTeamQuality(TeamQualityInput teamQualityInput) {
 
         MatchOperation matchOperation = Aggregation.match(Criteria.where("team_id").in(teamQualityInput.getTeams()).and("createdAt").gte(teamQualityInput.getStart()).lte(teamQualityInput.getEnd()));
         SortOperation sortOperation = sort(Sort.by(Sort.Direction.DESC, "createdAt"));
@@ -73,12 +73,11 @@ public class TeamServiceImpl implements TeamService {
 
             teamQualityOutputs.add(teamQualityOutput);
         }
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new Response<>(teamQualityOutputs, SUCCESS_SELECT_TEAM_QUALITY));
+        return teamQualityOutputs;
     }
 
     @Override
-    public ResponseEntity<Response<Object>> selectTeamQualityAvg() {
+    public TeamQualityAvgOutput selectTeamQualityAvg() {
         SimpleDateFormat todaySdf = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
         Date date = new Date();
         String todayDate = todaySdf.format(date);
@@ -122,8 +121,7 @@ public class TeamServiceImpl implements TeamService {
 
             teamQualityAvgOutputs.add(teamQualityAvgOutput);
         }
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new Response<>(teamQualityAvgOutputs.get(0), SUCCESS_SELECT_TEAM_QUALITY_AVG));
+        return teamQualityAvgOutputs.get(0);
     }
 
 }

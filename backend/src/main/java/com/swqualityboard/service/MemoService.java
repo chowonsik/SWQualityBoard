@@ -6,7 +6,7 @@ import com.swqualityboard.response.Response;
 import org.springframework.http.ResponseEntity;
 
 public interface MemoService {
-    ResponseEntity<Response<Object>> createMemo(String email, CreateMemoInput createMemoInput);
-    ResponseEntity<Response<Object>> updateMemo(String memoId, UpdateMemoInput updateMemoInput);
-    ResponseEntity<Response<Object>> deleteMemo(String memoId);
+    void createMemo(String email, CreateMemoInput createMemoInput);
+    void updateMemo(String memoId, UpdateMemoInput updateMemoInput);
+    void deleteMemo(String memoId);
 }

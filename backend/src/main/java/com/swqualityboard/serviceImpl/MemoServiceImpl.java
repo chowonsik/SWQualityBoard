@@ -9,16 +9,11 @@ import com.swqualityboard.entity.User;
 import com.swqualityboard.exception.memo.MemoDuplicateException;
 import com.swqualityboard.exception.memo.MemoNotFoundException;
 import com.swqualityboard.exception.user.UserNotFoundException;
-import com.swqualityboard.response.Response;
 import com.swqualityboard.service.MemoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.swqualityboard.response.ResponseStatus.*;
 
 @Service("MemoService")
 @RequiredArgsConstructor
@@ -30,7 +25,7 @@ public class MemoServiceImpl implements MemoService {
 
     @Override
     @Transactional
-    public ResponseEntity<Response<Object>> createMemo(String email, CreateMemoInput createMemoInput) {
+    public void createMemo(String email, CreateMemoInput createMemoInput) {
 
         User user = userRepository.findByEmailAndStatus(email, "ACTIVATE").orElseThrow(
                 () -> new UserNotFoundException("해당하는 이메일이 존재하지 않습니다.")
@@ -47,14 +42,11 @@ public class MemoServiceImpl implements MemoService {
                 .build();
 
         memoRepository.save(memo);
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new Response<>(null, CREATED_MEMO));
     }
 
     @Override
     @Transactional
-    public ResponseEntity<Response<Object>> updateMemo(String memoId, UpdateMemoInput updateMemoInput) {
+    public void updateMemo(String memoId, UpdateMemoInput updateMemoInput) {
 
         Memo memo = memoRepository.findById(memoId).orElseThrow(
                 () -> new MemoNotFoundException("해당 메모를 찾을 수 없습니다.")
@@ -63,23 +55,17 @@ public class MemoServiceImpl implements MemoService {
         memo.setContent(updateMemoInput.getContent());
 
         memoRepository.save(memo);
-
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new Response<>(null, SUCCESS_UPDATE_MEMO));
     }
 
     @Override
     @Transactional
-    public ResponseEntity<Response<Object>> deleteMemo(String memoId) {
+    public void deleteMemo(String memoId) {
 
         Memo memo = memoRepository.findById(memoId).orElseThrow(
                 () -> new MemoNotFoundException("해당 메모를 찾을 수 없습니다.")
         );
 
         memoRepository.delete(memo);
-
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new Response<>(null, SUCCESS_DELETE_MEMO));
     }
 
 }

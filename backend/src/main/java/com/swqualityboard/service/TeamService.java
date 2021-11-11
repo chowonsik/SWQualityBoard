@@ -1,10 +1,12 @@
 package com.swqualityboard.service;
 
+import com.swqualityboard.dto.team.TeamQualityAvgOutput;
 import com.swqualityboard.dto.team.TeamQualityInput;
-import com.swqualityboard.response.Response;
-import org.springframework.http.ResponseEntity;
+import com.swqualityboard.dto.team.TeamQualityOutput;
+
+import java.util.List;
 
 public interface TeamService {
-    ResponseEntity<Response<Object>> selectTeamQuality(TeamQualityInput teamQualityInput);
-    ResponseEntity<Response<Object>> selectTeamQualityAvg();
+    List<TeamQualityOutput> selectTeamQuality(TeamQualityInput teamQualityInput);
+    TeamQualityAvgOutput selectTeamQualityAvg();
 }

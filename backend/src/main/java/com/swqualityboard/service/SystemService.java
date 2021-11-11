@@ -1,9 +1,10 @@
 package com.swqualityboard.service;
 
 import com.swqualityboard.dto.system.SystemQualityInput;
-import com.swqualityboard.response.Response;
-import org.springframework.http.ResponseEntity;
+import com.swqualityboard.dto.system.SystemQualityOutput;
+
+import java.util.List;
 
 public interface SystemService {
-    ResponseEntity<Response<Object>> selectSystemQuality(String email, SystemQualityInput systemQualityInput);
+    List<SystemQualityOutput> selectSystemQuality(String email, SystemQualityInput systemQualityInput);
 }

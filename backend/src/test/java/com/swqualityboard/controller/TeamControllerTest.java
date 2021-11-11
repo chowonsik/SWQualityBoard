@@ -8,7 +8,6 @@ import com.swqualityboard.dto.team.TeamDto;
 import com.swqualityboard.dto.team.TeamQualityAvgOutput;
 import com.swqualityboard.dto.team.TeamQualityInput;
 import com.swqualityboard.dto.team.TeamQualityOutput;
-import com.swqualityboard.response.Response;
 import com.swqualityboard.service.TeamService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,9 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -36,8 +33,6 @@ import java.util.List;
 
 import static com.swqualityboard.ApiDocumentUtils.getDocumentRequest;
 import static com.swqualityboard.ApiDocumentUtils.getDocumentResponse;
-import static com.swqualityboard.response.ResponseStatus.SUCCESS_SELECT_TEAM_QUALITY;
-import static com.swqualityboard.response.ResponseStatus.SUCCESS_SELECT_TEAM_QUALITY_AVG;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -104,7 +99,7 @@ class TeamControllerTest {
         teamQualityOutputList.add(teamQualityOutput);
 
         //when
-        doReturn(ResponseEntity.status(HttpStatus.OK).body(new Response<>(teamQualityOutputList, SUCCESS_SELECT_TEAM_QUALITY))).when(teamService).selectTeamQuality(any(TeamQualityInput.class));
+        doReturn(teamQualityOutputList).when(teamService).selectTeamQuality(any(TeamQualityInput.class));
 
         //then
         mockMvc.perform(get("/api/team-quality")
@@ -180,7 +175,7 @@ class TeamControllerTest {
                 .build();
 
         //when
-        doReturn(ResponseEntity.status(HttpStatus.OK).body(new Response<>(teamQualityAvgOutput, SUCCESS_SELECT_TEAM_QUALITY_AVG))).when(teamService).selectTeamQualityAvg();
+        doReturn(teamQualityAvgOutput).when(teamService).selectTeamQualityAvg();
 
         //then
         mockMvc.perform(get("/api/team-quality/average")
