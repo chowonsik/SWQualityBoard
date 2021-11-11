@@ -6,4 +6,5 @@ import org.springframework.http.ResponseEntity;
 
 public interface TeamService {
     ResponseEntity<Response<Object>> selectTeamQuality(TeamQualityInput teamQualityInput);
+    ResponseEntity<Response<Object>> selectTeamQualityAvg();
 }

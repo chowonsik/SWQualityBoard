@@ -32,4 +32,16 @@ public class TeamController {
         return teamService.selectTeamQuality(teamQualityInput);
     }
 
+    /**
+     * 팀 SW 품질 평균 리스트 조회 API [GET] /api/team-quality/average
+     *
+     * @return ResponseEntity<Response<Object>>
+     */
+    // Params
+    @GetMapping("/team-quality/average")
+    public ResponseEntity<Response<Object>> selectTeamAvgQuality() {
+        log.info("[GET] /api/team-quality/average");
+        return teamService.selectTeamQualityAvg();
+    }
+
 }
