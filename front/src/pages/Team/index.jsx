@@ -52,11 +52,6 @@ function Team() {
     getSystemQuality(selectedSystemId);
   }, [selectedSystemId]);
 
-  function changeSelectedTeam(team) {
-    setSelectedTeam(team);
-    setSystems(team.systems);
-  }
-
   function getTeamQuality(teamId) {
     const params = {
       teams: teamId,
