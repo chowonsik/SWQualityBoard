@@ -6,7 +6,7 @@ import Sidebar from "./components/common/Sidebar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Team from "./pages/Team";
-
+import ChartByItem from "./pages/ChartByItem";
 import System from "./pages/System";
 import { useEffect, useState } from "react";
 import TeamTable from "./pages/TeamTable";
@@ -28,6 +28,11 @@ function App() {
             <Route path="/team/table" exact={true} component={TeamTable} />
             <Route path="/team" exact={true} component={Team} />
             <Route path="/system" exact={true} component={System} />
+            <Route
+              path="/detail/chart/:type"
+              exact={true}
+              component={ChartByItem}
+            />
           </Switch>
         </Center>
       </Router>

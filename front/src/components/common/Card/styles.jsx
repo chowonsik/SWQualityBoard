@@ -9,6 +9,6 @@ export const Card = styled.div`
   border-radius: 12px;
 
   filter: drop-shadow(
-    0 0 0.2rem ${(props) => (props.isLight ? colors.orange : colors.gray)}
+    0 0 0.2rem ${(props) => (props.isLight ? colors.red : colors.gray)}
   );
 `;

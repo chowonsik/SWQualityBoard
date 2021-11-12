@@ -1,12 +1,32 @@
-import { Wrapper, ValueBox, Category, NowValue } from "./styles";
+import { ArrowRight } from "react-bootstrap-icons";
+import {
+  Wrapper,
+  ValueBox,
+  Category,
+  NowValue,
+  PastValue,
+  ValueWrapper,
+} from "./styles";
 
-function CountValue({ data }) {
+function CountValue({ data, isPastShow }) {
   return (
     <Wrapper>
       {data.map((item) => (
         <ValueBox>
           <Category fontColor={item.categoryColor}>{item.category}</Category>
-          <NowValue>{item.nowValue}</NowValue>
+          <ValueWrapper>
+            <PastValue isPastShow={isPastShow}>
+              {item.pastValue ? item.pastValue : 0}
+            </PastValue>
+            {isPastShow && <ArrowRight />}
+            <NowValue
+              pastValue={item.pastValue}
+              nowValue={item.nowValue}
+              isPastShow={isPastShow}
+            >
+              {item.nowValue}
+            </NowValue>
+          </ValueWrapper>
         </ValueBox>
       ))}
     </Wrapper>
