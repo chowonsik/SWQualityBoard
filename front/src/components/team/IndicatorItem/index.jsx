@@ -1,13 +1,18 @@
 import { Wrapper } from "./styles";
 import { EmojiSmile, EmojiNeutral, EmojiFrown } from "react-bootstrap-icons";
 
-function IndicatorItem({ name, value, emoji = false, standard, valueColor }) {
+function IndicatorItem({
+  name,
+  value,
+  emoji = false,
+  standard,
+  valueColor,
+  unit = "",
+}) {
   function checkStandard() {
-    const valueNum = parseInt(value.replace(/[^0-9]/g, ""));
-    console.log(valueNum);
-    if (valueNum >= standard[0]) {
+    if (value >= standard[0]) {
       return "good";
-    } else if (valueNum >= standard[1]) {
+    } else if (value >= standard[1]) {
       return "neutral";
     } else {
       return "bad";
@@ -32,7 +37,7 @@ function IndicatorItem({ name, value, emoji = false, standard, valueColor }) {
       <dt className="indicator-name">{name}</dt>
       <dd className={"indicator-value " + valueColor}>
         {emoji && getEmoji()}
-        <span>{value}</span>
+        <span>{value && value + unit}</span>
       </dd>
     </Wrapper>
   );
