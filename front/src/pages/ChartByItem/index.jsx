@@ -11,11 +11,7 @@ function ChartByItem() {
   const [cardHeight, setCardHeight] = useState(800);
   const history = useHistory();
   const [type, setType] = useState(history.location.state.dataType);
-  const [dataList, setDataList] = useState(
-    Object.keys(JSON.parse(sessionStorage.getItem("systemData"))).includes(type)
-      ? JSON.parse(sessionStorage.getItem("systemData"))[type]
-      : JSON.parse(sessionStorage.getItem("teamData"))[type]
-  );
+  const [dataList, setDataList] = useState(getData(type));
 
   const chartByItem = useChartByItem(type, dataList);
   useEffect(() => {
@@ -31,20 +27,57 @@ function ChartByItem() {
     }
   }, [curWidth]);
 
-  useEffect(() => {
+  function getData(type) {
     if (
       sessionStorage.getItem("systemData") &&
       sessionStorage.getItem("teamData")
     ) {
-      const sessionDataList = Object.keys(
-        JSON.parse(sessionStorage.getItem("systemData"))
-      ).includes(type)
-        ? JSON.parse(sessionStorage.getItem("systemData"))
-        : JSON.parse(sessionStorage.getItem("teamData"));
-      setDataList(sessionDataList[type]);
-      chartByItem.setChartByItem(type, dataList);
+      if (type === "defect" || type === "structure") {
+        if (type === "defect") {
+          const critical = JSON.parse(sessionStorage.getItem("systemData"))[
+            "critical"
+          ];
+          const high = JSON.parse(sessionStorage.getItem("systemData"))["high"];
+          const medium = JSON.parse(sessionStorage.getItem("systemData"))[
+            "medium"
+          ];
+          const low = JSON.parse(sessionStorage.getItem("systemData"))["low"];
+          const tempDataObj = {
+            name: critical.map((data) => data.name),
+            critical,
+            high,
+            medium,
+            low,
+          };
+          return tempDataObj;
+        } else {
+          const complexity = JSON.parse(sessionStorage.getItem("systemData"))[
+            "complexity"
+          ];
+          const overlapping = JSON.parse(sessionStorage.getItem("systemData"))[
+            "overlapping"
+          ];
+          const scale = JSON.parse(sessionStorage.getItem("systemData"))[
+            "scale"
+          ];
+          const tempDataObj = {
+            name: complexity.map((data) => data.name),
+            complexity,
+            overlapping,
+            scale,
+          };
+          return tempDataObj;
+        }
+      } else {
+        const sessionDataList = Object.keys(
+          JSON.parse(sessionStorage.getItem("systemData"))
+        ).includes(type)
+          ? JSON.parse(sessionStorage.getItem("systemData"))[type]
+          : JSON.parse(sessionStorage.getItem("teamData"))[type];
+        return sessionDataList;
+      }
     }
-  }, [type]);
+  }
 
   return (
     <Wrapper>
@@ -57,53 +90,5 @@ function ChartByItem() {
     </Wrapper>
   );
 }
-
-const chartData = {
-  title: "시스템신뢰도",
-  yAxis: ["A", "B", "C", "D", "E", "F"],
-  xData: [
-    {
-      type: "bar",
-      data: [
-        {
-          value: 10,
-          itemStyle: {
-            color: "#FF5252",
-          },
-        },
-        {
-          value: 25,
-          itemStyle: {
-            color: "#ff9933",
-          },
-        },
-        {
-          value: 42,
-          itemStyle: {
-            color: "#009900",
-          },
-        },
-        {
-          value: 7,
-          itemStyle: {
-            color: "#FF5252",
-          },
-        },
-        {
-          value: 55,
-          itemStyle: {
-            color: "#3366ff",
-          },
-        },
-        {
-          value: 17,
-          itemStyle: {
-            color: "#FF5252",
-          },
-        },
-      ],
-    },
-  ],
-};
 
 export default ChartByItem;

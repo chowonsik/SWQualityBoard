@@ -17,25 +17,11 @@ import {
   DateContainer,
   TodayContainer,
 } from "./styles";
-import { Box, BoxArrowUpRight } from "react-bootstrap-icons";
+import { BoxArrowUpRight } from "react-bootstrap-icons";
 import { requestGet } from "../../lib/apis";
 
 function getToday() {
   const days = ["일", "월", "화", "수", "목", "금", "토"];
-  const months = [
-    "01",
-    "02",
-    "03",
-    "04",
-    "05",
-    "06",
-    "07",
-    "08",
-    "09",
-    "10",
-    "11",
-    "12",
-  ];
   const now = new Date();
   const year = now.getFullYear();
   const month =
@@ -156,14 +142,24 @@ function Home() {
   // 경영진이 볼 수 있는 팀과 시스템의 정보를 저장
   useEffect(() => {
     const loginUser = JSON.parse(localStorage.getItem("loginUser"));
-    console.log(today);
-    if (loginUser) {
-      setSystemList(loginUser["systems"]);
-      setTeamList(loginUser["teams"]);
 
+    if (loginUser) {
+      setTeamList(
+        loginUser["teams"].map((team) => {
+          return {
+            id: team.id,
+            name: team.name,
+          };
+        })
+      );
+      const tempSystemList = [];
+      loginUser["teams"].forEach((team) => {
+        tempSystemList.push(...team.systems.map((system) => system));
+      });
+      setSystemList(tempSystemList);
       // 시스템과 팀에 대한 지표 데이터 불러온 후에 저장하기
       const teamIdList = loginUser["teams"].map((team) => team["id"]);
-      const systemIdList = loginUser["systems"].map((system) => system["id"]);
+      const systemIdList = tempSystemList.map((system) => system.id);
 
       const teamParams = {
         teams: teamIdList,
@@ -231,8 +227,8 @@ function Home() {
     const loginUser = JSON.parse(localStorage.getItem("loginUser"));
     if (past[0] != today[0] || past[1] != today[1] || past[2] != today[2]) {
       setIsPastShow(true);
-      const teamIdList = loginUser["teams"].map((team) => team["id"]);
-      const systemIdList = loginUser["systems"].map((system) => system["id"]);
+      const teamIdList = teamList.map((team) => team["id"]);
+      const systemIdList = systemList.map((system) => system["id"]);
       const systemParams = {
         systems: systemIdList,
         start: `${past[0]}-${past[1]}-${past[2]}`,
@@ -447,6 +443,7 @@ function Home() {
           <CardHover
             width={cardWidth}
             height={cardHeight}
+            dataType={"defect"}
             onClickClose={handleClickClose}
           />
         </CardWrapper>
@@ -506,6 +503,7 @@ function Home() {
           <CardHover
             width={cardWidth}
             height={cardHeight}
+            dataType={"structure"}
             onClickClose={handleClickClose}
           />
         </CardWrapper>

@@ -35,6 +35,10 @@ function getThresholdColor(value, threshold) {
 
 function getChartTitle(type) {
   switch (type) {
+    case "defect":
+      return "중대결함수";
+    case "structure":
+      return "구조품질지수";
     case "mtbf":
       return "시스템신뢰도";
     case "functionalCompatibility":
@@ -55,84 +59,170 @@ function getChartTitle(type) {
 const useChartByItem = (initType, initDataList) => {
   const [type, setType] = useState(initType);
   const [dataList, setDataList] = useState(
-    initDataList.sort((a, b) => a.value - b.value)
+    Array.isArray(initDataList)
+      ? initDataList.sort((a, b) => a.value - b.value)
+      : initDataList
   );
   const [title, setTitle] = useState(getChartTitle(initType));
 
   const setChartByItem = (changedType, changedDataList) => {
     setType(changedType);
-    setDataList(changedDataList.sort((a, b) => a.value - b.value));
+    Array.isArray(changedDataList)
+      ? setDataList(changedDataList.sort((a, b) => a.value - b.value))
+      : setDataList(changedDataList);
   };
-
-  const chartData = {
-    title,
-    yAxis: dataList.map((data) => data.name),
-    xData: [
-      {
-        type: "bar",
-        data: dataList.map((curData) => {
-          return {
-            value: curData.value,
-            itemStyle: {
-              color: getThresholdColor(curData.value, setThreshold(type)),
+  if (type === "defect" || type === "structure") {
+    if (type === "defect") {
+      const chartData = {
+        title,
+        yAxis: dataList.name,
+        xData: [
+          {
+            name: "critical",
+            type: "bar",
+            stack: "total",
+            label: {
+              show: true,
             },
-          };
-        }),
-      },
-    ],
-  };
-  return {
-    setChartByItem,
-    chartData,
-  };
-};
-
-const chartData = {
-  title: "시스템신뢰도",
-  yAxis: ["A", "B", "C", "D", "E", "F"],
-  xData: [
-    {
-      type: "bar",
-      data: [
-        {
-          value: 10,
-          itemStyle: {
-            color: "#FF5252",
+            emphasis: {
+              focus: "series",
+            },
+            data: dataList.critical.map((data) => data.value),
+            itemStyle: {
+              color: "#FF5252",
+            },
           },
-        },
-        {
-          value: 25,
-          itemStyle: {
-            color: "#ff9933",
+          {
+            name: "high",
+            type: "bar",
+            stack: "total",
+            label: {
+              show: true,
+            },
+            emphasis: {
+              focus: "series",
+            },
+            data: dataList.high.map((data) => data.value),
+            itemStyle: {
+              color: "#FFCC00",
+            },
           },
-        },
-        {
-          value: 42,
-          itemStyle: {
-            color: "#009900",
+          {
+            name: "medium",
+            type: "bar",
+            stack: "total",
+            label: {
+              show: true,
+            },
+            emphasis: {
+              focus: "series",
+            },
+            data: dataList.medium.map((data) => data.value),
+            itemStyle: {
+              color: "#1A75FF",
+            },
           },
-        },
-        {
-          value: 7,
-          itemStyle: {
-            color: "#FF5252",
+          {
+            name: "low",
+            type: "bar",
+            stack: "total",
+            label: {
+              show: true,
+            },
+            emphasis: {
+              focus: "series",
+            },
+            data: dataList.low.map((data) => data.value),
+            itemStyle: {
+              color: "#2E8B57",
+            },
           },
-        },
-        {
-          value: 55,
-          itemStyle: {
-            color: "#3366ff",
+        ],
+      };
+      return {
+        setChartByItem,
+        chartData,
+      };
+    } else {
+      const chartData = {
+        title,
+        yAxis: dataList.name,
+        xData: [
+          {
+            name: "complexity",
+            type: "bar",
+            stack: "total",
+            label: {
+              show: true,
+            },
+            emphasis: {
+              focus: "series",
+            },
+            data: dataList.complexity.map((data) => data.value),
+            itemStyle: {
+              color: "#FF5252",
+            },
           },
-        },
-        {
-          value: 17,
-          itemStyle: {
-            color: "#FF5252",
+          {
+            name: "overlapping",
+            type: "bar",
+            stack: "total",
+            label: {
+              show: true,
+            },
+            emphasis: {
+              focus: "series",
+            },
+            data: dataList.overlapping.map((data) => data.value),
+            itemStyle: {
+              color: "#FFCC00",
+            },
           },
+          {
+            name: "scale",
+            type: "bar",
+            stack: "total",
+            label: {
+              show: true,
+            },
+            emphasis: {
+              focus: "series",
+            },
+            data: dataList.scale.map((data) => data.value),
+            itemStyle: {
+              color: "#1A75FF",
+            },
+          },
+        ],
+      };
+      return {
+        setChartByItem,
+        chartData,
+      };
+    }
+  } else {
+    const chartData = {
+      title,
+      yAxis: dataList.map((data) => data.name),
+      xData: [
+        {
+          type: "bar",
+          data: dataList.map((curData) => {
+            return {
+              value: curData.value,
+              itemStyle: {
+                color: getThresholdColor(curData.value, setThreshold(type)),
+              },
+            };
+          }),
         },
       ],
-    },
-  ],
+    };
+    return {
+      setChartByItem,
+      chartData,
+    };
+  }
 };
 
 export default useChartByItem;

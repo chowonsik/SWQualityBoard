@@ -9,13 +9,46 @@ function CardHover({ width, height, dataType, onClickClose }) {
       state: { dataType },
     });
   }
+
+  function handleClickSequel() {
+    switch (dataType) {
+      case "defect":
+        history.push({
+          pathname: "/system",
+          state: { dataType: "critical" },
+        });
+        break;
+      case "structure":
+        history.push({
+          pathname: "/system",
+          state: { dataType: "complexity" },
+        });
+        break;
+      case "functionalCompatibility":
+      case "testCoverage":
+      case "mtbf":
+        history.push({
+          pathname: "/system",
+          state: { dataType },
+        });
+        break;
+      case "codeReviewRate":
+      case "conventionRate":
+      case "deliveryRate":
+      case "receptionRate":
+        history.push({
+          pathname: "/team",
+          state: { dataType },
+        });
+    }
+  }
   return (
     <Wrapper width={width} height={height}>
       <CloseBtn id="close">
         <X onClick={onClickClose} />
       </CloseBtn>
       <Content>
-        <ItemBox>
+        <ItemBox onClick={handleClickSequel}>
           <GraphUp className="chart-icon" />
           <MenuTitle>지표 추이</MenuTitle>
         </ItemBox>
