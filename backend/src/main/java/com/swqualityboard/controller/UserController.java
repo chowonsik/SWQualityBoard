@@ -49,7 +49,7 @@ public class UserController {
     @PreAuthorize("hasAnyRole('DEVELOPER','ADMIN','EXECUTIVE')")
     public ResponseEntity<Response<UserInfoOutput>> getUserInfo(@AuthenticationPrincipal String userEmail) {
         log.info("[GET] /api/users");
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(new Response<>(userService.getUserInfo(userEmail), SUCCESS_SELECT_USER));
     }
 

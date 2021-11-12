@@ -743,7 +743,7 @@ Content-Length: 425
   "result" : {
     "accessToken" : "eyJhbGciOiJIUzUxMiJ9.eyJlbWFpbCI6InNzYWZ5QGdtYWlsLmNvbSIsIm5pY2tuYW1lIjoiYWRtaW4xIiwicm9sZSI6IlJPTEVfRVhFQ1VUSVZFIiwiZXhwIjoxNjM1OTkyNjMxfQ.NRZ-TGDwHPtWILCXT_8WhD4WIAB_Ks1wafScDd8UMDJy93mJMo2rrE4yZkZuM2JEjukA2eMudthkrYi5EzF21A"
   },
-  "timestamp" : "2021-11-11T01:55:55.236+00:00"
+  "timestamp" : "2021-11-12T04:39:24.936+00:00"
 }</code></pre>
 </div>
 </div>
@@ -862,7 +862,7 @@ Content-Length: 158
   "isSuccess" : false,
   "statusCode" : 401,
   "message" : "자격 증명에 실패하였습니다.",
-  "timestamp" : "2021-11-11T01:55:55.087+00:00"
+  "timestamp" : "2021-11-12T04:39:24.823+00:00"
 }</code></pre>
 </div>
 </div>
@@ -981,7 +981,7 @@ Content-Length: 188
   "isSuccess" : false,
   "statusCode" : 404,
   "message" : "해당하는 이메일을 가진 유저가 존재하지 않습니다.",
-  "timestamp" : "2021-11-11T01:55:55.296+00:00"
+  "timestamp" : "2021-11-12T04:39:24.966+00:00"
 }</code></pre>
 </div>
 </div>
@@ -1115,19 +1115,19 @@ Content-Length: 188
 <td class="tableblock halign-left valign-top"><p class="tableblock">팀 이름</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.systems</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.teams.[].systems</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">시스템 목록 결과</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.systems.[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.teams.[].systems.[].id</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">시스템 번호</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.systems.[].name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.teams.[].systems.[].name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">시스템 이름</p></td>
@@ -1164,7 +1164,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 740
+Content-Length: 760
 
 {
   "isSuccess" : true,
@@ -1180,20 +1180,20 @@ Content-Length: 740
     } ],
     "teams" : [ {
       "id" : "6184da9b17060cc9e4117e1d",
-      "name" : "개발 1팀"
-    } ],
-    "systems" : [ {
-      "id" : "6184c7e317060cc9e4117dc0",
-      "name" : "A"
-    }, {
-      "id" : "6184d76b17060cc9e4117de1",
-      "name" : "B"
-    }, {
-      "id" : "6184d77317060cc9e4117de3",
-      "name" : "C"
+      "name" : "개발 1팀",
+      "systems" : [ {
+        "id" : "6184c7e317060cc9e4117dc0",
+        "name" : "A"
+      }, {
+        "id" : "6184d76b17060cc9e4117de1",
+        "name" : "B"
+      }, {
+        "id" : "6184d77317060cc9e4117de3",
+        "name" : "C"
+      } ]
     } ]
   },
-  "timestamp" : "2021-11-11T01:56:00.411+00:00"
+  "timestamp" : "2021-11-12T04:39:28.147+00:00"
 }</code></pre>
 </div>
 </div>
@@ -1488,7 +1488,7 @@ Content-Length: 754
     "mtbf" : 440,
     "createdAt" : "2020-10-04"
   } ],
-  "timestamp" : "2021-11-11T01:55:58.791+00:00"
+  "timestamp" : "2021-11-12T04:39:26.704+00:00"
 }</code></pre>
 </div>
 </div>
@@ -1719,7 +1719,7 @@ Content-Length: 524
     "deliveryRate" : 74,
     "createdAt" : "2020-10-04"
   } ],
-  "timestamp" : "2021-11-11T01:55:59.697+00:00"
+  "timestamp" : "2021-11-12T04:39:27.491+00:00"
 }</code></pre>
 </div>
 </div>
@@ -1889,7 +1889,7 @@ Content-Length: 438
     "deliveryRate" : 74,
     "createdAt" : "2020-10-04"
   },
-  "timestamp" : "2021-11-11T01:55:59.665+00:00"
+  "timestamp" : "2021-11-12T04:39:27.447+00:00"
 }</code></pre>
 </div>
 </div>
@@ -2044,7 +2044,7 @@ Content-Length: 157
   "isSuccess" : true,
   "statusCode" : 201,
   "message" : "메모 생성에 성공하였습니다.",
-  "timestamp" : "2021-11-11T01:55:57.757+00:00"
+  "timestamp" : "2021-11-12T04:39:25.834+00:00"
 }</code></pre>
 </div>
 </div>
@@ -2186,7 +2186,7 @@ Content-Length: 157
   "isSuccess" : true,
   "statusCode" : 200,
   "message" : "메모 수정에 성공하였습니다.",
-  "timestamp" : "2021-11-11T01:55:57.990+00:00"
+  "timestamp" : "2021-11-12T04:39:25.919+00:00"
 }</code></pre>
 </div>
 </div>
@@ -2292,7 +2292,7 @@ Content-Length: 157
   "isSuccess" : true,
   "statusCode" : 200,
   "message" : "메모 삭제에 성공하였습니다.",
-  "timestamp" : "2021-11-11T01:55:57.947+00:00"
+  "timestamp" : "2021-11-12T04:39:25.882+00:00"
 }</code></pre>
 </div>
 </div>
@@ -2305,7 +2305,7 @@ Content-Length: 157
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2021-11-11 10:48:43 +0900
+Last updated 2021-11-12 13:15:16 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
