@@ -5,7 +5,7 @@ import com.swqualityboard.TestConfig;
 import com.swqualityboard.configuration.annotation.WithAuthUser;
 import com.swqualityboard.configuration.security.SecurityConfig;
 import com.swqualityboard.dto.system.SystemDto;
-import com.swqualityboard.dto.team.TeamDto;
+import com.swqualityboard.dto.team.TeamSystemDto;
 import com.swqualityboard.dto.user.select.UserInfoOutput;
 import com.swqualityboard.entity.Authority;
 import com.swqualityboard.service.UserService;
@@ -85,19 +85,18 @@ class UserControllerTest {
                 .role("ROLE_ADMIN")
                 .build();
         authorities.add(authority);
-        List<TeamDto> teamDtoList = new ArrayList<>();
-        teamDtoList.add(new TeamDto("6184da9b17060cc9e4117e1d","개발 1팀"));
+        List<TeamSystemDto> teamDtoList = new ArrayList<>();
         List<SystemDto> systemDtoList = new ArrayList<>();
         systemDtoList.add(new SystemDto("6184c7e317060cc9e4117dc0","A"));
         systemDtoList.add(new SystemDto("6184d76b17060cc9e4117de1","B"));
         systemDtoList.add(new SystemDto("6184d77317060cc9e4117de3","C"));
+        teamDtoList.add(new TeamSystemDto("6184da9b17060cc9e4117e1d","개발 1팀", systemDtoList));
         UserInfoOutput userInfoOutput = UserInfoOutput.builder()
                 .id("6184d96139ab91305d6fb8de")
                 .email("admin1@gmail.com")
                 .nickname("개발 1팀 관리자")
                 .authorities(authorities)
                 .teams(teamDtoList)
-                .systems(systemDtoList)
                 .build();
 
         //when
@@ -142,11 +141,11 @@ class UserControllerTest {
                                                 .description("팀 번호"),
                                         fieldWithPath("result.teams.[].name").type(JsonFieldType.STRING)
                                                 .description("팀 이름"),
-                                        fieldWithPath("result.systems").type(JsonFieldType.ARRAY)
+                                        fieldWithPath("result.teams.[].systems").type(JsonFieldType.ARRAY)
                                                 .description("시스템 목록 결과"),
-                                        fieldWithPath("result.systems.[].id").type(JsonFieldType.STRING)
+                                        fieldWithPath("result.teams.[].systems.[].id").type(JsonFieldType.STRING)
                                                 .description("시스템 번호"),
-                                        fieldWithPath("result.systems.[].name").type(JsonFieldType.STRING)
+                                        fieldWithPath("result.teams.[].systems.[].name").type(JsonFieldType.STRING)
                                                 .description("시스템 이름"),
                                         fieldWithPath("timestamp").type(JsonFieldType.STRING)
                                                 .description("api 호출 일시")
