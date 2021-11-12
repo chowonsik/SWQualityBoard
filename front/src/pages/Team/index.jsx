@@ -22,21 +22,40 @@ const standardTeam = standard.team;
 function Team() {
   const { authorities, teams } = JSON.parse(localStorage.getItem("loginUser"));
   const today = useDateString();
-  const userRole = authorities[0].role;
+  const isAccesible = authorities[0].role === "ROLE_EXECUTIVE";
   const [selectedTeam, setSelectedTeam] = useState(teams[0]);
   const [systems, setSystems] = useState(selectedTeam.systems);
   const [selectShow, setSelectShow] = useState(false);
   const [teamIndicators, setTeamIndicators] = useState({});
   const [wholeTeamIndicators, setwholeTeamIndicators] = useState({});
 
-  const [selectedSystem, setSelectedSystem] = useState(systems[0].id);
+  const [selectedSystemId, setSelectedSystemId] = useState(systems[0].id);
   const [systemIndicators, setSystemIndicators] = useState({});
 
   useEffect(() => {
     getTeamQuality(selectedTeam.id);
     getTeamQualityAverage();
-    getSystemQuality(selectedSystem);
+    getSystemQuality(selectedSystemId);
   }, []);
+
+  useEffect(() => {
+    getTeamQuality(selectedTeam.id);
+    getTeamQualityAverage();
+    const changeSystem = async () => {
+      await setSystems(selectedTeam.systems);
+    };
+    changeSystem();
+    setSelectedSystemId(selectedTeam.systems[0].id);
+  }, [selectedTeam]);
+
+  useEffect(() => {
+    getSystemQuality(selectedSystemId);
+  }, [selectedSystemId]);
+
+  function changeSelectedTeam(team) {
+    setSelectedTeam(team);
+    setSystems(team.systems);
+  }
 
   function getTeamQuality(teamId) {
     const params = {
@@ -136,13 +155,32 @@ function Team() {
   }
 
   function changeSelectedSystem(systemId) {
-    setSelectedSystem(systemId);
+    setSelectedSystemId(systemId);
     getSystemQuality(systemId);
   }
 
   return (
     <Wrapper>
-      <h1>{selectedTeam.name}</h1>
+      <TeamSelectorContainer selectShow={selectShow} isAccesible={isAccesible}>
+        <div
+          onClick={() => {
+            setSelectShow(!selectShow);
+          }}
+          className="selected-name"
+        >
+          {selectedTeam.name}
+          {isAccesible && <ChevronDown className="icon" />}
+        </div>
+      </TeamSelectorContainer>
+      {isAccesible && selectShow && (
+        <TeamSelector>
+          {teams.map((team, index) => (
+            <button key={index} onClick={() => setSelectedTeam(team)}>
+              {team.name}
+            </button>
+          ))}
+        </TeamSelector>
+      )}
       <Container>
         <div>
           <StyledCard height="240">
@@ -199,7 +237,7 @@ function Team() {
               <h2
                 className={
                   "system-name" +
-                  (selectedSystem === system.id ? " active" : "")
+                  (selectedSystemId === system.id ? " active" : "")
                 }
                 onClick={() => changeSelectedSystem(system.id)}
               >
