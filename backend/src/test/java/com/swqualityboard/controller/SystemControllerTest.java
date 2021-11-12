@@ -8,9 +8,6 @@ import com.swqualityboard.dto.memo.MemoDto;
 import com.swqualityboard.dto.system.SystemDto;
 import com.swqualityboard.dto.system.SystemQualityInput;
 import com.swqualityboard.dto.system.SystemQualityOutput;
-import com.swqualityboard.entity.Memo;
-import com.swqualityboard.entity.System;
-import com.swqualityboard.response.Response;
 import com.swqualityboard.service.SystemService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,9 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -37,7 +32,6 @@ import java.util.*;
 
 import static com.swqualityboard.ApiDocumentUtils.getDocumentRequest;
 import static com.swqualityboard.ApiDocumentUtils.getDocumentResponse;
-import static com.swqualityboard.response.ResponseStatus.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -115,7 +109,7 @@ class SystemControllerTest {
         systemQualityOutputList.add(systemQualityOutput);
 
         //when
-        doReturn(ResponseEntity.status(HttpStatus.OK).body(new Response<>(systemQualityOutputList, SUCCESS_SELECT_SYSTEM))).when(systemService).selectSystemQuality(any(), any(SystemQualityInput.class));
+        doReturn(systemQualityOutputList).when(systemService).selectSystemQuality(any(), any(SystemQualityInput.class));
 
         //then
         mockMvc.perform(get("/api/system-quality")

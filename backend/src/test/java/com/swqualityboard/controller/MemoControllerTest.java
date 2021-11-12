@@ -6,7 +6,6 @@ import com.swqualityboard.configuration.annotation.WithAuthUser;
 import com.swqualityboard.configuration.security.SecurityConfig;
 import com.swqualityboard.dto.memo.create.CreateMemoInput;
 import com.swqualityboard.dto.memo.update.UpdateMemoInput;
-import com.swqualityboard.response.Response;
 import com.swqualityboard.service.MemoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,9 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -34,9 +31,8 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import static com.swqualityboard.ApiDocumentUtils.getDocumentRequest;
 import static com.swqualityboard.ApiDocumentUtils.getDocumentResponse;
-import static com.swqualityboard.response.ResponseStatus.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -95,7 +91,7 @@ class MemoControllerTest {
                 .build();
 
         //when
-        doReturn(ResponseEntity.status(HttpStatus.CREATED).body(new Response<>(null, CREATED_MEMO))).when(memoService).createMemo(any(), any(CreateMemoInput.class));
+        doNothing().when(memoService).createMemo(any(), any(CreateMemoInput.class));
 
         //then
         mockMvc.perform(post("/api/memos")
@@ -143,7 +139,7 @@ class MemoControllerTest {
                 .build();
 
         //when
-        doReturn(ResponseEntity.status(HttpStatus.OK).body(new Response<>(null, SUCCESS_UPDATE_MEMO))).when(memoService).updateMemo(any(), any(UpdateMemoInput.class));
+        doNothing().when(memoService).updateMemo(any(), any(UpdateMemoInput.class));
 
         //then
         mockMvc.perform(patch("/api/memos/{id}", "memoId")
@@ -184,7 +180,7 @@ class MemoControllerTest {
         //given
 
         //when
-        doReturn(ResponseEntity.status(HttpStatus.OK).body(new Response<>(null, SUCCESS_DELETE_MEMO))).when(memoService).deleteMemo(any());
+        doNothing().when(memoService).deleteMemo(any());
 
         //then
         mockMvc.perform(delete("/api/memos/{id}", "memoId")
