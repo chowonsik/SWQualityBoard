@@ -1,7 +1,7 @@
 package com.swqualityboard.dto.user.select;
 
-import com.swqualityboard.dto.system.SystemDto;
-import com.swqualityboard.dto.team.TeamDto;
+
+import com.swqualityboard.dto.team.TeamSystemDto;
 import com.swqualityboard.entity.Authority;
 import lombok.*;
 
@@ -19,6 +19,5 @@ public class UserInfoOutput {
     private String email;
     private String nickname;
     private Set<Authority> authorities;
-    private List<TeamDto> teams;
-    private List<SystemDto> systems;
+    private List<TeamSystemDto> teams;
 }
