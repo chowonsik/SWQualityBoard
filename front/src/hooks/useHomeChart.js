@@ -1,13 +1,19 @@
 import { useState } from "react";
 
-const useHomeChart = (initSystems, initTeams) => {
+const useHomeChart = (initSystems, initTeams, initPastSystem, initPastTeam) => {
   const [systems, setSystems] = useState(initSystems);
   const [teams, setTeams] = useState(initTeams);
-
+  const [pastSystem, setPastSystem] = useState(initPastSystem);
+  const [pastTeam, setPastTeam] = useState(initPastTeam);
   const setHomeChart = (changedSystems, changedTeams) => {
     setSystems(changedSystems);
     setTeams(changedTeams);
   };
+  const setPastHomeChart = (changedPastSystem, changedPastTeam) => {
+    setPastSystem(changedPastSystem);
+    setPastTeam(changedPastTeam);
+  };
+
   const defects = {
     xData: ["critical", "high", "medium", "low"],
     yData: [
@@ -39,10 +45,26 @@ const useHomeChart = (initSystems, initTeams) => {
   };
 
   const defectsData = [
-    { category: "Critical", nowValue: systems["critical"], pastValue: null },
-    { category: "High", nowValue: systems["high"], pastValue: null },
-    { category: "Medium", nowValue: systems["medium"], pastValue: null },
-    { category: "Low", nowValue: systems["low"], pastValue: null },
+    {
+      category: "Critical",
+      nowValue: systems["critical"],
+      pastValue: pastSystem["critical"] ? pastSystem["critical"] : null,
+    },
+    {
+      category: "High",
+      nowValue: systems["high"],
+      pastValue: pastSystem["high"] ? pastSystem["hign"] : null,
+    },
+    {
+      category: "Medium",
+      nowValue: systems["medium"],
+      pastValue: pastSystem["medium"] ? pastSystem["medium"] : null,
+    },
+    {
+      category: "Low",
+      nowValue: systems["low"],
+      pastValue: pastSystem["low"] ? pastSystem["low"] : null,
+    },
   ];
 
   const systemReliability = {
@@ -82,25 +104,25 @@ const useHomeChart = (initSystems, initTeams) => {
     {
       category: "A",
       nowValue: systems["mtbf"]["A"],
-      pastValue: null,
+      pastValue: pastSystem["mtbf"]["A"],
       categoryColor: "#2E8B57",
     },
     {
       category: "B",
       nowValue: systems["mtbf"]["B"],
-      pastValue: null,
+      pastValue: pastSystem["mtbf"]["B"],
       categoryColor: "#1A75FF",
     },
     {
       category: "C",
       nowValue: systems["mtbf"]["C"],
-      pastValue: null,
+      pastValue: pastSystem["mtbf"]["C"],
       categoryColor: "#FFCC00",
     },
     {
       category: "D",
       nowValue: systems["mtbf"]["D"],
-      pastValue: null,
+      pastValue: pastSystem["mtbf"]["D"],
       categoryColor: "#FF5252",
     },
   ];
@@ -130,9 +152,21 @@ const useHomeChart = (initSystems, initTeams) => {
   };
 
   const structuralData = [
-    { category: "복잡도", nowValue: systems["complexity"], pastValue: null },
-    { category: "중복도", nowValue: systems["overlapping"], pastValue: null },
-    { category: "규모", nowValue: systems["scale"], pastValue: null },
+    {
+      category: "복잡도",
+      nowValue: systems["complexity"],
+      pastValue: pastSystem["complexity"],
+    },
+    {
+      category: "중복도",
+      nowValue: systems["overlapping"],
+      pastValue: pastSystem["overlapping"],
+    },
+    {
+      category: "규모",
+      nowValue: systems["scale"],
+      pastValue: pastSystem["scale"],
+    },
   ];
 
   const testCoverage = {
@@ -155,7 +189,7 @@ const useHomeChart = (initSystems, initTeams) => {
 
   const coverageData = {
     nowValue: systems["testCoverage"],
-    pastValue: null,
+    pastValue: pastSystem["testCoverage"],
   };
 
   const functionalCompatibility = {
@@ -178,7 +212,7 @@ const useHomeChart = (initSystems, initTeams) => {
 
   const functionalCompatibilityData = {
     nowValue: systems["functionalCompatibility"],
-    pastValue: null,
+    pastValue: pastSystem["functionalCompatibility"],
   };
 
   const codeReviewRate = {
@@ -200,7 +234,7 @@ const useHomeChart = (initSystems, initTeams) => {
   };
   const codeReviewRateData = {
     nowValue: teams["codeReviewRate"],
-    pastValue: null,
+    pastValue: pastTeam["codeReviewRate"],
   };
 
   const conventionRate = {
@@ -223,7 +257,7 @@ const useHomeChart = (initSystems, initTeams) => {
 
   const conventionRateData = {
     nowValue: teams["conventionRate"],
-    pastValue: null,
+    pastValue: pastTeam["conventionRate"],
   };
 
   const receptionRate = {
@@ -246,7 +280,7 @@ const useHomeChart = (initSystems, initTeams) => {
 
   const receptionRateData = {
     nowValue: teams["receptionRate"],
-    pastValue: null,
+    pastValue: pastTeam["receptionRate"],
   };
 
   const devLeadTime = teams["devLeadTime"];
@@ -270,11 +304,12 @@ const useHomeChart = (initSystems, initTeams) => {
   };
   const deliveryRateData = {
     nowValue: teams["deliveryRate"],
-    pastValue: null,
+    pastValue: pastTeam["deliveryRate"],
   };
-
+  //console.log(pastSystem);
   return {
     setHomeChart,
+    setPastHomeChart,
     defects,
     defectsData,
     systemReliability,

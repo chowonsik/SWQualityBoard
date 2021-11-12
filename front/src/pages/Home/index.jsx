@@ -38,11 +38,24 @@ function getToday() {
   ];
   const now = new Date();
   const year = now.getFullYear();
-  const month = months[now.getMonth()];
+  const month =
+    now.getMonth() + 1 < 10 ? `0${now.getMonth()}` : now.getMonth() + 1;
   const date = now.getDate() < 10 ? `0${now.getDate()}` : now.getDate();
   const day = days[now.getDay()];
   const result = [year, month, date, day];
   return result;
+}
+
+function getDate(past) {
+  const year = past.getFullYear();
+  const month =
+    past.getMonth() + 1 < 10 ? `0${past.getMonth()}` : past.getMonth() + 1;
+  const date = past.getDate() < 10 ? `0${past.getDate()}` : past.getDate();
+  return [year, month, date];
+}
+
+function handleLight(value) {
+  return parseInt(value) < 80;
 }
 
 function Home() {
@@ -78,6 +91,30 @@ function Home() {
     functionalCompatibility: 0,
     mtbf: {},
   });
+  const [pastSystemData, setPastSystemData] = useState({
+    critical: [],
+    high: [],
+    medium: [],
+    low: [],
+    complexity: [],
+    overlapping: [],
+    scale: [],
+    testCoverage: [],
+    functionalCompatibility: [],
+    mtbf: [],
+  });
+  const [pastSystemAvg, setPastSystemAvg] = useState({
+    critical: 0,
+    high: 0,
+    medium: 0,
+    low: 0,
+    complexity: 0,
+    overlapping: 0,
+    scale: 0,
+    testCoverage: 0,
+    functionalCompatibility: 0,
+    mtbf: {},
+  });
   const [teamList, setTeamList] = useState([]);
   const [teamData, setTeamData] = useState({
     codeReviewRate: [],
@@ -93,12 +130,33 @@ function Home() {
     devLeadTime: 0,
     deliveryRate: 0,
   });
+  const [pastTeamData, setPastTeamData] = useState({
+    codeReviewRate: [],
+    conventionRate: [],
+    receptionRate: [],
+    devLeadTime: [],
+    deliveryRate: [],
+  });
+  const [pastTeamAvg, setPastTeamAvg] = useState({
+    codeReviewRate: 0,
+    conventionRate: 0,
+    receptionRate: 0,
+    devLeadTime: 0,
+    deliveryRate: 0,
+  });
   const [systemCount, setSystemCount] = useState(10);
   const [teamCount, setTeamCount] = useState(3);
-  const homeChart = useHomeChart(systemAvg, teamAvg);
+  const homeChart = useHomeChart(
+    systemAvg,
+    teamAvg,
+    pastSystemAvg,
+    pastTeamAvg
+  );
+  const [isPastShow, setIsPastShow] = useState(false);
   // 경영진이 볼 수 있는 팀과 시스템의 정보를 저장
   useEffect(() => {
     const loginUser = JSON.parse(localStorage.getItem("loginUser"));
+    console.log(today);
     if (loginUser) {
       setSystemList(loginUser["systems"]);
       setTeamList(loginUser["teams"]);
@@ -106,6 +164,7 @@ function Home() {
       // 시스템과 팀에 대한 지표 데이터 불러온 후에 저장하기
       const teamIdList = loginUser["teams"].map((team) => team["id"]);
       const systemIdList = loginUser["systems"].map((system) => system["id"]);
+
       const teamParams = {
         teams: teamIdList,
         start: `${today[0]}-${today[1]}-${today[2]}`,
@@ -117,18 +176,26 @@ function Home() {
         end: `${today[0]}-${today[1]}-${today[2]}`,
       };
       requestGet("/team-quality", teamParams).then((res) => {
-        handleTeamData(res.result);
+        const teamObj = handleTeamData(res.result);
+        setTeamData(teamObj);
+        sessionStorage.setItem("teamData", JSON.stringify(teamObj));
       });
       requestGet("/system-quality", systemParams).then((res) => {
-        handleSystemData(res.result);
+        const systemObj = handleSystemData(res.result);
+        setSystemData(systemObj);
+        sessionStorage.setItem("systemData", JSON.stringify(systemObj));
       });
     }
   }, [today]);
 
   // 각 지표에 대한 평균값 구하기
   useEffect(() => {
-    handleSystemDataAvg(systemData);
-    handleTeamDataAvg(teamData);
+    const systemAvgObj = handleSystemDataAvg(systemData);
+    const teamAvgObj = handleTeamDataAvg(teamData);
+
+    setSystemAvg(systemAvgObj);
+    setTeamAvg(teamAvgObj);
+
     setSystemCount(systemList.length);
     setTeamCount(teamList.length);
   }, [systemData, teamData]);
@@ -138,8 +205,9 @@ function Home() {
     homeChart.setHomeChart(systemAvg, teamAvg);
   }, [systemAvg, teamAvg]);
 
-  // 모든 팀과 시스템 지표 데이터 불러오기
-  useEffect(() => {}, []);
+  useEffect(() => {
+    homeChart.setPastHomeChart(pastSystemAvg, pastTeamAvg);
+  }, [pastSystemAvg, pastTeamAvg]);
 
   useEffect(() => {
     if (curWidth > 768 && curWidth <= 1024) {
@@ -156,6 +224,47 @@ function Home() {
       setDateContainerWidth("100vw");
     }
   }, [curWidth]);
+
+  // 과거 데이터 불러오기
+  useEffect(() => {
+    const past = getDate(startDate);
+    const loginUser = JSON.parse(localStorage.getItem("loginUser"));
+    if (past[0] != today[0] || past[1] != today[1] || past[2] != today[2]) {
+      setIsPastShow(true);
+      const teamIdList = loginUser["teams"].map((team) => team["id"]);
+      const systemIdList = loginUser["systems"].map((system) => system["id"]);
+      const systemParams = {
+        systems: systemIdList,
+        start: `${past[0]}-${past[1]}-${past[2]}`,
+        end: `${past[0]}-${past[1]}-${past[2]}`,
+      };
+
+      const teamParams = {
+        teams: teamIdList,
+        start: `${past[0]}-${past[1]}-${past[2]}`,
+        end: `${past[0]}-${past[1]}-${past[2]}`,
+      };
+
+      requestGet("/system-quality", systemParams).then((res) => {
+        const systemObj = handleSystemData(res.result);
+        setPastSystemData(systemObj);
+      });
+      requestGet("/team-quality", teamParams).then((res) => {
+        const teamObj = handleTeamData(res.result);
+        setPastTeamData(teamObj);
+      });
+    } else {
+      setIsPastShow(false);
+    }
+  }, [startDate]);
+
+  // 각 지표에 대한 과거 평균값 구하기
+  useEffect(() => {
+    const pastSystemAvgObj = handleSystemDataAvg(pastSystemData);
+    const pastTeamAvgObj = handleTeamDataAvg(pastTeamData);
+    setPastSystemAvg(pastSystemAvgObj);
+    setPastTeamAvg(pastTeamAvgObj);
+  }, [pastSystemData, pastTeamData]);
 
   function handleClickMoreMenu(e) {
     const parent = e.target.parentNode.parentNode;
@@ -182,13 +291,22 @@ function Home() {
     let receptionRate = [];
     let devLeadTime = [];
     let deliveryRate = [];
-    teams.forEach((team) => {
-      codeReviewRate.push({ name: team.team.name, value: team.codeReviewRate });
-      conventionRate.push({ name: team.team.name, value: team.conventionRate });
-      receptionRate.push({ name: team.team.name, value: team.receptionRate });
-      devLeadTime.push({ name: team.team.name, value: team.devLeadTime });
-      deliveryRate.push({ name: team.team.name, value: team.deliveryRate });
-    });
+    if (teams) {
+      teams.forEach((team) => {
+        codeReviewRate.push({
+          name: team.team.name,
+          value: team.codeReviewRate,
+        });
+        conventionRate.push({
+          name: team.team.name,
+          value: team.conventionRate,
+        });
+        receptionRate.push({ name: team.team.name, value: team.receptionRate });
+        devLeadTime.push({ name: team.team.name, value: team.devLeadTime });
+        deliveryRate.push({ name: team.team.name, value: team.deliveryRate });
+      });
+    }
+
     const teamObj = {
       codeReviewRate,
       conventionRate,
@@ -196,8 +314,8 @@ function Home() {
       devLeadTime,
       deliveryRate,
     };
-    sessionStorage.setItem("teamData", JSON.stringify(teamObj));
-    setTeamData(teamObj);
+
+    return teamObj;
   }
 
   // 시스템관련 지표 저장하기
@@ -212,24 +330,29 @@ function Home() {
     let testCoverage = [];
     let functionalCompatibility = [];
     let mtbf = [];
-    systems.map((system) => {
-      critical.push({ name: system.system.name, value: system.critical });
-      high.push({ name: system.system.name, value: system.high });
-      medium.push({ name: system.system.name, value: system.medium });
-      low.push({ name: system.system.name, value: system.low });
-      complexity.push({ name: system.system.name, value: system.complexity });
-      overlapping.push({ name: system.system.name, value: system.overlapping });
-      scale.push({ name: system.system.name, value: system.scale });
-      testCoverage.push({
-        name: system.system.name,
-        value: system.testCoverage,
+    if (systems) {
+      systems.forEach((system) => {
+        critical.push({ name: system.system.name, value: system.critical });
+        high.push({ name: system.system.name, value: system.high });
+        medium.push({ name: system.system.name, value: system.medium });
+        low.push({ name: system.system.name, value: system.low });
+        complexity.push({ name: system.system.name, value: system.complexity });
+        overlapping.push({
+          name: system.system.name,
+          value: system.overlapping,
+        });
+        scale.push({ name: system.system.name, value: system.scale });
+        testCoverage.push({
+          name: system.system.name,
+          value: system.testCoverage,
+        });
+        functionalCompatibility.push({
+          name: system.system.name,
+          value: system.functionalCompatibility,
+        });
+        mtbf.push({ name: system.system.name, value: system.mtbf });
       });
-      functionalCompatibility.push({
-        name: system.system.name,
-        value: system.functionalCompatibility,
-      });
-      mtbf.push({ name: system.system.name, value: system.mtbf });
-    });
+    }
 
     const systemObj = {
       critical,
@@ -243,8 +366,8 @@ function Home() {
       functionalCompatibility,
       mtbf,
     };
-    sessionStorage.setItem("systemData", JSON.stringify(systemObj));
-    setSystemData(systemObj);
+
+    return systemObj;
   }
 
   // 팀, 시스템 지표들의 평균 구하기
@@ -276,7 +399,7 @@ function Home() {
         systemObj[key] = avg;
       }
     });
-    setSystemAvg(systemObj);
+    return systemObj;
   }
 
   function handleTeamDataAvg(teams) {
@@ -286,9 +409,9 @@ function Home() {
       const avg = Math.round(total / teamCount);
       teamObj[key] = avg;
     });
-    setTeamAvg(teamObj);
+    return teamObj;
   }
-  console.log(systemCount);
+
   return (
     <Wrapper>
       <DateContainer width={dateContainerWidth}>
@@ -309,7 +432,10 @@ function Home() {
               <BoxArrowUpRight onClick={handleClickMoreMenu} />
             </TitleAndMoreBtn>
             <CardContent>
-              <CountValue data={homeChart.defectsData} />
+              <CountValue
+                data={homeChart.defectsData}
+                isPastShow={isPastShow}
+              />
               <HomeChart
                 isPie={false}
                 chartData={homeChart.defects}
@@ -335,7 +461,10 @@ function Home() {
               <BoxArrowUpRight onClick={handleClickMoreMenu} />
             </TitleAndMoreBtn>
             <CardContent>
-              <CountValue data={homeChart.reliabilityData} />
+              <CountValue
+                data={homeChart.reliabilityData}
+                isPastShow={isPastShow}
+              />
               <HomeChart
                 isPie={true}
                 chartData={homeChart.systemReliability}
@@ -362,7 +491,10 @@ function Home() {
               <BoxArrowUpRight onClick={handleClickMoreMenu} />
             </TitleAndMoreBtn>
             <CardContent>
-              <CountValue data={homeChart.structuralData} />
+              <CountValue
+                data={homeChart.structuralData}
+                isPastShow={isPastShow}
+              />
               <HomeChart
                 isPie={false}
                 chartData={homeChart.structuralQuality}
@@ -378,7 +510,11 @@ function Home() {
           />
         </CardWrapper>
         <CardWrapper width={cardWidth} height={cardHeight}>
-          <Card width={cardWidth} height={cardHeight}>
+          <Card
+            width={cardWidth}
+            height={cardHeight}
+            isLight={handleLight(systemAvg["testCoverage"])}
+          >
             <TitleAndMoreBtn>
               <Indicator
                 indicatorTitle={"테스트커버리지"}
@@ -388,7 +524,10 @@ function Home() {
               <BoxArrowUpRight onClick={handleClickMoreMenu} />
             </TitleAndMoreBtn>
             <CardContent>
-              <PercentValue data={homeChart.coverageData} />
+              <PercentValue
+                data={homeChart.coverageData}
+                isPastShow={isPastShow}
+              />
               <HomeChart
                 isPie={true}
                 chartData={homeChart.testCoverage}
@@ -405,7 +544,11 @@ function Home() {
           />
         </CardWrapper>
         <CardWrapper width={cardWidth} height={cardHeight}>
-          <Card width={cardWidth} height={cardHeight}>
+          <Card
+            width={cardWidth}
+            height={cardHeight}
+            isLight={handleLight(systemAvg["functionalCompatibility"])}
+          >
             <TitleAndMoreBtn>
               <Indicator
                 indicatorTitle={"기능적합성"}
@@ -415,7 +558,10 @@ function Home() {
               <BoxArrowUpRight onClick={handleClickMoreMenu} />
             </TitleAndMoreBtn>
             <CardContent>
-              <PercentValue data={homeChart.functionalCompatibilityData} />
+              <PercentValue
+                data={homeChart.functionalCompatibilityData}
+                isPastShow={isPastShow}
+              />
               <HomeChart
                 isPie={true}
                 chartData={homeChart.functionalCompatibility}
@@ -432,7 +578,11 @@ function Home() {
           />
         </CardWrapper>
         <CardWrapper width={cardWidth} height={cardHeight}>
-          <Card width={cardWidth} height={cardHeight}>
+          <Card
+            width={cardWidth}
+            height={cardHeight}
+            isLight={handleLight(teamAvg["receptionRate"])}
+          >
             <TitleAndMoreBtn>
               <Indicator
                 indicatorTitle={"시스템접수율"}
@@ -442,7 +592,10 @@ function Home() {
               <BoxArrowUpRight onClick={handleClickMoreMenu} />
             </TitleAndMoreBtn>
             <CardContent>
-              <PercentValue data={homeChart.receptionRateData} />
+              <PercentValue
+                data={homeChart.receptionRateData}
+                isPastShow={isPastShow}
+              />
               <HomeChart
                 isPie={true}
                 chartData={homeChart.receptionRate}
@@ -459,7 +612,11 @@ function Home() {
           />
         </CardWrapper>
         <CardWrapper width={cardWidth} height={cardHeight}>
-          <Card width={cardWidth} height={cardHeight}>
+          <Card
+            width={cardWidth}
+            height={cardHeight}
+            isLight={handleLight(teamAvg["codeReviewRate"])}
+          >
             <TitleAndMoreBtn>
               <Indicator
                 indicatorTitle={"코드리뷰율"}
@@ -469,7 +626,10 @@ function Home() {
               <BoxArrowUpRight onClick={handleClickMoreMenu} />
             </TitleAndMoreBtn>
             <CardContent>
-              <PercentValue data={homeChart.codeReviewRateData} />
+              <PercentValue
+                data={homeChart.codeReviewRateData}
+                isPastShow={isPastShow}
+              />
               <HomeChart
                 isPie={true}
                 chartData={homeChart.codeReviewRate}
@@ -486,7 +646,11 @@ function Home() {
           />
         </CardWrapper>
         <CardWrapper width={cardWidth} height={cardHeight}>
-          <Card width={cardWidth} height={cardHeight}>
+          <Card
+            width={cardWidth}
+            height={cardHeight}
+            isLight={handleLight(teamAvg["conventionRate"])}
+          >
             <TitleAndMoreBtn>
               <Indicator
                 indicatorTitle={"코딩컨벤션"}
@@ -496,7 +660,10 @@ function Home() {
               <BoxArrowUpRight onClick={handleClickMoreMenu} />
             </TitleAndMoreBtn>
             <CardContent>
-              <PercentValue data={homeChart.conventionRateData} />
+              <PercentValue
+                data={homeChart.conventionRateData}
+                isPastShow={isPastShow}
+              />
               <HomeChart
                 isPie={true}
                 chartData={homeChart.conventionRate}
@@ -513,7 +680,11 @@ function Home() {
           />
         </CardWrapper>
         <CardWrapper width={cardWidth} height={cardHeight}>
-          <Card width={cardWidth} height={cardHeight}>
+          <Card
+            width={cardWidth}
+            height={cardHeight}
+            isLight={handleLight(teamAvg["deliveryRate"])}
+          >
             <TitleAndMoreBtn>
               <Indicator
                 indicatorTitle={"정시납기율"}
@@ -523,7 +694,10 @@ function Home() {
               <BoxArrowUpRight onClick={handleClickMoreMenu} />
             </TitleAndMoreBtn>
             <CardContent>
-              <PercentValue data={homeChart.deliveryRateData} />
+              <PercentValue
+                data={homeChart.deliveryRateData}
+                isPastShow={isPastShow}
+              />
               <HomeChart
                 isPie={true}
                 chartData={homeChart.deliveryRate}
