@@ -23,6 +23,20 @@ export const Category = styled.p`
   font-size: 0.8rem;
 `;
 
+export const ValueWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 export const NowValue = styled.p`
+  font-size: 1rem;
+  color: ${(props) =>
+    props.isPastShow && props.nowValue - props.pastValue < 0
+      ? colors.red
+      : colors.black};
+`;
+
+export const PastValue = styled.p`
+  display: ${(props) => (props.isPastShow ? "block" : "none")};
   font-size: 1rem;
 `;
