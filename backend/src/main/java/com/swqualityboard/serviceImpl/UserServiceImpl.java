@@ -6,6 +6,7 @@ import com.swqualityboard.dao.TeamRepository;
 import com.swqualityboard.dao.UserRepository;
 import com.swqualityboard.dto.system.SystemDto;
 import com.swqualityboard.dto.team.TeamDto;
+import com.swqualityboard.dto.team.TeamSystemDto;
 import com.swqualityboard.dto.user.select.UserInfoOutput;
 import com.swqualityboard.dto.user.signup.SignUpInput;
 import com.swqualityboard.entity.Authority;
@@ -82,17 +83,12 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findOneWithAuthoritiesByEmail(email).orElseThrow(
                 () -> new AuthorityNotFoundException("해당 권한이 존재하지 않습니다.")
         );
-        List<TeamDto> teams = new ArrayList<>();
-        List<SystemDto> systems = new ArrayList<>();
+        List<TeamSystemDto> teams = new ArrayList<>();
         for (String teamId : user.getTeams()) {
+            List<SystemDto> systems = new ArrayList<>();
             Team team = teamRepository.findById(teamId).orElseThrow(
                     () -> new TeamNotFoundException("해당 팀이 존재하지 않습니다.")
             );
-            TeamDto teamDto = TeamDto.builder()
-                    .id(team.getId())
-                    .name(team.getName())
-                    .build();
-            teams.add(teamDto);
 
             for (String systemId : team.getSystems()) {
                 System system = systemRepository.findById(systemId).orElseThrow(
@@ -105,6 +101,15 @@ public class UserServiceImpl implements UserService {
                         .build();
                 systems.add(systemDto);
             }
+
+
+            TeamSystemDto teamSystemDto = TeamSystemDto.builder()
+                    .id(team.getId())
+                    .name(team.getName())
+                    .systems(systems)
+                    .build();
+            teams.add(teamSystemDto);
+
         }
         return UserInfoOutput.builder()
                 .id(user.getId())
@@ -112,7 +117,6 @@ public class UserServiceImpl implements UserService {
                 .nickname(user.getNickname())
                 .authorities(user.getAuthorities())
                 .teams(teams)
-                .systems(systems)
                 .build();
     }
 }
