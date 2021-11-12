@@ -9,29 +9,31 @@ import {
   Wrapper,
   SystemTab,
   TeamManagement,
+  TeamSelectorContainer,
+  TeamSelector,
 } from "./styles";
 import { standard } from "../../data/standard";
 import { requestGet } from "../../lib/apis";
 import useDateString from "../../hooks/useDateString";
+import { ChevronDown } from "react-bootstrap-icons";
 
 const standardTeam = standard.team;
 
 function Team() {
-  const { authorities, systems, teams } = JSON.parse(
-    localStorage.getItem("loginUser")
-  );
-  const userRole = authorities[0].role;
-  const teamId = teams[0].id;
-  const teamName = teams[0].name;
+  const { authorities, teams } = JSON.parse(localStorage.getItem("loginUser"));
   const today = useDateString();
-
+  const userRole = authorities[0].role;
+  const [selectedTeam, setSelectedTeam] = useState(teams[0]);
+  const [systems, setSystems] = useState(selectedTeam.systems);
+  const [selectShow, setSelectShow] = useState(false);
   const [teamIndicators, setTeamIndicators] = useState({});
   const [wholeTeamIndicators, setwholeTeamIndicators] = useState({});
+
   const [selectedSystem, setSelectedSystem] = useState(systems[0].id);
   const [systemIndicators, setSystemIndicators] = useState({});
 
   useEffect(() => {
-    getTeamQuality(teamId);
+    getTeamQuality(selectedTeam.id);
     getTeamQualityAverage();
     getSystemQuality(selectedSystem);
   }, []);
@@ -57,7 +59,7 @@ function Team() {
     // api 요청
     return {
       title: {
-        text: `${teamName} 지표`,
+        text: `${selectedTeam.name} 지표`,
         textStyle: {
           fontSize: 20,
         },
@@ -67,7 +69,7 @@ function Team() {
       },
       legend: {
         right: 0,
-        data: ["개발팀 평균", teamName],
+        data: ["개발팀 평균", selectedTeam.name],
         padding: 5,
         textStyle: {
           fontSize: 16,
@@ -114,7 +116,7 @@ function Team() {
                 wholeTeamIndicators.receptionRate,
                 wholeTeamIndicators.devLeadTime,
               ],
-              name: teamName,
+              name: selectedTeam.name,
             },
           ],
         },
@@ -140,7 +142,7 @@ function Team() {
 
   return (
     <Wrapper>
-      <h1>{teamName}</h1>
+      <h1>{selectedTeam.name}</h1>
       <Container>
         <div>
           <StyledCard height="240">
