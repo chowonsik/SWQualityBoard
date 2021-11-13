@@ -1,6 +1,6 @@
 export const standard = {
   system: {
-    구조품질지수: { 복잡도: 3, 중요도: 3, 규모: 3 },
+    구조품질지수: { 복잡도: 3, 중복도: 3, 규모: 3 },
     중대결함수: {
       critical: 1,
       high: 3,
