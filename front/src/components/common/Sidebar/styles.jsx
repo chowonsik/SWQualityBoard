@@ -16,12 +16,15 @@ export const Side = styled.div`
 `;
 
 export const Menu = styled.ul`
+  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const Profile = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -43,6 +46,7 @@ export const ItemContainer = styled.div`
     content: "";
     position: absolute;
     top: 1.7rem;
+    left: 0;
     width: 0;
     height: 2px;
     background: ${colors.navy};
@@ -60,4 +64,28 @@ export const MenuItem = styled.li`
   :hover {
     color: ${colors.black};
   }
+`;
+export const NickName = styled.p`
+  color: ${colors.black};
+  font-size: ${fonts.md};
+  font-weight: bold;
+  width: 100%;
+`;
+
+export const LoginButton = styled.p`
+  color: ${colors.navy};
+  font-size: ${fonts.sm};
+  cursor: pointer;
+  width: 100%;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const LogoutButton = styled.div`
+  color: ${colors.navy};
+  font-size: ${fonts.md};
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 2rem;
 `;
