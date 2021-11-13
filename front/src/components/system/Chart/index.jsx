@@ -1,55 +1,68 @@
 import ReactECharts from "echarts-for-react";
 import { useEffect, useState } from "react";
 
-function Chart({ selectedData }) {
+const indicatorMap = {
+  complexity: "구조품질지수(복잡도)",
+  critical: "중대결함수(critical)",
+  high: "중대결함수(high)",
+  low: "중대결함수(low)",
+  medium: "중대결함수(medium)",
+  mtbf: "시스템신뢰도",
+  functionalCompatibility: "기능적합성",
+  overlapping: "구조품질지수(중복도)",
+  testCoverage: "테스트커버리지",
+  scale: "구조품질지수(규모)",
+};
+
+function Chart({ data, indicator = "testCoverage" }) {
   const [legends, setLegends] = useState([]);
   const [xAxis, setXAxis] = useState([]);
   const [series, setSeries] = useState([]);
 
-  function dateToString(date) {
-    const year = date.getFullYear();
-    const month =
-      date.getMonth() + 1 < 10
-        ? `0${date.getMonth() + 1}`
-        : date.getMonth() + 1;
-    const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
-    return `${year}-${month}-${day}`;
-  }
-
   function changeLegends() {
-    const newLegends = [];
-    for (let system in selectedData) {
-      newLegends.push(`시스템 ${system}`);
-    }
+    const set = data.reduce(
+      (prev, cur) => prev.add(`시스템 ${cur.system.name}`),
+      new Set()
+    );
+    const newLegends = [...set];
     setLegends(newLegends);
   }
 
   function changeXAxis() {
-    let dates;
-    for (let system in selectedData) {
-      dates = selectedData[system].map((data) => dateToString(data.date));
-      break;
-    }
-    setXAxis(dates);
+    const set = data.reduce((prev, cur) => prev.add(cur.createdAt), new Set());
+    const newXAxis = [...set];
+    newXAxis.sort();
+    setXAxis(newXAxis);
   }
 
   function changeSeries() {
-    const newSeries = [];
-    for (let system in selectedData) {
-      const values = selectedData[system].map((data) => data.testCoverage);
-      newSeries.push({
-        name: `시스템 ${system}`,
+    const newData = [...data];
+    newData.sort((o1, o2) => {
+      return o1.createdAt < o2.createdAt ? -1 : 1;
+    });
+    const set = data.reduce(
+      (prev, cur) => prev.add(`시스템 ${cur.system.name}`),
+      new Set()
+    );
+    const newLegends = [...set];
+    const newSeries = newLegends.map((legend) => {
+      return {
+        name: legend,
         type: "line",
-        data: values,
-      });
-    }
+        data: [],
+        smooth: true,
+      };
+    });
+    newData.forEach((item, i) => {
+      newSeries[i % newLegends.length].data.push(item[indicator]);
+    });
     setSeries(newSeries);
   }
 
   function getOptions() {
     return {
       title: {
-        text: "테스트 커버리지",
+        text: indicatorMap[indicator],
       },
       tooltip: {
         trigger: "axis",
@@ -77,10 +90,14 @@ function Chart({ selectedData }) {
   }
 
   useEffect(() => {
-    changeSeries();
     changeLegends();
     changeXAxis();
-  }, [selectedData]);
+    changeSeries();
+  }, [data]);
+
+  useEffect(() => {
+    changeSeries();
+  }, [indicator]);
 
   return (
     <ReactECharts
