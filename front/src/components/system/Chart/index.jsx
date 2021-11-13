@@ -50,6 +50,7 @@ function Chart({ data, indicator = "testCoverage" }) {
         name: legend,
         type: "line",
         data: [],
+        smooth: true,
       };
     });
     newData.forEach((item, i) => {

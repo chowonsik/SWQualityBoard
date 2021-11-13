@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "react-bootstrap-icons";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   ChartContainer,
-  ChartIndicator,
   DateSelectorContainer,
   Selectors,
   SystemSelector,
@@ -16,6 +15,7 @@ import RangeCalendar from "../../components/common/RangeCalendar";
 import Chart from "../../components/system/Chart";
 import MyTable from "../../components/system/Table";
 import Memo from "../../components/system/Memo";
+import ToastMessage from "../../components/common/ToastMessage";
 import { requestGet } from "../../lib/apis";
 
 function System() {
@@ -25,9 +25,47 @@ function System() {
   const [dateRange, setDateRange] = useState([null, null]);
   const [data, setData] = useState([]);
   const [memoOpened, setMemoOpened] = useState(false);
+  const [memo, setMemo] = useState({});
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastActive, setToastActive] = useState(false);
 
   const allCheckRef = useRef(null);
   const history = useHistory();
+  const location = useLocation();
+
+  function selectIndicator() {
+    if (location.state) {
+      setIndicator(location.state.dataType);
+    }
+  }
+
+  // 메모 변경되면 데이터에 있는 메모도 변경해주기
+  function updateMemo() {
+    if (memo.systemQualityId) {
+      const curMemoData = data.find((item) => item.id === memo.systemQualityId);
+      let newMemo = curMemoData.memo
+        ? { ...curMemoData.memo, systemQualityId: memo.systemQualityId }
+        : { systemQualityId: memo.systemQualityId };
+      setMemo(newMemo);
+    }
+  }
+
+  // 토스트 메세지 띄우기
+  function showToastMessage(message) {
+    setToastMessage(message);
+    setToastActive(true);
+  }
+
+  // 메모 열기
+  function openMemo(memo) {
+    setMemo(memo);
+    setMemoOpened(true);
+  }
+  // 메모 닫기
+  function closeMemo() {
+    setMemo({});
+    setMemoOpened(false);
+  }
 
   // 체크박스 체크 이벤트 핸들링
   function handleCheck(i) {
@@ -60,11 +98,15 @@ function System() {
       history.push("/login");
       return;
     }
-    const userSystems = JSON.parse(localStorage.getItem("loginUser")).systems;
+    const userTeams = JSON.parse(localStorage.getItem("loginUser")).teams;
+    const userSystems = userTeams.reduce(
+      (prev, cur) => [...prev, ...cur.systems],
+      []
+    );
     const newSystems = userSystems.map((systemInfo, i) => {
       return {
         name: `시스템 ${systemInfo.name}`,
-        isChecked: i === 0 ? true : false,
+        isChecked: i < 3 ? true : false,
         system: systemInfo.name,
         id: systemInfo.id,
       };
@@ -109,7 +151,9 @@ function System() {
     };
     requestGet("/system-quality", params)
       .then((data) => {
+        console.log(data.result);
         setData(data.result);
+        updateMemo();
       })
       .catch((err) => console.log(err));
   }
@@ -118,7 +162,12 @@ function System() {
     initSystems();
     initDateRange();
     initData();
+    selectIndicator();
   }, []);
+
+  useEffect(() => {
+    updateMemo();
+  }, [data]);
 
   useEffect(() => {
     if (dateRange[1]) {
@@ -186,15 +235,21 @@ function System() {
         <Chart data={data} indicator={indicator} />
       </ChartContainer>
       <TableContainer>
-        <MyTable
-          setMemoOpened={setMemoOpened}
-          data={data}
-          setIndicator={setIndicator}
-        />
+        <MyTable openMemo={openMemo} data={data} setIndicator={setIndicator} />
       </TableContainer>
       {memoOpened && (
-        <Memo memoOpened={memoOpened} setMemoOpened={setMemoOpened} />
+        <Memo
+          closeMemo={closeMemo}
+          memo={memo}
+          showToastMessage={showToastMessage}
+          initData={initData}
+        />
       )}
+      <ToastMessage
+        isActive={toastActive}
+        setIsActive={setToastActive}
+        message={toastMessage}
+      />
     </Wrapper>
   );
 }

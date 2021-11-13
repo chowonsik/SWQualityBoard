@@ -8,10 +8,9 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { flexbox } from "@mui/system";
 import { useEffect, useState } from "react";
-import { PencilSquare } from "react-bootstrap-icons";
+import { PencilFill, PencilSquare } from "react-bootstrap-icons";
 import { colors } from "../../../styles";
 import Indicator from "../../common/Indicator";
-import Memo from "../Memo";
 
 const columns = [
   { id: "date", label: "", minWidth: 120, align: "center" },
@@ -23,22 +22,29 @@ const columns = [
   { id: "complexity", label: "복잡도", minWidth: 80, align: "center" },
   { id: "overlapping", label: "중복도", minWidth: 80, align: "center" },
   { id: "scale", label: "규모", minWidth: 70, align: "center" },
-  { id: "mtbf", label: "", minWidth: 140, align: "center" },
+  { id: "mtbf", label: "", minWidth: 100, align: "center" },
   {
     id: "testCoverage",
     label: "",
-    minWidth: 140,
+    minWidth: 100,
     format: (value) => `${value}%`,
     align: "center",
   },
-  { id: "functionalCompatibility", label: "", minWidth: 120, align: "center" },
-  { id: "note", label: "", minWidth: 100, align: "center" },
+  {
+    id: "functionalCompatibility",
+    label: "",
+    minWidth: 100,
+    align: "center",
+    format: (value) => `${value}%`,
+  },
+  { id: "memo", label: "", minWidth: 100, align: "center" },
 ];
 
-function MyTable({ data, setMemoOpened, setIndicator }) {
+function MyTable({ data, openMemo, setIndicator }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
+  const loginUser = JSON.parse(localStorage.getItem("loginUser"));
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -48,6 +54,11 @@ function MyTable({ data, setMemoOpened, setIndicator }) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  function changeIndicator(indicator) {
+    setIndicator(indicator);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 
   function initRows() {
     const newRows = data.map((item) => {
@@ -64,7 +75,7 @@ function MyTable({ data, setMemoOpened, setIndicator }) {
         mtbf: item.mtbf,
         testCoverage: item.testCoverage,
         functionalCompatibility: item.functionalCompatibility,
-        note: item.memo,
+        memo: { ...item.memo, systemQualityId: item.id },
       };
     });
     setRows(newRows);
@@ -80,24 +91,23 @@ function MyTable({ data, setMemoOpened, setIndicator }) {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
+              <TableCell align="center" colSpan={1}>
                 일자
               </TableCell>
-              <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
+              <TableCell align="center" colSpan={1}>
                 시스템
               </TableCell>
-              <TableCell align="center" colSpan={4} style={{ zIndex: 0 }}>
+              <TableCell align="center" colSpan={4}>
                 <Indicator indicatorTitle="중대결함수" />
               </TableCell>
-              <TableCell align="center" colSpan={3} style={{ zIndex: 0 }}>
+              <TableCell align="center" colSpan={3}>
                 <Indicator indicatorTitle="구조품질지수" />
               </TableCell>
               <TableCell
                 align="center"
                 colSpan={1}
-                style={{ zIndex: 0 }}
                 onClick={() => {
-                  setIndicator("mtbf");
+                  changeIndicator("mtbf");
                 }}
               >
                 <Indicator indicatorTitle="시스템신뢰도" />
@@ -105,9 +115,8 @@ function MyTable({ data, setMemoOpened, setIndicator }) {
               <TableCell
                 align="center"
                 colSpan={1}
-                style={{ zIndex: 0 }}
                 onClick={() => {
-                  setIndicator("testCoverage");
+                  changeIndicator("testCoverage");
                 }}
               >
                 <Indicator indicatorTitle="테스트커버리지" />
@@ -115,26 +124,29 @@ function MyTable({ data, setMemoOpened, setIndicator }) {
               <TableCell
                 align="center"
                 colSpan={1}
-                style={{ zIndex: 0 }}
                 onClick={() => {
-                  setIndicator("functionalCompatibility");
+                  changeIndicator("functionalCompatibility");
                 }}
               >
                 <Indicator indicatorTitle="기능적합성" />
               </TableCell>
-              <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
+              <TableCell align="center" colSpan={1}>
                 비고
               </TableCell>
             </TableRow>
-            <TableRow>
+            <TableRow style={{ zIndex: 0, position: "relative" }}>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ top: 57, minWidth: column.minWidth, zIndex: 0 }}
+                  style={{
+                    top: 57,
+                    minWidth: column.minWidth,
+                    cursor: column.label.length > 0 ? "pointer" : "default",
+                  }}
                   onClick={() => {
                     if (column.label.length > 0) {
-                      setIndicator(column.id);
+                      changeIndicator(column.id);
                     }
                   }}
                 >
@@ -153,21 +165,26 @@ function MyTable({ data, setMemoOpened, setIndicator }) {
                       const value = row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {column.id === "note" ? (
+                          {column.id === "memo" ? (
                             <div
                               style={{
-                                display: "flex",
+                                display:
+                                  loginUser.authorities[0].role === "ROLE_ADMIN"
+                                    ? "flex"
+                                    : "none",
                                 justifyContent: "center",
                                 alignItems: "center",
                                 cursor: "pointer",
                                 color: `${colors.black}`,
                               }}
                               onClick={() => {
-                                setMemoOpened(true);
+                                openMemo(value);
                               }}
                             >
-                              <PencilSquare />
+                              {value.id ? <PencilSquare /> : <PencilFill />}
                             </div>
+                          ) : column.format && typeof value === "number" ? (
+                            column.format(value)
                           ) : (
                             value
                           )}
