@@ -64,37 +64,37 @@ function Login() {
   }
   function handleClickLogin(e) {
     e.preventDefault();
+
     email.onSubmit();
     password.onSubmit();
-    if (email.isValid && password.isValid) {
-      const data = {
-        email: email.value,
-        password: password.value,
-      };
-      requestPost("/authenticate", data)
-        .then((res) => {
-          switch (res.statusCode) {
-            case 200:
-              setAccessToken(res.result.accessToken).then(() => {
-                getUserInfo().then((res) => {
-                  setLoginUser(res.result);
-                  movePageByRole(res.result.authorities[0].role);
-                });
-              });
 
-              break;
-            case 401:
-              setToastActive(true);
-              setToastMessage("정확한 정보를 입력해주세요.");
-              break;
-            case 404:
-              setToastActive(true);
-              setToastMessage("존재하지 않는 사용자입니다.");
-              break;
-          }
-        })
-        .catch((err) => console.log(err));
-    }
+    const data = {
+      email: email.value,
+      password: password.value,
+    };
+    requestPost("/authenticate", data)
+      .then((res) => {
+        switch (res.statusCode) {
+          case 200:
+            setAccessToken(res.result.accessToken).then(() => {
+              getUserInfo().then((res) => {
+                setLoginUser(res.result);
+                movePageByRole(res.result.authorities[0].role);
+              });
+            });
+
+            break;
+          case 401:
+            setToastActive(true);
+            setToastMessage("정확한 정보를 입력해주세요.");
+            break;
+          case 404:
+            setToastActive(true);
+            setToastMessage("존재하지 않는 사용자입니다.");
+            break;
+        }
+      })
+      .catch((err) => console.log(err));
   }
   return (
     <Wrapper>
