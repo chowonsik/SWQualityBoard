@@ -23,20 +23,21 @@ function Team() {
   const { authorities, teams } = JSON.parse(localStorage.getItem("loginUser"));
   const today = useDateString();
   const isAccesible = authorities[0].role === "ROLE_EXECUTIVE";
-  const [selectedTeam, setSelectedTeam] = useState(teams[0]);
+
+  const storageTeam = JSON.parse(sessionStorage.getItem("selectedTeam"));
+  const storageSystem = sessionStorage.getItem("selectedSystem");
+
+  const [selectedTeam, setSelectedTeam] = useState(
+    storageTeam ? storageTeam : teams[0]
+  );
   const [systems, setSystems] = useState(selectedTeam.systems);
   const [selectShow, setSelectShow] = useState(false);
   const [teamIndicators, setTeamIndicators] = useState({});
   const [wholeTeamIndicators, setwholeTeamIndicators] = useState({});
-
-  const [selectedSystemId, setSelectedSystemId] = useState(systems[0].id);
+  const [selectedSystemId, setSelectedSystemId] = useState(
+    storageSystem ? storageSystem : systems[0].id
+  );
   const [systemIndicators, setSystemIndicators] = useState({});
-
-  useEffect(() => {
-    getTeamQuality(selectedTeam.id);
-    getTeamQualityAverage();
-    getSystemQuality(selectedSystemId);
-  }, []);
 
   useEffect(() => {
     getTeamQuality(selectedTeam.id);
@@ -45,11 +46,12 @@ function Team() {
       await setSystems(selectedTeam.systems);
     };
     changeSystem();
-    setSelectedSystemId(selectedTeam.systems[0].id);
+    sessionStorage.setItem("selectedTeam", JSON.stringify(selectedTeam));
   }, [selectedTeam]);
 
   useEffect(() => {
     getSystemQuality(selectedSystemId);
+    sessionStorage.setItem("selectedSystem", selectedSystemId);
   }, [selectedSystemId]);
 
   function getTeamQuality(teamId) {
@@ -170,7 +172,13 @@ function Team() {
       {isAccesible && selectShow && (
         <TeamSelector>
           {teams.map((team, index) => (
-            <button key={index} onClick={() => setSelectedTeam(team)}>
+            <button
+              key={index}
+              onClick={() => {
+                setSelectedTeam(team);
+                setSelectedSystemId(team.systems[0].id);
+              }}
+            >
               {team.name}
             </button>
           ))}
