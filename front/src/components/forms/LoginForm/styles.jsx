@@ -39,4 +39,5 @@ export const StyledButton = styled.button`
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   font-size: ${fonts.md};
+  cursor: pointer;
 `;

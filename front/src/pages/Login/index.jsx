@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router";
+import { UserDispatch } from "../../App";
 import LoginForm from "../../components/forms/LoginForm";
 
 import useAccount from "../../hooks/useAccount";
@@ -8,6 +9,7 @@ import ToastMessage from "../../components/common/ToastMessage";
 import { Wrapper } from "./styles";
 import { requestPost, requestGet } from "../../lib/apis";
 function Login() {
+  const dispatch = useContext(UserDispatch);
   const email = useAccount("", emailValidator);
   const password = useAccount("", passwordValidator);
   const [curWidth, setCurWidth] = useState(window.outerWidth);
@@ -43,7 +45,11 @@ function Login() {
   }
   async function setLoginUser(userInfo) {
     const loginUser = userInfo;
+
     await localStorage.setItem("loginUser", JSON.stringify(loginUser));
+
+    const nickName = JSON.parse(localStorage.getItem("loginUser"))["nickname"];
+    dispatch({ type: "CREATE_NICKNAME", nickName });
   }
 
   async function setAccessToken(accessToken) {
