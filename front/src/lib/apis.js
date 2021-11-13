@@ -1,5 +1,15 @@
 const baseURL = "https://k5f004.p.ssafy.io/api";
 
+export function request(method, url, data) {
+  return fetch(baseURL + url, {
+    method: method,
+    headers: getHeader(),
+    body: JSON.stringify(data),
+  })
+    .then((res) => res.json())
+    .catch((err) => err);
+}
+
 export function requestPost(url, data) {
   return fetch(baseURL + url, {
     method: "POST",
