@@ -30,10 +30,8 @@ function LoginForm({ email, password, inputWidth, onClick }) {
           {password.isValid ? "" : password.errorMessage}
         </ErrorMessage>
       </InputBox>
-      <InputBox>
-        <StyledButton width={inputWidth} onClick={onClick}>
-          로그인
-        </StyledButton>
+      <InputBox onClick={onClick}>
+        <StyledButton width={inputWidth}>로그인</StyledButton>
       </InputBox>
     </StyledForm>
   );

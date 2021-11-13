@@ -1,3 +1,4 @@
+import React, { useReducer } from "react";
 import "./App.css";
 import styled from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"; // 히스토리 모드 제거
@@ -10,32 +11,79 @@ import ChartByItem from "./pages/ChartByItem";
 import System from "./pages/System";
 import { useEffect, useState } from "react";
 import TeamTable from "./pages/TeamTable";
+import PublicRoute from "./lib/PublicRoute";
+import PrivateRoute from "./lib/PrivateRoute";
+
+const initialState = {
+  nickName: "",
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "CREATE_NICKNAME":
+      return {
+        ...state,
+        nickName: action.nickName,
+      };
+    case "REMOVE_NICKNAME":
+      return {
+        ...state,
+        nickName: "",
+      };
+    default:
+      return {
+        ...state,
+      };
+  }
+}
+
+export const UserDispatch = React.createContext(null);
+
 function App() {
   const [sidebarOpened, setSidebarOpened] = useState(true);
+  const [curWidth, setCurWidth] = useState(window.outerWidth);
+  const [state, dispatch] = useReducer(reducer, initialState);
+  useEffect(() => {
+    if (curWidth <= 1200) {
+      setSidebarOpened(false);
+    }
+  }, [curWidth]);
   function toggleSidebar() {
     setSidebarOpened(!sidebarOpened);
   }
 
   return (
     <div className="App">
-      <Header toggleSidebar={toggleSidebar} />
-      <Router>
-        <Sidebar sidebarOpened={sidebarOpened} />
-        <Center sidebarOpened={sidebarOpened}>
-          <Switch>
-            <Route path="/" exact={true} component={Home} />
-            <Route path="/login" exact={true} component={Login} />
-            <Route path="/team/table" exact={true} component={TeamTable} />
-            <Route path="/team" exact={true} component={Team} />
-            <Route path="/system" exact={true} component={System} />
-            <Route
-              path="/detail/chart/:type"
-              exact={true}
-              component={ChartByItem}
-            />
-          </Switch>
-        </Center>
-      </Router>
+      <UserDispatch.Provider value={dispatch}>
+        <Header toggleSidebar={toggleSidebar} />
+        <Router>
+          <Sidebar sidebarOpened={sidebarOpened} nickName={state.nickName} />
+          <Center sidebarOpened={sidebarOpened}>
+            <Switch>
+              <PrivateRoute path="/" exact={true} component={Home} />
+
+              <PublicRoute
+                restricted={true}
+                path="/login"
+                exact={true}
+                component={Login}
+              />
+              <PrivateRoute
+                path="/team/table"
+                exact={true}
+                component={TeamTable}
+              />
+              <PrivateRoute path="/team" exact={true} component={Team} />
+              <PrivateRoute path="/system" exact={true} component={System} />
+              <PrivateRoute
+                path="/detail/chart/:type"
+                exact={true}
+                component={ChartByItem}
+              />
+            </Switch>
+          </Center>
+        </Router>
+      </UserDispatch.Provider>
     </div>
   );
 }
