@@ -31,6 +31,7 @@ export const ItemBox = styled.div`
   align-items: center;
   color: white;
   font-size: 5rem;
+  cursor: pointer;
   &:hover {
     color: ${colors.yellow};
   }

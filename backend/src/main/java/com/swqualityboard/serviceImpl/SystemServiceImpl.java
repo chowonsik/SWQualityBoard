@@ -35,7 +35,7 @@ public class SystemServiceImpl implements SystemService {
     private final MongoTemplate mongoTemplate;
 
     @Override
-    public ResponseEntity<Response<Object>> selectSystemQuality(String email, SystemQualityInput systemQualityInput) {
+    public List<SystemQualityOutput> selectSystemQuality(String email, SystemQualityInput systemQualityInput) {
 
         User user = userRepository.findByEmailAndStatus(email, "ACTIVATE").orElseThrow(
                 () -> new UserNotFoundException("해당하는 이메일이 존재하지 않습니다.")
@@ -68,8 +68,7 @@ public class SystemServiceImpl implements SystemService {
                     .createdAt(systemQuality.getCreatedAt()).build();
             systemQualityOutputs.add(systemQualityOutput);
         }
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new Response<>(systemQualityOutputs, SUCCESS_SELECT_SYSTEM));
+        return systemQualityOutputs;
     }
 
 }

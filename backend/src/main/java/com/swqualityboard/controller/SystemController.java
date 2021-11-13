@@ -1,15 +1,21 @@
 package com.swqualityboard.controller;
 
 import com.swqualityboard.dto.system.SystemQualityInput;
+import com.swqualityboard.dto.system.SystemQualityOutput;
 import com.swqualityboard.response.Response;
 import com.swqualityboard.service.SystemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.util.List;
+
+import static com.swqualityboard.response.ResponseStatus.SUCCESS_SELECT_SYSTEM;
 
 @RestController
 @RequestMapping("/api")
@@ -26,9 +32,10 @@ public class SystemController {
      */
     // Params
     @GetMapping("/system-quality")
-    public ResponseEntity<Response<Object>> selectSystemQuality(@AuthenticationPrincipal String userEmail, @Valid SystemQualityInput systemQualityInput) {
+    public ResponseEntity<Response<List<SystemQualityOutput>>> selectSystemQuality(@AuthenticationPrincipal String userEmail, @Valid SystemQualityInput systemQualityInput) {
         log.info("[GET] /api/system-quality");
-        return systemService.selectSystemQuality(userEmail, systemQualityInput);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new Response<>(systemService.selectSystemQuality(userEmail, systemQualityInput), SUCCESS_SELECT_SYSTEM));
     }
 
 }

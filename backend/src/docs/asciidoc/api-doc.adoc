@@ -141,3 +141,81 @@ include::{snippets}/teamApi/select_team_quality/successful/http-request.adoc[]
 Response Example
 
 include::{snippets}/teamApi/select_team_quality/successful/http-response.adoc[]
+
+=== 5-2. 팀 SW 품질지표 평균 조회
+
+==== 팀 SW 품질지표 평균 조회 성공
+
+Request Header
+
+include::{snippets}/teamApi/select_team_quality_average/successful/request-headers.adoc[]
+
+include::{snippets}/teamApi/select_team_quality_average/successful/response-fields.adoc[]
+
+Request Example
+
+include::{snippets}/teamApi/select_team_quality_average/successful/http-request.adoc[]
+
+Response Example
+
+include::{snippets}/teamApi/select_team_quality_average/successful/http-response.adoc[]
+
+== 6. Memo API
+
+=== 6-1. 메모 작성
+
+==== 메모 작성 성공
+
+Request Header
+
+include::{snippets}/memoApi/create_memo/successful/request-headers.adoc[]
+
+include::{snippets}/memoApi/create_memo/successful/request-fields.adoc[]
+
+include::{snippets}/memoApi/create_memo/successful/response-fields.adoc[]
+
+Request Example
+
+include::{snippets}/memoApi/create_memo/successful/http-request.adoc[]
+
+Response Example
+
+include::{snippets}/memoApi/create_memo/successful/http-response.adoc[]
+
+=== 6-2. 메모 수정
+
+==== 메모 수정 성공
+
+Request Header
+
+include::{snippets}/memoApi/update_memo/successful/request-headers.adoc[]
+
+include::{snippets}/memoApi/update_memo/successful/request-fields.adoc[]
+
+include::{snippets}/memoApi/update_memo/successful/response-fields.adoc[]
+
+Request Example
+
+include::{snippets}/memoApi/update_memo/successful/http-request.adoc[]
+
+Response Example
+
+include::{snippets}/memoApi/update_memo/successful/http-response.adoc[]
+
+=== 6-3. 메모 삭제
+
+==== 메모 삭제 성공
+
+Request Header
+
+include::{snippets}/memoApi/delete_memo/successful/request-headers.adoc[]
+
+include::{snippets}/memoApi/delete_memo/successful/response-fields.adoc[]
+
+Request Example
+
+include::{snippets}/memoApi/delete_memo/successful/http-request.adoc[]
+
+Response Example
+
+include::{snippets}/memoApi/delete_memo/successful/http-response.adoc[]

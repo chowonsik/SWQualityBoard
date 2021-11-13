@@ -5,9 +5,9 @@ import com.swqualityboard.TestConfig;
 import com.swqualityboard.configuration.annotation.WithAuthUser;
 import com.swqualityboard.configuration.security.SecurityConfig;
 import com.swqualityboard.dto.team.TeamDto;
+import com.swqualityboard.dto.team.TeamQualityAvgOutput;
 import com.swqualityboard.dto.team.TeamQualityInput;
 import com.swqualityboard.dto.team.TeamQualityOutput;
-import com.swqualityboard.response.Response;
 import com.swqualityboard.service.TeamService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,9 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -35,7 +33,6 @@ import java.util.List;
 
 import static com.swqualityboard.ApiDocumentUtils.getDocumentRequest;
 import static com.swqualityboard.ApiDocumentUtils.getDocumentResponse;
-import static com.swqualityboard.response.ResponseStatus.SUCCESS_SELECT_TEAM_QUALITY;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -102,7 +99,7 @@ class TeamControllerTest {
         teamQualityOutputList.add(teamQualityOutput);
 
         //when
-        doReturn(ResponseEntity.status(HttpStatus.OK).body(new Response<>(teamQualityOutputList, SUCCESS_SELECT_TEAM_QUALITY))).when(teamService).selectTeamQuality(any(TeamQualityInput.class));
+        doReturn(teamQualityOutputList).when(teamService).selectTeamQuality(any(TeamQualityInput.class));
 
         //then
         mockMvc.perform(get("/api/team-quality")
@@ -154,6 +151,68 @@ class TeamControllerTest {
                                         fieldWithPath("result.[].deliveryRate").type(JsonFieldType.NUMBER)
                                                 .description("정시 납기율"),
                                         fieldWithPath("result.[].createdAt").type(JsonFieldType.STRING)
+                                                .description("팀 SW 품질지표 생성일"),
+                                        fieldWithPath("timestamp").type(JsonFieldType.STRING)
+                                                .description("api 호출 일시")
+                                )
+                        ));
+    }
+
+    @WithAuthUser(email = "admin1@gmail.com", role = "ROLE_ADMIN")
+    @DisplayName("팀 SW 품질지표 평균 조회 성공")
+    @Test
+    public void 팀_SW_품질지표_평균_조회_성공() throws Exception {
+        //given
+        TeamQualityAvgOutput teamQualityAvgOutput = TeamQualityAvgOutput.builder()
+                .totalNumberPeople(85)
+                .reviewedNumberPeople(51)
+                .codeReviewRate(60)
+                .conventionRate(58)
+                .receptionRate(53)
+                .devLeadTime(223)
+                .deliveryRate(74)
+                .createdAt("2020-10-04")
+                .build();
+
+        //when
+        doReturn(teamQualityAvgOutput).when(teamService).selectTeamQualityAvg();
+
+        //then
+        mockMvc.perform(get("/api/team-quality/average")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer JWT ACCESS TOKEN"))
+                .andDo(print())
+                .andExpect(status().isOk()) // 200
+                .andDo(
+                        document(
+                                "teamApi/select_team_quality_average/successful",
+                                getDocumentRequest(),
+                                getDocumentResponse(),
+                                requestHeaders(headerWithName("Authorization").description("Bearer JWT Token")),
+                                responseFields(
+                                        fieldWithPath("isSuccess").type(JsonFieldType.BOOLEAN)
+                                                .description("요청 성공 여부"),
+                                        fieldWithPath("statusCode").type(JsonFieldType.NUMBER)
+                                                .description("응답 상태"),
+                                        fieldWithPath("message").type(JsonFieldType.STRING)
+                                                .description("응답 메시지"),
+                                        fieldWithPath("result").type(JsonFieldType.OBJECT)
+                                                .description("시스템 SW 품질지표 조회 결과"),
+                                        fieldWithPath("result.totalNumberPeople").type(JsonFieldType.NUMBER)
+                                                .description("전체 개발인원"),
+                                        fieldWithPath("result.reviewedNumberPeople").type(JsonFieldType.NUMBER)
+                                                .description("코드리뷰 참여인원"),
+                                        fieldWithPath("result.codeReviewRate").type(JsonFieldType.NUMBER)
+                                                .description("코드 리뷰율"),
+                                        fieldWithPath("result.conventionRate").type(JsonFieldType.NUMBER)
+                                                .description("코딩 컨벤션 준수율"),
+                                        fieldWithPath("result.receptionRate").type(JsonFieldType.NUMBER)
+                                                .description("시스템 접수율"),
+                                        fieldWithPath("result.devLeadTime").type(JsonFieldType.NUMBER)
+                                                .description("개발리드타임"),
+                                        fieldWithPath("result.deliveryRate").type(JsonFieldType.NUMBER)
+                                                .description("정시 납기율"),
+                                        fieldWithPath("result.createdAt").type(JsonFieldType.STRING)
                                                 .description("팀 SW 품질지표 생성일"),
                                         fieldWithPath("timestamp").type(JsonFieldType.STRING)
                                                 .description("api 호출 일시")
