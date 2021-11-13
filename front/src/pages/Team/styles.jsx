@@ -7,12 +7,6 @@ export const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  h1 {
-    text-align: left;
-    font-size: ${fonts.xxl};
-    font-weight: 400;
-    margin-bottom: 40px;
-  }
 `;
 
 export const Container = styled.div`
@@ -68,5 +62,42 @@ export const SystemTab = styled.div`
   .active {
     font-weight: 700;
     color: ${colors.navy};
+  }
+`;
+
+export const TeamSelectorContainer = styled.div`
+  display: flex;
+  font-size: ${fonts.xxl};
+  margin-bottom: 1.4rem;
+
+  .selected-name {
+    cursor: ${(props) => (props.isAccesible ? "pointer" : "")};
+    display: flex;
+    gap: 5px;
+    .icon {
+      transform: ${(props) => (props.selectShow ? "rotateX(180deg)" : "")};
+      transition: all ease-in 0.1s;
+    }
+  }
+`;
+
+export const TeamSelector = styled(Card)`
+  position: absolute;
+  top: 4.8rem;
+  z-index: 80;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+  padding: 20px;
+  @media screen and (max-width: 768px) {
+    grid-template-columns: auto auto;
+  }
+  @media screen and (max-width: 475px) {
+    grid-template-columns: auto;
+  }
+  button {
+    cursor: pointer;
+    font-size: ${fonts.sm};
   }
 `;
