@@ -14,6 +14,7 @@ import RangeCalendar from "../../components/common/RangeCalendar";
 import TeamChart from "../../components/team/Chart";
 import MyTable from "../../components/team/Table";
 import { requestGet } from "../../lib/apis";
+import { useLocation } from "react-router";
 
 function TeamTable() {
   const { teams } = JSON.parse(localStorage.getItem("loginUser"));
@@ -22,7 +23,15 @@ function TeamTable() {
   const [indicator, setIndicator] = useState("codeReviewRate");
   const [dateRange, setDateRange] = useState(initDateRange());
   const [data, setData] = useState([]);
+
   const allCheckRef = useRef(null);
+  const location = useLocation();
+
+  function selectIndicator() {
+    if (location.state) {
+      setIndicator(location.state.dataType);
+    }
+  }
 
   useEffect(() => {
     // 전체 선택 핸들링
@@ -102,6 +111,7 @@ function TeamTable() {
 
   useEffect(() => {
     initTeams();
+    selectIndicator();
   }, []);
 
   useEffect(() => {
