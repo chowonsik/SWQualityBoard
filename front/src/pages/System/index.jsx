@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "react-bootstrap-icons";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   ChartContainer,
-  ChartIndicator,
   DateSelectorContainer,
   Selectors,
   SystemSelector,
@@ -15,17 +15,57 @@ import RangeCalendar from "../../components/common/RangeCalendar";
 import Chart from "../../components/system/Chart";
 import MyTable from "../../components/system/Table";
 import Memo from "../../components/system/Memo";
+import ToastMessage from "../../components/common/ToastMessage";
+import { requestGet } from "../../lib/apis";
 
 function System() {
   const [selectShow, setSelectShow] = useState(false);
   const [systems, setSystems] = useState([]);
-  const [indicator, setIndicator] = useState("테스트");
+  const [indicator, setIndicator] = useState("testCoverage");
   const [dateRange, setDateRange] = useState([null, null]);
-  const [data, setData] = useState({});
-  const [selectedData, setSelectedData] = useState({});
+  const [data, setData] = useState([]);
   const [memoOpened, setMemoOpened] = useState(false);
+  const [memo, setMemo] = useState({});
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastActive, setToastActive] = useState(false);
 
   const allCheckRef = useRef(null);
+  const history = useHistory();
+  const location = useLocation();
+
+  function selectIndicator() {
+    if (location.state) {
+      setIndicator(location.state.dataType);
+    }
+  }
+
+  // 메모 변경되면 데이터에 있는 메모도 변경해주기
+  function updateMemo() {
+    if (memo.systemQualityId) {
+      const curMemoData = data.find((item) => item.id === memo.systemQualityId);
+      let newMemo = curMemoData.memo
+        ? { ...curMemoData.memo, systemQualityId: memo.systemQualityId }
+        : { systemQualityId: memo.systemQualityId };
+      setMemo(newMemo);
+    }
+  }
+
+  // 토스트 메세지 띄우기
+  function showToastMessage(message) {
+    setToastMessage(message);
+    setToastActive(true);
+  }
+
+  // 메모 열기
+  function openMemo(memo) {
+    setMemo(memo);
+    setMemoOpened(true);
+  }
+  // 메모 닫기
+  function closeMemo() {
+    setMemo({});
+    setMemoOpened(false);
+  }
 
   // 체크박스 체크 이벤트 핸들링
   function handleCheck(i) {
@@ -54,15 +94,23 @@ function System() {
 
   // 시스템 설정(api로할지)
   function initSystems() {
-    let newSystems = [];
-    for (let i = 0; i < 10; i++) {
-      const name = `시스템 ${String.fromCharCode(65 + i)}`;
-      newSystems.push({
-        name: name,
-        isChecked: i === 0 ? true : false,
-        system: String.fromCharCode(65 + i),
-      });
+    if (!localStorage.getItem("loginUser")) {
+      history.push("/login");
+      return;
     }
+    const userTeams = JSON.parse(localStorage.getItem("loginUser")).teams;
+    const userSystems = userTeams.reduce(
+      (prev, cur) => [...prev, ...cur.systems],
+      []
+    );
+    const newSystems = userSystems.map((systemInfo, i) => {
+      return {
+        name: `시스템 ${systemInfo.name}`,
+        isChecked: i < 3 ? true : false,
+        system: systemInfo.name,
+        id: systemInfo.id,
+      };
+    });
     setSystems(newSystems);
   }
 
@@ -71,54 +119,59 @@ function System() {
     const date = new Date();
     const prevDate = new Date(date);
     prevDate.setDate(prevDate.getDate() - 7);
+    prevDate.setHours(0, 0, 0);
     setDateRange([prevDate, date]);
   }
 
   function initData() {
-    const data = {};
-    const startDate = new Date(2021, 0, 1);
-    const curDate = new Date();
-    for (let i = 0; i < 10; i++) {
-      const system = String.fromCharCode(65 + i);
-      data[system] = [];
-    }
-    while (startDate < curDate) {
-      for (let i = 0; i < 10; i++) {
-        const system = String.fromCharCode(65 + i);
-        const testCoverage = parseInt(Math.random() * 50 + 50);
-        data[system].push({
-          date: new Date(startDate),
-          testCoverage: testCoverage,
-        });
-      }
-      startDate.setDate(startDate.getDate() + 1);
-    }
-    setData(data);
-  }
-  // 시스템, 기간에 따라 데이터 선택
-  function selectData() {
     const selectedSystems = systems.filter((item) => item.isChecked);
-    const selectedData = {};
-    for (let system of selectedSystems) {
-      const range = [...dateRange];
-      range[0].setHours(0, 0, 0);
-      range[1].setHours(23, 59, 59);
-      selectedData[system.system] = data[system.system].filter(
-        (item) => item.date >= range[0] && item.date <= range[1]
-      );
-    }
-    setSelectedData(selectedData);
+    if (selectedSystems.length === 0) return;
+    const start = `${dateRange[0].getFullYear()}-${
+      dateRange[0].getMonth() + 1 < 10
+        ? `0${dateRange[0].getMonth() + 1}`
+        : dateRange[0].getMonth() + 1
+    }-${
+      dateRange[0].getDate() < 10
+        ? `0${dateRange[0].getDate()}`
+        : dateRange[0].getDate()
+    }`;
+    const end = `${dateRange[1].getFullYear()}-${
+      dateRange[1].getMonth() + 1 < 10
+        ? `0${dateRange[1].getMonth() + 1}`
+        : dateRange[1].getMonth() + 1
+    }-${
+      dateRange[1].getDate() < 10
+        ? `0${dateRange[1].getDate()}`
+        : dateRange[1].getDate()
+    }`;
+    const params = {
+      systems: selectedSystems.map((system) => system.id),
+      start: start,
+      end: end,
+    };
+    requestGet("/system-quality", params)
+      .then((data) => {
+        console.log(data.result);
+        setData(data.result);
+        updateMemo();
+      })
+      .catch((err) => console.log(err));
   }
 
   useEffect(() => {
     initSystems();
     initDateRange();
     initData();
+    selectIndicator();
   }, []);
 
   useEffect(() => {
+    updateMemo();
+  }, [data]);
+
+  useEffect(() => {
     if (dateRange[1]) {
-      selectData();
+      initData();
     }
   }, [systems, dateRange]);
 
@@ -179,14 +232,24 @@ function System() {
         </DateSelectorContainer>
       </Selectors>
       <ChartContainer>
-        <Chart selectedData={selectedData} />
+        <Chart data={data} indicator={indicator} />
       </ChartContainer>
       <TableContainer>
-        <MyTable setMemoOpened={setMemoOpened} />
+        <MyTable openMemo={openMemo} data={data} setIndicator={setIndicator} />
       </TableContainer>
       {memoOpened && (
-        <Memo memoOpened={memoOpened} setMemoOpened={setMemoOpened} />
+        <Memo
+          closeMemo={closeMemo}
+          memo={memo}
+          showToastMessage={showToastMessage}
+          initData={initData}
+        />
       )}
+      <ToastMessage
+        isActive={toastActive}
+        setIsActive={setToastActive}
+        message={toastMessage}
+      />
     </Wrapper>
   );
 }

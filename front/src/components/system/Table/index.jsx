@@ -7,11 +7,24 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { flexbox } from "@mui/system";
-import { useState } from "react";
-import { PencilSquare } from "react-bootstrap-icons";
+import { useEffect, useState } from "react";
+import { PencilFill, PencilSquare } from "react-bootstrap-icons";
 import { colors } from "../../../styles";
 import Indicator from "../../common/Indicator";
-import Memo from "../Memo";
+
+// 지표 하이라이트 기준
+const criteria = {
+  // 얘보다 크면 하이라이트
+  critical: 1,
+  high: 1,
+  medium: 1,
+  low: 1,
+
+  // 얘보다 작으면 하이라이트
+  testCoverage: 60,
+  mtbf: 400,
+  functionalCompatibility: 60,
+};
 
 const columns = [
   { id: "date", label: "", minWidth: 120, align: "center" },
@@ -23,119 +36,29 @@ const columns = [
   { id: "complexity", label: "복잡도", minWidth: 80, align: "center" },
   { id: "overlapping", label: "중복도", minWidth: 80, align: "center" },
   { id: "scale", label: "규모", minWidth: 70, align: "center" },
-  { id: "systemReliability", label: "", minWidth: 140, align: "center" },
+  { id: "mtbf", label: "", minWidth: 100, align: "center" },
   {
     id: "testCoverage",
     label: "",
-    minWidth: 140,
+    minWidth: 100,
     format: (value) => `${value}%`,
     align: "center",
   },
-  { id: "functionalSuitability", label: "", minWidth: 120, align: "center" },
-  { id: "note", label: "", minWidth: 100, align: "center" },
+  {
+    id: "functionalCompatibility",
+    label: "",
+    minWidth: 100,
+    align: "center",
+    format: (value) => `${value}%`,
+  },
+  { id: "memo", label: "", minWidth: 100, align: "center" },
 ];
 
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
-const rows = [
-  {
-    date: "2021-10-25",
-    system: "시스템 A",
-    critical: 5,
-    high: 5,
-    medium: 5,
-    low: 5,
-    complexity: 5,
-    overlapping: 5,
-    scale: 5,
-    systemReliability: 600,
-    testCoverage: 70,
-    functionalSuitability: 60,
-    note: "",
-  },
-  {
-    date: "2021-10-25",
-    system: "시스템 A",
-    critical: 5,
-    high: 5,
-    medium: 5,
-    low: 5,
-    complexity: 5,
-    overlapping: 5,
-    scale: 5,
-    systemReliability: 600,
-    testCoverage: 70,
-    functionalSuitability: 60,
-    note: "",
-  },
-  {
-    date: "2021-10-25",
-    system: "시스템 A",
-    critical: 5,
-    high: 5,
-    medium: 5,
-    low: 5,
-    complexity: 5,
-    overlapping: 5,
-    scale: 5,
-    systemReliability: 600,
-    testCoverage: 70,
-    functionalSuitability: 60,
-    note: "",
-  },
-  {
-    date: "2021-10-25",
-    system: "시스템 A",
-    critical: 5,
-    high: 5,
-    medium: 5,
-    low: 5,
-    complexity: 5,
-    overlapping: 5,
-    scale: 5,
-    systemReliability: 600,
-    testCoverage: 70,
-    functionalSuitability: 60,
-    note: "",
-  },
-  {
-    date: "2021-10-25",
-    system: "시스템 A",
-    critical: 5,
-    high: 5,
-    medium: 5,
-    low: 5,
-    complexity: 5,
-    overlapping: 5,
-    scale: 5,
-    systemReliability: 600,
-    testCoverage: 70,
-    functionalSuitability: 60,
-    note: "11",
-  },
-  {
-    date: "2021-10-25",
-    system: "시스템 A",
-    critical: 5,
-    high: 5,
-    medium: 5,
-    low: 5,
-    complexity: 5,
-    overlapping: 5,
-    scale: 5,
-    systemReliability: 600,
-    testCoverage: 70,
-    functionalSuitability: 60,
-    note: "",
-  },
-];
-
-function MyTable({ data, setMemoOpened }) {
+function MyTable({ data, openMemo, setIndicator }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rows, setRows] = useState([]);
+  const loginUser = JSON.parse(localStorage.getItem("loginUser"));
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -146,43 +69,124 @@ function MyTable({ data, setMemoOpened }) {
     setPage(0);
   };
 
+  function changeIndicator(indicator) {
+    setIndicator(indicator);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  // column 빨간색 처리
+  function isEnoughValue(indicator, value) {
+    if (["critical", "high", "medium", "low"].includes(indicator)) {
+      if (criteria[indicator] < value) return false;
+      else return true;
+    } else {
+      if (criteria[indicator] > value) return false;
+      else return true;
+    }
+  }
+
+  // row 빨간색 처리
+  function isNotEnough(row) {
+    if (row.critical > criteria.critical) return true;
+    if (row.high > criteria.high) return true;
+    if (row.medium > criteria.medium) return true;
+    if (row.low > criteria.low) return true;
+    if (row.testCoverage < criteria.testCoverage) return true;
+    if (row.mtbf < criteria.mtbf) return true;
+    if (row.functionalCompatibility < criteria.functionalCompatibility)
+      return true;
+    return false;
+  }
+  function initRows() {
+    const newRows = data.map((item) => {
+      const row = {
+        date: item.createdAt,
+        system: `시스템 ${item.system.name}`,
+        critical: item.critical,
+        high: item.high,
+        medium: item.medium,
+        low: item.low,
+        complexity: item.complexity,
+        overlapping: item.overlapping,
+        scale: item.scale,
+        mtbf: item.mtbf,
+        testCoverage: item.testCoverage,
+        functionalCompatibility: item.functionalCompatibility,
+        memo: { ...item.memo, systemQualityId: item.id },
+      };
+      row.enough = isNotEnough(row) ? false : true;
+      return row;
+    });
+    setRows(newRows);
+  }
+
+  useEffect(() => {
+    initRows();
+  }, [data]);
+
   return (
     <Paper sx={{ width: "100%" }} style={{ boxShadow: "none" }}>
       <TableContainer sx={{ height: "auto" }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
+              <TableCell align="center" colSpan={1}>
                 일자
               </TableCell>
-              <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
+              <TableCell align="center" colSpan={1}>
                 시스템
               </TableCell>
-              <TableCell align="center" colSpan={4} style={{ zIndex: 0 }}>
+              <TableCell align="center" colSpan={4}>
                 <Indicator indicatorTitle="중대결함수" />
               </TableCell>
-              <TableCell align="center" colSpan={3} style={{ zIndex: 0 }}>
+              <TableCell align="center" colSpan={3}>
                 <Indicator indicatorTitle="구조품질지수" />
               </TableCell>
-              <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
+              <TableCell
+                align="center"
+                colSpan={1}
+                onClick={() => {
+                  changeIndicator("mtbf");
+                }}
+              >
                 <Indicator indicatorTitle="시스템신뢰도" />
               </TableCell>
-              <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
+              <TableCell
+                align="center"
+                colSpan={1}
+                onClick={() => {
+                  changeIndicator("testCoverage");
+                }}
+              >
                 <Indicator indicatorTitle="테스트커버리지" />
               </TableCell>
-              <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
+              <TableCell
+                align="center"
+                colSpan={1}
+                onClick={() => {
+                  changeIndicator("functionalCompatibility");
+                }}
+              >
                 <Indicator indicatorTitle="기능적합성" />
               </TableCell>
-              <TableCell align="center" colSpan={1} style={{ zIndex: 0 }}>
+              <TableCell align="center" colSpan={1}>
                 비고
               </TableCell>
             </TableRow>
-            <TableRow>
+            <TableRow style={{ zIndex: 0, position: "relative" }}>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ top: 57, minWidth: column.minWidth, zIndex: 0 }}
+                  style={{
+                    top: 57,
+                    minWidth: column.minWidth,
+                    cursor: column.label.length > 0 ? "pointer" : "default",
+                  }}
+                  onClick={() => {
+                    if (column.label.length > 0) {
+                      changeIndicator(column.id);
+                    }
+                  }}
                 >
                   {column.label}
                 </TableCell>
@@ -194,28 +198,48 @@ function MyTable({ data, setMemoOpened }) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.code}
+                    style={{
+                      backgroundColor: row.enough
+                        ? "white"
+                        : "rgba(255,0,0,0.1)",
+                    }}
+                  >
                     {columns.map((column) => {
                       const value = row[column.id];
+                      const isEnough = isEnoughValue(column.id, value);
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {column.id === "note" ? (
+                          {column.id === "memo" ? (
                             <div
                               style={{
-                                display: "flex",
+                                display:
+                                  loginUser.authorities[0].role === "ROLE_ADMIN"
+                                    ? "flex"
+                                    : "none",
                                 justifyContent: "center",
                                 alignItems: "center",
                                 cursor: "pointer",
                                 color: `${colors.black}`,
                               }}
                               onClick={() => {
-                                setMemoOpened(true);
+                                openMemo(value);
                               }}
                             >
-                              <PencilSquare />
+                              {value.id ? <PencilSquare /> : <PencilFill />}
+                            </div>
+                          ) : column.format && typeof value === "number" ? (
+                            <div style={{ color: isEnough ? "black" : "red" }}>
+                              {column.format(value)}
                             </div>
                           ) : (
-                            value
+                            <div style={{ color: isEnough ? "black" : "red" }}>
+                              {value}
+                            </div>
                           )}
                         </TableCell>
                       );

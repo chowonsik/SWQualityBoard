@@ -18,19 +18,15 @@ import com.swqualityboard.exception.team.TeamNotFoundException;
 import com.swqualityboard.exception.user.AuthorityNotFoundException;
 import com.swqualityboard.exception.user.UserDuplicateEmailException;
 import com.swqualityboard.exception.user.UserDuplicateNicknameException;
-import com.swqualityboard.response.Response;
+import com.swqualityboard.exception.user.UserNotFoundException;
 import com.swqualityboard.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-
-import static com.swqualityboard.response.ResponseStatus.*;
 
 @Service("UserService")
 @RequiredArgsConstructor
@@ -80,8 +76,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserInfoOutput getUserInfo(String email) {
-        User user = userRepository.findOneWithAuthoritiesByEmail(email).orElseThrow(
-                () -> new AuthorityNotFoundException("해당 권한이 존재하지 않습니다.")
+        User user = userRepository.findByEmailAndStatus(email, "ACTIVATE").orElseThrow(
+                () -> new UserNotFoundException("해당하는 이메일을 가진 유저가 존재하지 않습니다.")
         );
         List<TeamSystemDto> teams = new ArrayList<>();
         for (String teamId : user.getTeams()) {
