@@ -9,6 +9,14 @@ import TableRow from "@mui/material/TableRow";
 import { useEffect, useState } from "react";
 import Indicator from "../../common/Indicator";
 
+const criteria = {
+  codeReviewRate: 50,
+  conventionRate: 50,
+  receptionRate: 40,
+  devLeadTime: 200,
+  deliveryRate: 50,
+};
+
 const columns = [
   { id: "date", label: "", minWidth: 120, align: "center" },
   { id: "team", label: "", minWidth: 100, align: "center" },
@@ -75,6 +83,22 @@ function MyTable({ data, setIndicator }) {
     setPage(0);
   };
 
+  //columns
+  function isEnoughValue(indicator, value) {
+    if (criteria[indicator] > value) return false;
+    else return true;
+  }
+
+  // row 빨간색 처리
+  function isNotEnough(row) {
+    if (row.codeReviewRate < criteria.codeReviewRate) return true;
+    if (row.conventionRate < criteria.conventionRate) return true;
+    if (row.receptionRate < criteria.receptionRate) return true;
+    if (row.devLeadTime < criteria.devLeadTime) return true;
+    if (row.testCoverage < criteria.testCoverage) return true;
+    return false;
+  }
+
   function initRows() {
     const newRows = data.map((item) => {
       const row = {
@@ -82,6 +106,7 @@ function MyTable({ data, setIndicator }) {
         team: item.team.name,
         date: item.createdAt,
       };
+      row.enough = isNotEnough(row) ? false : true;
       return row;
     });
     setRows(newRows);
@@ -165,14 +190,31 @@ function MyTable({ data, setIndicator }) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.code}
+                    style={{
+                      backgroundColor: row.enough
+                        ? "white"
+                        : "rgba(255,0,0,0.1)",
+                    }}
+                  >
                     {columns.map((column) => {
                       const value = row[column.id];
+                      const isEnough = isEnoughValue(column.id, value);
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
+                          {column.format && typeof value === "number" ? (
+                            <div style={{ color: isEnough ? "black" : "red" }}>
+                              {column.format(value)}
+                            </div>
+                          ) : (
+                            <div style={{ color: isEnough ? "black" : "red" }}>
+                              {value}
+                            </div>
+                          )}
                         </TableCell>
                       );
                     })}
