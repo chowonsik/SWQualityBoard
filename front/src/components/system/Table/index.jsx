@@ -12,6 +12,20 @@ import { PencilFill, PencilSquare } from "react-bootstrap-icons";
 import { colors } from "../../../styles";
 import Indicator from "../../common/Indicator";
 
+// 지표 하이라이트 기준
+const criteria = {
+  // 얘보다 크면 하이라이트
+  critical: 1,
+  high: 1,
+  medium: 1,
+  low: 1,
+
+  // 얘보다 작으면 하이라이트
+  testCoverage: 60,
+  mtbf: 400,
+  functionalCompatibility: 60,
+};
+
 const columns = [
   { id: "date", label: "", minWidth: 120, align: "center" },
   { id: "system", label: "", minWidth: 100, align: "center" },
@@ -59,10 +73,32 @@ function MyTable({ data, openMemo, setIndicator }) {
     setIndicator(indicator);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
+  // column 빨간색 처리
+  function isEnoughValue(indicator, value) {
+    if (["critical", "high", "medium", "low"].includes(indicator)) {
+      if (criteria[indicator] < value) return false;
+      else return true;
+    } else {
+      if (criteria[indicator] > value) return false;
+      else return true;
+    }
+  }
 
+  // row 빨간색 처리
+  function isNotEnough(row) {
+    if (row.critical > criteria.critical) return true;
+    if (row.high > criteria.high) return true;
+    if (row.medium > criteria.medium) return true;
+    if (row.low > criteria.low) return true;
+    if (row.testCoverage < criteria.testCoverage) return true;
+    if (row.mtbf < criteria.mtbf) return true;
+    if (row.functionalCompatibility < criteria.functionalCompatibility)
+      return true;
+    return false;
+  }
   function initRows() {
     const newRows = data.map((item) => {
-      return {
+      const row = {
         date: item.createdAt,
         system: `시스템 ${item.system.name}`,
         critical: item.critical,
@@ -77,6 +113,8 @@ function MyTable({ data, openMemo, setIndicator }) {
         functionalCompatibility: item.functionalCompatibility,
         memo: { ...item.memo, systemQualityId: item.id },
       };
+      row.enough = isNotEnough(row) ? false : true;
+      return row;
     });
     setRows(newRows);
   }
@@ -160,9 +198,20 @@ function MyTable({ data, openMemo, setIndicator }) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.code}
+                    style={{
+                      backgroundColor: row.enough
+                        ? "white"
+                        : "rgba(255,0,0,0.1)",
+                    }}
+                  >
                     {columns.map((column) => {
                       const value = row[column.id];
+                      const isEnough = isEnoughValue(column.id, value);
                       return (
                         <TableCell key={column.id} align={column.align}>
                           {column.id === "memo" ? (
@@ -184,9 +233,13 @@ function MyTable({ data, openMemo, setIndicator }) {
                               {value.id ? <PencilSquare /> : <PencilFill />}
                             </div>
                           ) : column.format && typeof value === "number" ? (
-                            column.format(value)
+                            <div style={{ color: isEnough ? "black" : "red" }}>
+                              {column.format(value)}
+                            </div>
                           ) : (
-                            value
+                            <div style={{ color: isEnough ? "black" : "red" }}>
+                              {value}
+                            </div>
                           )}
                         </TableCell>
                       );
