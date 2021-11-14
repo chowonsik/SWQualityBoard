@@ -37,7 +37,7 @@ function CardHover({ width, height, dataType, onClickClose }) {
       case "deliveryRate":
       case "receptionRate":
         history.push({
-          pathname: "/team",
+          pathname: "/team/table",
           state: { dataType },
         });
     }
