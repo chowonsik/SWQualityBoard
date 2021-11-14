@@ -21,12 +21,10 @@ const standardTeam = standard.team;
 
 function Team() {
   const { authorities, teams } = JSON.parse(localStorage.getItem("loginUser"));
-  const today = useDateString();
-  const isAccesible = authorities[0].role === "ROLE_EXECUTIVE";
-
   const storageTeam = JSON.parse(sessionStorage.getItem("selectedTeam"));
   const storageSystem = sessionStorage.getItem("selectedSystem");
-
+  const today = useDateString();
+  const isAccesible = authorities[0].role === "ROLE_EXECUTIVE";
   const [selectedTeam, setSelectedTeam] = useState(
     storageTeam ? storageTeam : teams[0]
   );
