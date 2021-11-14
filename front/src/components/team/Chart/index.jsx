@@ -1,61 +1,57 @@
 import ReactECharts from "echarts-for-react";
 import { useEffect, useState } from "react";
 
-function Chart({ selectedData }) {
+const indicatorMap = {
+  codeReviewRate: "코드리뷰율",
+  conventionRate: "코딩컨벤션",
+  receptionRate: "시스템접수율",
+  devLeadTime: "개발리드타임",
+  deliveryRate: "정시납기율",
+};
+
+function Chart({ data, indicator }) {
   const [legends, setLegends] = useState([]);
   const [xAxis, setXAxis] = useState([]);
   const [series, setSeries] = useState([]);
 
-  function dateToString(date) {
-    const year = date.getFullYear();
-    const month =
-      date.getMonth() + 1 < 10
-        ? `0${date.getMonth() + 1}`
-        : date.getMonth() + 1;
-    const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
-    return `${year}-${month}-${day}`;
-  }
-
   function changeLegends() {
-    const newLegends = [];
-    for (let team in selectedData) {
-      newLegends.push(`개발 ${team}팀`);
-    }
+    const set = data.reduce((prev, cur) => prev.add(cur.team.name), new Set());
+    const newLegends = [...set];
     setLegends(newLegends);
   }
 
   function changeXAxis() {
-    let dates;
-    for (let team in selectedData) {
-      dates = selectedData[team].map((data) => dateToString(data.date));
-      break;
-    }
-    setXAxis(dates);
+    const set = data.reduce((prev, cur) => prev.add(cur.createdAt), new Set());
+    const newXAxis = [...set];
+    newXAxis.sort();
+    setXAxis(newXAxis);
   }
 
   function changeSeries() {
-    const newSeries = [];
-    for (let team in selectedData) {
-      const values = selectedData[team].map((data) => data.testCoverage);
-      newSeries.push({
-        name: `개발 ${team}팀`,
+    const newData = [...data];
+    newData.sort((o1, o2) => {
+      return o1.createdAt < o2.createdAt ? -1 : 1;
+    });
+    const set = data.reduce((prev, cur) => prev.add(cur.team.name), new Set());
+    const newLegends = [...set];
+    const newSeries = newLegends.map((legend) => {
+      return {
+        name: legend,
         type: "line",
-        data: values,
-      });
-    }
+        data: [],
+        smooth: true,
+      };
+    });
+    newData.forEach((item, i) => {
+      newSeries[i % newLegends.length].data.push(item[indicator]);
+    });
     setSeries(newSeries);
   }
 
-  useEffect(() => {
-    changeLegends();
-    changeXAxis();
-    changeSeries();
-  }, [selectedData]);
-
-  function option() {
+  function getOptions() {
     return {
       title: {
-        text: "코드리뷰율",
+        text: indicatorMap[indicator],
       },
       tooltip: {
         trigger: "axis",
@@ -65,9 +61,9 @@ function Chart({ selectedData }) {
       },
       grid: {
         left: "3%",
-        right: "5%",
+        right: "3%",
         bottom: "3%",
-        top: 40,
+        top: 60,
         containLabel: true,
       },
       xAxis: {
@@ -82,8 +78,22 @@ function Chart({ selectedData }) {
     };
   }
 
+  useEffect(() => {
+    changeLegends();
+    changeXAxis();
+    changeSeries();
+  }, [data]);
+
+  useEffect(() => {
+    changeSeries();
+  }, [indicator]);
+
   return (
-    <ReactECharts option={option()} style={{ height: 400 }} notMerge={true} />
+    <ReactECharts
+      option={getOptions()}
+      style={{ height: 400 }}
+      notMerge={true}
+    />
   );
 }
 

@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "react-bootstrap-icons";
 import {
   ChartContainer,
-  ChartIndicator,
   DateSelectorContainer,
   Selectors,
   TeamSelector,
@@ -14,35 +13,54 @@ import RangeCalendar from "../../components/common/RangeCalendar";
 
 import TeamChart from "../../components/team/Chart";
 import MyTable from "../../components/team/Table";
+import { requestGet } from "../../lib/apis";
+import { useLocation } from "react-router";
 
 function TeamTable() {
+  const { teams } = JSON.parse(localStorage.getItem("loginUser"));
   const [selectShow, setSelectShow] = useState(false);
-  const [teams, setTeams] = useState([]);
-  const [indicator, setIndicator] = useState("코드리뷰율");
+  const [accessibleTeams, setAccessibleTeams] = useState(teams);
+  const [indicator, setIndicator] = useState("codeReviewRate");
   const [dateRange, setDateRange] = useState(initDateRange());
-  const [data, setData] = useState({});
-  const [selectedData, setSelectedData] = useState({});
+  const [data, setData] = useState([]);
 
   const allCheckRef = useRef(null);
+  const location = useLocation();
 
+  function selectIndicator() {
+    if (location.state) {
+      setIndicator(location.state.dataType);
+    }
+  }
+
+  useEffect(() => {
+    // 전체 선택 핸들링
+    if (allCheckRef.current) {
+      const selectedTeams = accessibleTeams.filter((team) => team.isChecked);
+      if (selectedTeams.length === teams.length) {
+        allCheckRef.current.checked = true;
+      } else {
+        allCheckRef.current.checked = false;
+      }
+    }
+  }, [accessibleTeams]);
   // 체크박스 체크 이벤트 핸들링
   function handleCheck(i) {
-    const newTeams = [...teams];
+    const newTeams = [...accessibleTeams];
     newTeams[i].isChecked = !newTeams[i].isChecked;
-    setTeams(newTeams);
+    setAccessibleTeams(newTeams);
   }
 
   // 전체선택 체크 핸들링
   function handleAllCheck(check) {
-    const newTeams = teams.map((team) => {
+    const newTeams = accessibleTeams.map((team) => {
       return { ...team, isChecked: check };
     });
-    setTeams(newTeams);
+    setAccessibleTeams(newTeams);
   }
 
-  // 선택된 시스템
   function getSelectedTeamString() {
-    const selectedTeams = teams.filter((team) => team.isChecked);
+    const selectedTeams = accessibleTeams.filter((team) => team.isChecked);
     if (selectedTeams.length === 0) return "선택된 개발팀 없음";
     else if (selectedTeams.length === 1) {
       return selectedTeams[0].name;
@@ -50,18 +68,16 @@ function TeamTable() {
     return `${selectedTeams[0].name}외 ${selectedTeams.length - 1}개`;
   }
 
-  // 시스템 설정(api로할지)
   function initTeams() {
     let newTeams = [];
-    for (let i = 1; i < 10; i++) {
-      const name = `개발 ${i}팀`;
+    accessibleTeams.map((team, i) => {
       newTeams.push({
-        name: name,
+        name: team.name,
         isChecked: i === 1 ? true : false,
-        team: i,
+        id: team.id,
       });
-    }
-    setTeams(newTeams);
+    });
+    setAccessibleTeams(newTeams);
   }
 
   function initDateRange() {
@@ -72,67 +88,37 @@ function TeamTable() {
     return [prevDate, date];
   }
 
-  //데이터생성
-  function initData() {
-    const data = {};
-    const startDate = new Date(2021, 0, 1);
-    const curDate = new Date();
-    for (let i = 1; i < 10; i++) {
-      const team = i;
-      data[team] = [];
-    }
-    while (startDate < curDate) {
-      for (let i = 1; i < 10; i++) {
-        const team = i;
-        const testCoverage = parseInt(Math.random() * 50 + 50);
-        data[team].push({
-          date: new Date(startDate),
-          testCoverage: testCoverage,
-        });
-      }
-      startDate.setDate(startDate.getDate() + 1);
-    }
-    setData(data);
+  function dateToString(date) {
+    const now = date;
+    const year = now.getFullYear();
+    const month = ("0" + (now.getMonth() + 1)).slice(-2);
+    const day = ("0" + now.getDate()).slice(-2);
+    const dateString = year + "-" + month + "-" + day;
+    return dateString;
   }
 
-  // 시스템, 기간에 따라 데이터 선택
-  function selectData() {
-    const selectedTeams = teams.filter((item) => item.isChecked);
-    const newData = {};
-    for (let team of selectedTeams) {
-      const range = [...dateRange];
-      range[0].setHours(0, 0, 0);
-      range[1].setHours(23, 59, 59);
-      newData[team.team] = data[team.team].filter(
-        (item) => item.date >= range[0] && item.date <= range[1]
-      );
-    }
-
-    setSelectedData(newData);
+  async function getData() {
+    const selectedTeams = accessibleTeams.filter((item) => item.isChecked);
+    const params = {
+      teams: selectedTeams.map((team) => team.id),
+      start: dateToString(dateRange[0]),
+      end: dateToString(dateRange[1]),
+    };
+    await requestGet("/team-quality", params).then((res) =>
+      setData(res.result)
+    );
   }
 
   useEffect(() => {
     initTeams();
-    initData();
+    selectIndicator();
   }, []);
 
   useEffect(() => {
     if (dateRange[1]) {
-      selectData();
+      getData();
     }
-  }, [teams, dateRange]);
-
-  useEffect(() => {
-    // 전체 선택 핸들링
-    if (allCheckRef.current) {
-      const selectedTeams = teams.filter((team) => team.isChecked);
-      if (selectedTeams.length === teams.length) {
-        allCheckRef.current.checked = true;
-      } else {
-        allCheckRef.current.checked = false;
-      }
-    }
-  }, [teams]);
+  }, [accessibleTeams, dateRange]);
 
   return (
     <Wrapper>
@@ -159,7 +145,7 @@ function TeamTable() {
                 />
                 전체선택
               </label>
-              {teams.map((team, i) => (
+              {accessibleTeams.map((team, i) => (
                 <label key={i}>
                   <input
                     type="checkbox"
@@ -179,10 +165,10 @@ function TeamTable() {
         </DateSelectorContainer>
       </Selectors>
       <ChartContainer>
-        <TeamChart selectedData={selectedData} />
+        <TeamChart data={data} indicator={indicator} />
       </ChartContainer>
       <TableContainer>
-        <MyTable />
+        <MyTable data={data} setIndicator={setIndicator} />
       </TableContainer>
     </Wrapper>
   );

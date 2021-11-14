@@ -6,100 +6,73 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Indicator from "../../common/Indicator";
+
+const criteria = {
+  codeReviewRate: 50,
+  conventionRate: 50,
+  receptionRate: 40,
+  devLeadTime: 200,
+  deliveryRate: 50,
+};
 
 const columns = [
   { id: "date", label: "", minWidth: 120, align: "center" },
   { id: "team", label: "", minWidth: 100, align: "center" },
-  { id: "totalPerson", label: "전체 개발인원", minWidth: 130, align: "center" },
   {
-    id: "codeReviewPerson",
+    id: "totalNumberPeople",
+    label: "전체 개발인원",
+    minWidth: 130,
+    align: "center",
+  },
+  {
+    id: "reviewedNumberPeople",
     label: "코드리뷰 참여인원",
     minWidth: 150,
     align: "center",
   },
   {
-    id: "codeReview",
+    id: "codeReviewRate",
     label: "코드리뷰율",
     minWidth: 110,
     align: "center",
     format: (value) => `${value}%`,
   },
   {
-    id: "codingConvention",
+    id: "conventionRate",
     label: "",
     minWidth: 150,
     align: "center",
     format: (value) => `${value}%`,
   },
   {
-    id: "systemRegistration",
+    id: "receptionRate",
     label: "",
     minWidth: 130,
     align: "center",
     format: (value) => `${value}%`,
   },
   {
-    id: "developingTime",
+    id: "devLeadTime",
     label: "",
     minWidth: 130,
     align: "center",
     format: (value) => `${value}h`,
   },
   {
-    id: "onTimeDelivery",
+    id: "deliveryRate",
     label: "",
     minWidth: 120,
     align: "center",
     format: (value) => `${value}%`,
   },
-
-  { id: "note", label: "", minWidth: 100, align: "center" },
 ];
 
-const rows = [
-  {
-    date: "2021-10-25",
-    team: "개발 1팀",
-    totalPerson: 100,
-    codeReviewPerson: 42,
-    codeReview: 42,
-    codingConvention: 10,
-    systemRegistration: 34,
-    developingTime: 43,
-    onTimeDelivery: 5,
-    note: "",
-  },
-  {
-    date: "2021-10-25",
-    team: "개발 1팀",
-    totalPerson: 100,
-    codeReviewPerson: 42,
-    codeReview: 42,
-    codingConvention: 10,
-    systemRegistration: 34,
-    developingTime: 43,
-    onTimeDelivery: 5,
-    note: "",
-  },
-  {
-    date: "2021-10-25",
-    team: "개발 1팀",
-    totalPerson: 100,
-    codeReviewPerson: 42,
-    codeReview: 42,
-    codingConvention: 10,
-    systemRegistration: 34,
-    developingTime: 43,
-    onTimeDelivery: 5,
-    note: "",
-  },
-];
-
-function MyTable({ data }) {
+function MyTable({ data, setIndicator }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rows, setRows] = useState([]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -109,6 +82,38 @@ function MyTable({ data }) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  //columns
+  function isEnoughValue(indicator, value) {
+    if (criteria[indicator] > value) return false;
+    else return true;
+  }
+
+  // row 빨간색 처리
+  function isNotEnough(row) {
+    if (row.codeReviewRate < criteria.codeReviewRate) return true;
+    if (row.conventionRate < criteria.conventionRate) return true;
+    if (row.receptionRate < criteria.receptionRate) return true;
+    if (row.devLeadTime < criteria.devLeadTime) return true;
+    if (row.testCoverage < criteria.testCoverage) return true;
+    return false;
+  }
+
+  function initRows() {
+    const newRows = data.map((item) => {
+      const row = {
+        ...item,
+        team: item.team.name,
+        date: item.createdAt,
+      };
+      row.enough = isNotEnough(row) ? false : true;
+      return row;
+    });
+    setRows(newRows);
+  }
+  useEffect(() => {
+    initRows();
+  }, [data]);
 
   return (
     <Paper sx={{ width: "100%" }} style={{ boxShadow: "none" }}>
@@ -122,23 +127,50 @@ function MyTable({ data }) {
               <TableCell align="center" colSpan={1}>
                 개발팀
               </TableCell>
-              <TableCell align="center" colSpan={3}>
+              <TableCell
+                align="center"
+                colSpan={3}
+                onClick={() => {
+                  setIndicator("codeReviewRate");
+                }}
+              >
                 <Indicator indicatorTitle={"코드리뷰율"} />
               </TableCell>
-              <TableCell align="center" colSpan={1}>
+              <TableCell
+                align="center"
+                colSpan={1}
+                onClick={() => {
+                  setIndicator("conventionRate");
+                }}
+              >
                 <Indicator indicatorTitle={"코딩컨벤션"} />
               </TableCell>
-              <TableCell align="center" colSpan={1}>
+              <TableCell
+                align="center"
+                colSpan={1}
+                onClick={() => {
+                  setIndicator("receptionRate");
+                }}
+              >
                 <Indicator indicatorTitle={"시스템접수율"} />
               </TableCell>
-              <TableCell align="center" colSpan={1}>
+              <TableCell
+                align="center"
+                colSpan={1}
+                onClick={() => {
+                  setIndicator("devLeadTime");
+                }}
+              >
                 <Indicator indicatorTitle={"개발리드타임"} />
               </TableCell>
-              <TableCell align="center" colSpan={1}>
+              <TableCell
+                align="center"
+                colSpan={1}
+                onClick={() => {
+                  setIndicator("delieveryRate");
+                }}
+              >
                 <Indicator indicatorTitle={"정시납기율"} />
-              </TableCell>
-              <TableCell align="center" colSpan={1}>
-                비고
               </TableCell>
             </TableRow>
             <TableRow>
@@ -158,14 +190,31 @@ function MyTable({ data }) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.code}
+                    style={{
+                      backgroundColor: row.enough
+                        ? "white"
+                        : "rgba(255,0,0,0.1)",
+                    }}
+                  >
                     {columns.map((column) => {
                       const value = row[column.id];
+                      const isEnough = isEnoughValue(column.id, value);
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
+                          {column.format && typeof value === "number" ? (
+                            <div style={{ color: isEnough ? "black" : "red" }}>
+                              {column.format(value)}
+                            </div>
+                          ) : (
+                            <div style={{ color: isEnough ? "black" : "red" }}>
+                              {value}
+                            </div>
+                          )}
                         </TableCell>
                       );
                     })}
