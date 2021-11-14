@@ -4,8 +4,6 @@ import com.swqualityboard.dao.AuthorityRepository;
 import com.swqualityboard.dao.SystemRepository;
 import com.swqualityboard.dao.TeamRepository;
 import com.swqualityboard.dao.UserRepository;
-import com.swqualityboard.dto.system.SystemDto;
-import com.swqualityboard.dto.team.TeamDto;
 import com.swqualityboard.dto.user.select.UserInfoOutput;
 import com.swqualityboard.dto.user.signup.SignUpInput;
 import com.swqualityboard.entity.Authority;
@@ -184,7 +182,6 @@ public class UserServiceTest {
         authorities.add(authority);
         List<String> systems = new ArrayList<>();
         systems.add("testId");
-        authorities.add(authority);
         List<String> teams = new ArrayList<>();
         teams.add("testId");
         User user = User.builder()

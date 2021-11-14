@@ -3,6 +3,7 @@ package com.swqualityboard.dto.system;
 import com.swqualityboard.dto.memo.MemoDto;
 import lombok.*;
 
+@ToString
 @Getter
 @Setter
 @Builder
