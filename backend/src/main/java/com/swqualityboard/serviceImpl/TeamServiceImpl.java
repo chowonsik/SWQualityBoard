@@ -39,7 +39,7 @@ public class TeamServiceImpl implements TeamService {
     public List<TeamQualityOutput> selectTeamQuality(TeamQualityInput teamQualityInput) {
 
         MatchOperation matchOperation = Aggregation.match(Criteria.where("team_id").in(teamQualityInput.getTeams()).and("createdAt").gte(teamQualityInput.getStart()).lte(teamQualityInput.getEnd()));
-        SortOperation sortOperation = sort(Sort.by(Sort.Direction.DESC, "createdAt"));
+        SortOperation sortOperation = sort(Sort.by(Sort.Direction.DESC, "createdAt").and(Sort.by(Sort.Direction.ASC, "team_id")));
         GroupOperation groupOperation = Aggregation.group("team_id", "createdAt")
                 .first("team_id").as("team_id")
                 .sum("totalNumberPeople").as("totalNumberPeople")
