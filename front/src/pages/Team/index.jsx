@@ -189,36 +189,38 @@ function Team() {
               <div className="team-indicators__first">
                 <IndicatorItem
                   emoji
-                  name="코드리뷰율"
+                  indicator="codeReviewRate"
                   value={teamIndicators?.codeReviewRate}
                   standard={standardTeam.코드리뷰율}
                   unit="%"
                 />
-                <IndicatorItem
-                  emoji
-                  name="코딩컨벤션 준수율"
-                  value={teamIndicators?.conventionRate}
-                  standard={standardTeam.컨벤션준수율}
-                  unit="%"
-                />
+                <div>
+                  <IndicatorItem
+                    emoji
+                    indicator="conventionRate"
+                    value={teamIndicators?.conventionRate}
+                    standard={standardTeam.컨벤션준수율}
+                    unit="%"
+                  />
+                </div>
               </div>
               <div className="team-indicators__second">
                 <IndicatorItem
                   emoji
-                  name="정시 납기율"
+                  indicator="deliveryRate"
                   value={teamIndicators?.deliveryRate}
                   standard={standardTeam.정시납기율}
                   unit="%"
                 />
                 <IndicatorItem
                   emoji
-                  name="시스템 접수율"
+                  indicator="receptionRate"
                   value={teamIndicators?.receptionRate}
                   standard={standardTeam.시스템접수율}
                   unit="%"
                 />
                 <IndicatorItem
-                  name="개발 리드타임"
+                  indicator="devLeadTime"
                   value={teamIndicators?.devLeadTime}
                   unit="h"
                 />
@@ -234,7 +236,7 @@ function Team() {
         </div>
         <StyledCard>
           <SystemTab>
-            {systems?.map((system, idx) => (
+            {systems?.map((system) => (
               <h2
                 className={
                   "system-name" +
