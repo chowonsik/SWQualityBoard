@@ -29,6 +29,11 @@ function Sidebar({ sidebarOpened, nickName }) {
       role: ["ROLE_ADMIN", "ROLE_DEVELOPER", "ROLE_EXECUTIVE"],
     },
     {
+      name: "팀 테이블",
+      path: "/team/table",
+      role: ["ROLE_ADMIN", "ROLE_DEVELOPER", "ROLE_EXECUTIVE"],
+    },
+    {
       name: "시스템 관리",
       path: "/system",
       role: ["ROLE_ADMIN", "ROLE_DEVELOPER", "ROLE_EXECUTIVE"],
