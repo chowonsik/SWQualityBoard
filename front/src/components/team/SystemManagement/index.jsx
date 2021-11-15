@@ -5,7 +5,7 @@ import { standard } from "../../../data/standard";
 
 const systemStandard = standard.system;
 
-function SystemManagement({ systemIndicators }) {
+function SystemManagement({ systemIndicators, onClick }) {
   function getIndicators(values, standardObj, standardLess = false) {
     const standardArr = Object.entries(standardObj);
     let cnt = 0;
@@ -24,7 +24,7 @@ function SystemManagement({ systemIndicators }) {
       }
       return (
         <IndicatorItem
-          name={standardArr[idx][0]}
+          indicator={standardArr[idx][0]}
           value={value}
           valueColor={color}
         />
@@ -59,7 +59,7 @@ function SystemManagement({ systemIndicators }) {
   }
 
   return (
-    <Wrapper>
+    <Wrapper onClick={onClick}>
       <div className="system-indicators__first">
         <IndicatorName>구조품질지수</IndicatorName>
         <div className="indicator-detail">
@@ -91,21 +91,21 @@ function SystemManagement({ systemIndicators }) {
       <div className="system-indicators__third">
         <IndicatorItem
           emoji
-          name="기능적합성"
+          indicator="functionalCompatibility"
           value={systemIndicators.functionalCompatibility}
           standard={systemStandard.기능적합성}
           unit="%"
         />
         <IndicatorItem
           emoji
-          name="테스트 커버리지"
+          indicator="testCoverage"
           value={systemIndicators.testCoverage}
           standard={systemStandard.테스트커버리지}
           unit="%"
         />
         <IndicatorItem
           emoji
-          name="시스템 신뢰도"
+          indicator="mtbf"
           value={systemIndicators.mtbf}
           standard={systemStandard.시스템신뢰도}
         />

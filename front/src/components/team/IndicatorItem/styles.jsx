@@ -29,4 +29,5 @@ export const Wrapper = styled.dl`
     font-size: 28px;
     margin-bottom: 8px;
   }
+  cursor: pointer;
 `;
