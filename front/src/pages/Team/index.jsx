@@ -192,6 +192,7 @@ function Team() {
                   indicator="codeReviewRate"
                   value={teamIndicators?.codeReviewRate}
                   standard={standardTeam.코드리뷰율}
+                  teamId={selectedTeam.id}
                   unit="%"
                 />
                 <div>
@@ -200,6 +201,7 @@ function Team() {
                     indicator="conventionRate"
                     value={teamIndicators?.conventionRate}
                     standard={standardTeam.컨벤션준수율}
+                    teamId={selectedTeam.id}
                     unit="%"
                   />
                 </div>
@@ -210,6 +212,7 @@ function Team() {
                   indicator="deliveryRate"
                   value={teamIndicators?.deliveryRate}
                   standard={standardTeam.정시납기율}
+                  teamId={selectedTeam.id}
                   unit="%"
                 />
                 <IndicatorItem
@@ -217,11 +220,13 @@ function Team() {
                   indicator="receptionRate"
                   value={teamIndicators?.receptionRate}
                   standard={standardTeam.시스템접수율}
+                  teamId={selectedTeam.id}
                   unit="%"
                 />
                 <IndicatorItem
                   indicator="devLeadTime"
                   value={teamIndicators?.devLeadTime}
+                  teamId={selectedTeam.id}
                   unit="h"
                 />
               </div>
@@ -248,7 +253,10 @@ function Team() {
               </h2>
             ))}
           </SystemTab>
-          <SystemManagement systemIndicators={systemIndicators} />
+          <SystemManagement
+            selectedSystemId={selectedSystemId}
+            systemIndicators={systemIndicators}
+          />
         </StyledCard>
       </Container>
     </Wrapper>
