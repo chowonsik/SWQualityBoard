@@ -8,6 +8,7 @@ import CountValue from "../../components/Home/CountValue";
 import PercentValue from "../../components/Home/PercentValue";
 import Indicator from "../../components/common/Indicator";
 import useHomeChart from "../../hooks/useHomeChart";
+import Warning from "../../components/Home/Warning";
 import {
   Wrapper,
   CardWrapper,
@@ -16,6 +17,9 @@ import {
   Grid,
   DateContainer,
   TodayContainer,
+  DateWrapper,
+  DateTitle,
+  TitleAndWarn,
 } from "./styles";
 import { BoxArrowUpRight } from "react-bootstrap-icons";
 import { requestGet } from "../../lib/apis";
@@ -108,6 +112,8 @@ function Home() {
     receptionRate: [],
     devLeadTime: [],
     deliveryRate: [],
+    reviewedNumberPeople: [],
+    totalNumberPeople: [],
   });
   const [teamAvg, setTeamAvg] = useState({
     codeReviewRate: 0,
@@ -115,6 +121,8 @@ function Home() {
     receptionRate: 0,
     devLeadTime: 0,
     deliveryRate: 0,
+    reviewedNumberPeople: 0,
+    totalNumberPeople: 0,
   });
   const [pastTeamData, setPastTeamData] = useState({
     codeReviewRate: [],
@@ -287,6 +295,8 @@ function Home() {
     let receptionRate = [];
     let devLeadTime = [];
     let deliveryRate = [];
+    let reviewedNumberPeople = [];
+    let totalNumberPeople = [];
     if (teams) {
       teams.forEach((team) => {
         codeReviewRate.push({
@@ -300,6 +310,14 @@ function Home() {
         receptionRate.push({ name: team.team.name, value: team.receptionRate });
         devLeadTime.push({ name: team.team.name, value: team.devLeadTime });
         deliveryRate.push({ name: team.team.name, value: team.deliveryRate });
+        reviewedNumberPeople.push({
+          name: team.team.name,
+          value: team.reviewedNumberPeople,
+        });
+        totalNumberPeople.push({
+          name: team.team.name,
+          value: team.totalNumberPeople,
+        });
       });
     }
 
@@ -309,6 +327,8 @@ function Home() {
       receptionRate,
       devLeadTime,
       deliveryRate,
+      reviewedNumberPeople,
+      totalNumberPeople,
     };
 
     return teamObj;
@@ -401,9 +421,14 @@ function Home() {
   function handleTeamDataAvg(teams) {
     const teamObj = {};
     Object.keys(teams).forEach((key) => {
-      const total = teams[key].reduce((prev, cur) => prev + cur.value, 0);
-      const avg = Math.round(total / teamCount);
-      teamObj[key] = avg;
+      if (key === "totalNumberPeople" || key === "reviewedNumberPeople") {
+        const total = teams[key].reduce((prev, cur) => prev + cur.value, 0);
+        teamObj[key] = total;
+      } else {
+        const total = teams[key].reduce((prev, cur) => prev + cur.value, 0);
+        const avg = Math.round(total / teamCount);
+        teamObj[key] = avg;
+      }
     });
     return teamObj;
   }
@@ -411,19 +436,32 @@ function Home() {
   return (
     <Wrapper>
       <DateContainer width={dateContainerWidth}>
-        <TodayContainer>{`${today[0]}.${today[1]}.${today[2]} ${today[3]}`}</TodayContainer>
-        <Calendar startDate={startDate} setStartDate={setStartDate} />
+        <DateWrapper>
+          <DateTitle>현재</DateTitle>
+          <TodayContainer>{`${today[0]}.${today[1]}.${today[2]} ${today[3]}`}</TodayContainer>
+        </DateWrapper>
+        <DateWrapper>
+          <DateTitle>비교 날짜</DateTitle>
+          <Calendar startDate={startDate} setStartDate={setStartDate} />
+        </DateWrapper>
       </DateContainer>
 
       <Grid>
         <CardWrapper width={cardWidth} height={cardHeight}>
-          <Card width={cardWidth} height={cardHeight}>
+          <Card
+            width={cardWidth}
+            height={cardHeight}
+            isLight={homeChart.defectsData[0].nowValue > 0}
+          >
             <TitleAndMoreBtn>
-              <Indicator
-                indicatorTitle={"중대결함수"}
-                fontSize={"lg"}
-                isBold={true}
-              />
+              <TitleAndWarn>
+                <Indicator
+                  indicatorTitle={"중대결함수"}
+                  fontSize={"lg"}
+                  isBold={true}
+                />
+                <Warning isLight={homeChart.defectsData[0].nowValue > 0} />
+              </TitleAndWarn>
 
               <BoxArrowUpRight onClick={handleClickMoreMenu} />
             </TitleAndMoreBtn>
@@ -431,6 +469,7 @@ function Home() {
               <CountValue
                 data={homeChart.defectsData}
                 isPastShow={isPastShow}
+                dataType={"defect"}
               />
               <HomeChart
                 isPie={false}
@@ -461,6 +500,7 @@ function Home() {
               <CountValue
                 data={homeChart.reliabilityData}
                 isPastShow={isPastShow}
+                dataType={"mtbf"}
               />
               <HomeChart
                 isPie={true}
@@ -477,36 +517,7 @@ function Home() {
             onClickClose={handleClickClose}
           />
         </CardWrapper>
-        <CardWrapper width={cardWidth} height={cardHeight}>
-          <Card width={cardWidth} height={cardHeight}>
-            <TitleAndMoreBtn>
-              <Indicator
-                indicatorTitle={"구조품질지수"}
-                fontSize={"lg"}
-                isBold={true}
-              />
-              <BoxArrowUpRight onClick={handleClickMoreMenu} />
-            </TitleAndMoreBtn>
-            <CardContent>
-              <CountValue
-                data={homeChart.structuralData}
-                isPastShow={isPastShow}
-              />
-              <HomeChart
-                isPie={false}
-                chartData={homeChart.structuralQuality}
-                width={cardWidth * (2 / 3)}
-                height={cardHeight}
-              />
-            </CardContent>
-          </Card>
-          <CardHover
-            width={cardWidth}
-            height={cardHeight}
-            dataType={"structure"}
-            onClickClose={handleClickClose}
-          />
-        </CardWrapper>
+
         <CardWrapper width={cardWidth} height={cardHeight}>
           <Card
             width={cardWidth}
@@ -514,11 +525,14 @@ function Home() {
             isLight={handleLight(systemAvg["testCoverage"])}
           >
             <TitleAndMoreBtn>
-              <Indicator
-                indicatorTitle={"테스트커버리지"}
-                fontSize={"lg"}
-                isBold={true}
-              />
+              <TitleAndWarn>
+                <Indicator
+                  indicatorTitle={"테스트커버리지"}
+                  fontSize={"lg"}
+                  isBold={true}
+                />
+                <Warning isLight={handleLight(systemAvg["testCoverage"])} />
+              </TitleAndWarn>
               <BoxArrowUpRight onClick={handleClickMoreMenu} />
             </TitleAndMoreBtn>
             <CardContent>
@@ -541,40 +555,7 @@ function Home() {
             onClickClose={handleClickClose}
           />
         </CardWrapper>
-        <CardWrapper width={cardWidth} height={cardHeight}>
-          <Card
-            width={cardWidth}
-            height={cardHeight}
-            isLight={handleLight(systemAvg["functionalCompatibility"])}
-          >
-            <TitleAndMoreBtn>
-              <Indicator
-                indicatorTitle={"기능적합성"}
-                fontSize={"lg"}
-                isBold={true}
-              />
-              <BoxArrowUpRight onClick={handleClickMoreMenu} />
-            </TitleAndMoreBtn>
-            <CardContent>
-              <PercentValue
-                data={homeChart.functionalCompatibilityData}
-                isPastShow={isPastShow}
-              />
-              <HomeChart
-                isPie={true}
-                chartData={homeChart.functionalCompatibility}
-                width={cardWidth * (2 / 3)}
-                height={cardHeight}
-              />
-            </CardContent>
-          </Card>
-          <CardHover
-            width={cardWidth}
-            height={cardHeight}
-            dataType={"functionalCompatibility"}
-            onClickClose={handleClickClose}
-          />
-        </CardWrapper>
+
         <CardWrapper width={cardWidth} height={cardHeight}>
           <Card
             width={cardWidth}
@@ -582,11 +563,14 @@ function Home() {
             isLight={handleLight(teamAvg["receptionRate"])}
           >
             <TitleAndMoreBtn>
-              <Indicator
-                indicatorTitle={"시스템접수율"}
-                fontSize={"lg"}
-                isBold={true}
-              />
+              <TitleAndWarn>
+                <Indicator
+                  indicatorTitle={"시스템접수율"}
+                  fontSize={"lg"}
+                  isBold={true}
+                />
+                <Warning isLight={handleLight(teamAvg["receptionRate"])} />
+              </TitleAndWarn>
               <BoxArrowUpRight onClick={handleClickMoreMenu} />
             </TitleAndMoreBtn>
             <CardContent>
@@ -616,11 +600,14 @@ function Home() {
             isLight={handleLight(teamAvg["codeReviewRate"])}
           >
             <TitleAndMoreBtn>
-              <Indicator
-                indicatorTitle={"코드리뷰율"}
-                fontSize={"lg"}
-                isBold={true}
-              />
+              <TitleAndWarn>
+                <Indicator
+                  indicatorTitle={"코드리뷰율"}
+                  fontSize={"lg"}
+                  isBold={true}
+                />
+                <Warning isLight={handleLight(teamAvg["codeReviewRate"])} />
+              </TitleAndWarn>
               <BoxArrowUpRight onClick={handleClickMoreMenu} />
             </TitleAndMoreBtn>
             <CardContent>
@@ -629,7 +616,7 @@ function Home() {
                 isPastShow={isPastShow}
               />
               <HomeChart
-                isPie={true}
+                isPie={false}
                 chartData={homeChart.codeReviewRate}
                 width={cardWidth * (2 / 3)}
                 height={cardHeight}
@@ -647,14 +634,57 @@ function Home() {
           <Card
             width={cardWidth}
             height={cardHeight}
+            isLight={handleLight(systemAvg["functionalCompatibility"])}
+          >
+            <TitleAndMoreBtn>
+              <TitleAndWarn>
+                <Indicator
+                  indicatorTitle={"기능적합성"}
+                  fontSize={"lg"}
+                  isBold={true}
+                />
+                <Warning
+                  isLight={handleLight(systemAvg["functionalCompatibility"])}
+                />
+              </TitleAndWarn>
+              <BoxArrowUpRight onClick={handleClickMoreMenu} />
+            </TitleAndMoreBtn>
+            <CardContent>
+              <PercentValue
+                data={homeChart.functionalCompatibilityData}
+                isPastShow={isPastShow}
+              />
+              <HomeChart
+                isPie={true}
+                chartData={homeChart.functionalCompatibility}
+                width={cardWidth * (2 / 3)}
+                height={cardHeight}
+              />
+            </CardContent>
+          </Card>
+          <CardHover
+            width={cardWidth}
+            height={cardHeight}
+            dataType={"functionalCompatibility"}
+            onClickClose={handleClickClose}
+          />
+        </CardWrapper>
+
+        <CardWrapper width={cardWidth} height={cardHeight}>
+          <Card
+            width={cardWidth}
+            height={cardHeight}
             isLight={handleLight(teamAvg["conventionRate"])}
           >
             <TitleAndMoreBtn>
-              <Indicator
-                indicatorTitle={"코딩컨벤션"}
-                fontSize={"lg"}
-                isBold={true}
-              />
+              <TitleAndWarn>
+                <Indicator
+                  indicatorTitle={"코딩컨벤션"}
+                  fontSize={"lg"}
+                  isBold={true}
+                />
+                <Warning isLight={handleLight(teamAvg["conventionRate"])} />
+              </TitleAndWarn>
               <BoxArrowUpRight onClick={handleClickMoreMenu} />
             </TitleAndMoreBtn>
             <CardContent>
@@ -684,11 +714,14 @@ function Home() {
             isLight={handleLight(teamAvg["deliveryRate"])}
           >
             <TitleAndMoreBtn>
-              <Indicator
-                indicatorTitle={"정시납기율"}
-                fontSize={"lg"}
-                isBold={true}
-              />
+              <TitleAndWarn>
+                <Indicator
+                  indicatorTitle={"정시납기율"}
+                  fontSize={"lg"}
+                  isBold={true}
+                />
+                <Warning isLight={handleLight(teamAvg["deliveryRate"])} />
+              </TitleAndWarn>
               <BoxArrowUpRight onClick={handleClickMoreMenu} />
             </TitleAndMoreBtn>
             <CardContent>
@@ -708,6 +741,37 @@ function Home() {
             width={cardWidth}
             height={cardHeight}
             dataType={"deliveryRate"}
+            onClickClose={handleClickClose}
+          />
+        </CardWrapper>
+        <CardWrapper width={cardWidth} height={cardHeight}>
+          <Card width={cardWidth} height={cardHeight}>
+            <TitleAndMoreBtn>
+              <Indicator
+                indicatorTitle={"구조품질지수"}
+                fontSize={"lg"}
+                isBold={true}
+              />
+              <BoxArrowUpRight onClick={handleClickMoreMenu} />
+            </TitleAndMoreBtn>
+            <CardContent>
+              <CountValue
+                data={homeChart.structuralData}
+                isPastShow={isPastShow}
+                dataType={"structure"}
+              />
+              <HomeChart
+                isPie={false}
+                chartData={homeChart.structuralQuality}
+                width={cardWidth * (2 / 3)}
+                height={cardHeight}
+              />
+            </CardContent>
+          </Card>
+          <CardHover
+            width={cardWidth}
+            height={cardHeight}
+            dataType={"structure"}
             onClickClose={handleClickClose}
           />
         </CardWrapper>

@@ -30,8 +30,11 @@ export const ValueWrapper = styled.div`
 
 export const NowValue = styled.p`
   font-size: 1rem;
+
   color: ${(props) =>
-    props.isPastShow && props.nowValue - props.pastValue < 0
+    props.isPastShow &&
+    props.dataType === "defect" &&
+    props.nowValue - props.pastValue > 0
       ? colors.red
       : colors.black};
 `;
