@@ -28,14 +28,14 @@ export const CardContent = styled.div`
 export const DateContainer = styled.div`
   width: ${(props) => props.width};
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  padding: 1rem;
+  align-items: center;
+  padding: 1.5rem;
 `;
 
 export const TodayContainer = styled.div`
-  margin-bottom: 0.5rem;
+  color: ${colors.navy};
   font-size: ${fonts.lg};
+  font-weight: bold;
 `;
 
 export const CardWrapper = styled.div`
@@ -46,4 +46,20 @@ export const TitleAndMoreBtn = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0 0.75rem;
+`;
+
+export const DateWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 2rem;
+`;
+
+export const DateTitle = styled.div`
+  font-size: ${fonts.md};
+  margin-right: 0.5rem;
+`;
+
+export const TitleAndWarn = styled.div`
+  display: flex;
+  align-items: center;
 `;

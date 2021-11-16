@@ -8,7 +8,7 @@ import {
   ValueWrapper,
 } from "./styles";
 
-function CountValue({ data, isPastShow }) {
+function CountValue({ data, isPastShow, dataType }) {
   return (
     <Wrapper>
       {data.map((item) => (
@@ -23,6 +23,7 @@ function CountValue({ data, isPastShow }) {
               pastValue={item.pastValue}
               nowValue={item.nowValue}
               isPastShow={isPastShow}
+              dataType={dataType}
             >
               {item.nowValue}
             </NowValue>
