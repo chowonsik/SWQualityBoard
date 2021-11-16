@@ -18,11 +18,12 @@ import { useLocation } from "react-router";
 
 function TeamTable() {
   const { teams, authorities } = JSON.parse(localStorage.getItem("loginUser"));
+  const storageTeamList = JSON.parse(sessionStorage.getItem("teamTableList"));
   const isExecutive = authorities[0].role === "ROLE_EXECUTIVE";
   const [selectShow, setSelectShow] = useState(false);
   const [teamList, setTeamList] = useState(teams);
   const [indicator, setIndicator] = useState("codeReviewRate");
-  const [dateRange, setDateRange] = useState(initDateRange());
+  const [dateRange, setDateRange] = useState([null, null]);
   const [data, setData] = useState([]);
 
   const allCheckRef = useRef(null);
@@ -44,6 +45,7 @@ function TeamTable() {
         allCheckRef.current.checked = false;
       }
     }
+    sessionStorage.setItem("teamTableList", JSON.stringify(teamList));
   }, [teamList]);
 
   // 체크박스 체크 이벤트 핸들링
@@ -71,12 +73,18 @@ function TeamTable() {
   }
 
   function initTeams() {
+    if (storageTeamList && !location.state) {
+      setTeamList(storageTeamList);
+      return;
+    }
     let newTeams = [];
     teamList.map((team, i) => {
       function isChecked() {
         if (location.state?.teamId) {
+          // 홈에서 들어올때
           if (location.state.teamId === "ALL") {
             return true;
+            // 팀관리에서 들어올 때
           } else {
             return location.state.teamId === team.id ? true : false;
           }
@@ -94,11 +102,16 @@ function TeamTable() {
   }
 
   function initDateRange() {
-    const date = new Date();
-    const prevDate = new Date(date);
-    prevDate.setDate(date.getDate() - 7);
-    prevDate.setHours(0, 0, 0);
-    return [prevDate, date];
+    const storageDate = JSON.parse(sessionStorage.getItem("teamTableDate"));
+    if (storageDate && !location.state) {
+      setDateRange(storageDate.map((date) => new Date(date)));
+    } else {
+      const date = new Date();
+      const prevDate = new Date(date);
+      prevDate.setDate(date.getDate() - 7);
+      prevDate.setHours(0, 0, 0);
+      setDateRange([prevDate, date]);
+    }
   }
 
   function dateToString(date) {
@@ -124,6 +137,7 @@ function TeamTable() {
 
   useEffect(() => {
     initTeams();
+    initDateRange();
     selectIndicator();
   }, []);
 
@@ -132,6 +146,10 @@ function TeamTable() {
       getData();
     }
   }, [teamList, dateRange]);
+
+  useEffect(() => {
+    sessionStorage.setItem("teamTableDate", JSON.stringify(dateRange));
+  }, [dateRange]);
 
   return (
     <Wrapper>
