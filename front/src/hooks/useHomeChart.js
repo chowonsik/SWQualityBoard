@@ -53,7 +53,7 @@ const useHomeChart = (initSystems, initTeams, initPastSystem, initPastTeam) => {
     {
       category: "High",
       nowValue: systems["high"],
-      pastValue: pastSystem["high"] ? pastSystem["hign"] : null,
+      pastValue: pastSystem["high"] ? pastSystem["high"] : null,
     },
     {
       category: "Medium",
@@ -214,22 +214,22 @@ const useHomeChart = (initSystems, initTeams, initPastSystem, initPastTeam) => {
     nowValue: systems["functionalCompatibility"],
     pastValue: pastSystem["functionalCompatibility"],
   };
-
   const codeReviewRate = {
-    data: [
+    xData: ["전체 개발 인원", "전체 코드리뷰 참가 인원"],
+    yData: [
       {
-        value: teams["codeReviewRate"],
-        name: "팀평균 코드리뷰율",
+        value: teams["totalNumberPeople"],
         itemStyle: {
-          color: "#2E8B57",
+          color: "#1A75FF",
         },
       },
       {
-        value: 100 - teams["codeReviewRate"],
+        value: teams["reviewedNumberPeople"],
         itemStyle: {
-          color: "#DCDDE1",
+          color: "#FFCC00",
         },
       },
+      {},
     ],
   };
   const codeReviewRateData = {
