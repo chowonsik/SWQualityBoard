@@ -27,6 +27,8 @@ function IndicatorItem({
   valueColor,
   unit = "",
   indicator,
+  systemId,
+  teamId,
 }) {
   const history = useHistory();
   function checkStandard() {
@@ -52,7 +54,7 @@ function IndicatorItem({
     return emojiCase;
   }
 
-  function handleClickSequel(dataType) {
+  function handleIndicatorClick(dataType) {
     switch (dataType) {
       case "critical":
       case "medium":
@@ -66,7 +68,7 @@ function IndicatorItem({
       case "mtbf":
         history.push({
           pathname: "/system",
-          state: { dataType },
+          state: { dataType, systemId },
         });
         break;
       case "codeReviewRate":
@@ -75,22 +77,15 @@ function IndicatorItem({
       case "receptionRate":
         history.push({
           pathname: "/team/table",
-          state: { dataType },
-        });
-        break;
-      case "devLeadTime":
-        history.push({
-          pathname: "/team/table",
-          state: { dataType: "deliveryRate" },
+          state: { dataType, teamId },
         });
         break;
       default:
         break;
     }
   }
-
   return (
-    <Wrapper onClick={() => handleClickSequel(indicator)}>
+    <Wrapper onClick={() => handleIndicatorClick(indicator)}>
       <dt className="indicator-name">{indicatorMap[indicator]}</dt>
       <dd className={"indicator-value " + valueColor}>
         {emoji && getEmoji()}

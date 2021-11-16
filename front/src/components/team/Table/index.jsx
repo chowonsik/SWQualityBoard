@@ -167,7 +167,7 @@ function MyTable({ data, setIndicator }) {
                 align="center"
                 colSpan={1}
                 onClick={() => {
-                  setIndicator("delieveryRate");
+                  setIndicator("deliveryRate");
                 }}
               >
                 <Indicator indicatorTitle={"정시납기율"} />
