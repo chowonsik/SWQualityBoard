@@ -151,7 +151,6 @@ function System() {
     };
     requestGet("/system-quality", params)
       .then((data) => {
-        console.log(data.result);
         setData(data.result);
         updateMemo();
       })

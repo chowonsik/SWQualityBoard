@@ -17,11 +17,13 @@ import { requestGet } from "../../lib/apis";
 import { useLocation } from "react-router";
 
 function TeamTable() {
-  const { teams } = JSON.parse(localStorage.getItem("loginUser"));
+  const { teams, authorities } = JSON.parse(localStorage.getItem("loginUser"));
+  const storageTeamList = JSON.parse(sessionStorage.getItem("teamTableList"));
+  const isExecutive = authorities[0].role === "ROLE_EXECUTIVE";
   const [selectShow, setSelectShow] = useState(false);
-  const [accessibleTeams, setAccessibleTeams] = useState(teams);
+  const [teamList, setTeamList] = useState(teams);
   const [indicator, setIndicator] = useState("codeReviewRate");
-  const [dateRange, setDateRange] = useState(initDateRange());
+  const [dateRange, setDateRange] = useState([null, null]);
   const [data, setData] = useState([]);
 
   const allCheckRef = useRef(null);
@@ -36,31 +38,33 @@ function TeamTable() {
   useEffect(() => {
     // 전체 선택 핸들링
     if (allCheckRef.current) {
-      const selectedTeams = accessibleTeams.filter((team) => team.isChecked);
+      const selectedTeams = teamList.filter((team) => team.isChecked);
       if (selectedTeams.length === teams.length) {
         allCheckRef.current.checked = true;
       } else {
         allCheckRef.current.checked = false;
       }
     }
-  }, [accessibleTeams]);
+    sessionStorage.setItem("teamTableList", JSON.stringify(teamList));
+  }, [teamList]);
+
   // 체크박스 체크 이벤트 핸들링
   function handleCheck(i) {
-    const newTeams = [...accessibleTeams];
+    const newTeams = [...teamList];
     newTeams[i].isChecked = !newTeams[i].isChecked;
-    setAccessibleTeams(newTeams);
+    setTeamList(newTeams);
   }
 
   // 전체선택 체크 핸들링
   function handleAllCheck(check) {
-    const newTeams = accessibleTeams.map((team) => {
+    const newTeams = teamList.map((team) => {
       return { ...team, isChecked: check };
     });
-    setAccessibleTeams(newTeams);
+    setTeamList(newTeams);
   }
 
   function getSelectedTeamString() {
-    const selectedTeams = accessibleTeams.filter((team) => team.isChecked);
+    const selectedTeams = teamList.filter((team) => team.isChecked);
     if (selectedTeams.length === 0) return "선택된 개발팀 없음";
     else if (selectedTeams.length === 1) {
       return selectedTeams[0].name;
@@ -69,23 +73,45 @@ function TeamTable() {
   }
 
   function initTeams() {
+    if (storageTeamList && !location.state) {
+      setTeamList(storageTeamList);
+      return;
+    }
     let newTeams = [];
-    accessibleTeams.map((team, i) => {
+    teamList.map((team, i) => {
+      function isChecked() {
+        if (location.state?.teamId) {
+          // 홈에서 들어올때
+          if (location.state.teamId === "ALL") {
+            return true;
+            // 팀관리에서 들어올 때
+          } else {
+            return location.state.teamId === team.id ? true : false;
+          }
+        } else {
+          return i === 0 ? true : false;
+        }
+      }
       newTeams.push({
         name: team.name,
-        isChecked: i === 1 ? true : false,
+        isChecked: isChecked(),
         id: team.id,
       });
     });
-    setAccessibleTeams(newTeams);
+    setTeamList(newTeams);
   }
 
   function initDateRange() {
-    const date = new Date();
-    const prevDate = new Date(date);
-    prevDate.setDate(date.getDate() - 7);
-    prevDate.setHours(0, 0, 0);
-    return [prevDate, date];
+    const storageDate = JSON.parse(sessionStorage.getItem("teamTableDate"));
+    if (storageDate && !location.state) {
+      setDateRange(storageDate.map((date) => new Date(date)));
+    } else {
+      const date = new Date();
+      const prevDate = new Date(date);
+      prevDate.setDate(date.getDate() - 7);
+      prevDate.setHours(0, 0, 0);
+      setDateRange([prevDate, date]);
+    }
   }
 
   function dateToString(date) {
@@ -98,7 +124,7 @@ function TeamTable() {
   }
 
   async function getData() {
-    const selectedTeams = accessibleTeams.filter((item) => item.isChecked);
+    const selectedTeams = teamList.filter((item) => item.isChecked);
     const params = {
       teams: selectedTeams.map((team) => team.id),
       start: dateToString(dateRange[0]),
@@ -111,6 +137,7 @@ function TeamTable() {
 
   useEffect(() => {
     initTeams();
+    initDateRange();
     selectIndicator();
   }, []);
 
@@ -118,46 +145,54 @@ function TeamTable() {
     if (dateRange[1]) {
       getData();
     }
-  }, [accessibleTeams, dateRange]);
+  }, [teamList, dateRange]);
+
+  useEffect(() => {
+    sessionStorage.setItem("teamTableDate", JSON.stringify(dateRange));
+  }, [dateRange]);
 
   return (
     <Wrapper>
       <Selectors>
         <TeamSelectorContainer selectShow={selectShow}>
           <span className="selected-team">{getSelectedTeamString()}</span>
-          <span
-            className="icon"
-            onClick={() => {
-              setSelectShow(!selectShow);
-            }}
-          >
-            <ChevronDown />
-          </span>
-          {selectShow && (
-            <TeamSelector>
-              <label>
-                <input
-                  type="checkbox"
-                  onChange={(e) => {
-                    handleAllCheck(e.target.checked);
-                  }}
-                  ref={allCheckRef}
-                />
-                전체선택
-              </label>
-              {accessibleTeams.map((team, i) => (
-                <label key={i}>
-                  <input
-                    type="checkbox"
-                    checked={team.isChecked}
-                    onChange={() => {
-                      handleCheck(i);
-                    }}
-                  />
-                  {team.name}
-                </label>
-              ))}
-            </TeamSelector>
+          {isExecutive && (
+            <>
+              <span
+                className="icon"
+                onClick={() => {
+                  setSelectShow(!selectShow);
+                }}
+              >
+                <ChevronDown />
+              </span>
+              {selectShow && (
+                <TeamSelector>
+                  <label>
+                    <input
+                      type="checkbox"
+                      onChange={(e) => {
+                        handleAllCheck(e.target.checked);
+                      }}
+                      ref={allCheckRef}
+                    />
+                    전체선택
+                  </label>
+                  {teamList.map((team, i) => (
+                    <label key={i}>
+                      <input
+                        type="checkbox"
+                        checked={team.isChecked}
+                        onChange={() => {
+                          handleCheck(i);
+                        }}
+                      />
+                      {team.name}
+                    </label>
+                  ))}
+                </TeamSelector>
+              )}
+            </>
           )}
         </TeamSelectorContainer>
         <DateSelectorContainer>

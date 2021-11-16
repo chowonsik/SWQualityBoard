@@ -48,6 +48,7 @@ function Sidebar({ sidebarOpened, nickName }) {
     localStorage.removeItem("loginUser");
     localStorage.removeItem("token");
     dispatch({ type: "REMOVE_NICKNAME" });
+    sessionStorage.clear();
     history.push("/login");
   }
   return (

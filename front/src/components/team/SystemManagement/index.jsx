@@ -5,7 +5,7 @@ import { standard } from "../../../data/standard";
 
 const systemStandard = standard.system;
 
-function SystemManagement({ systemIndicators, onClick }) {
+function SystemManagement({ systemIndicators, onClick, selectedSystemId }) {
   function getIndicators(values, standardObj, standardLess = false) {
     const standardArr = Object.entries(standardObj);
     let cnt = 0;
@@ -27,6 +27,7 @@ function SystemManagement({ systemIndicators, onClick }) {
           indicator={standardArr[idx][0]}
           value={value}
           valueColor={color}
+          systemId={selectedSystemId}
         />
       );
     });
@@ -94,6 +95,7 @@ function SystemManagement({ systemIndicators, onClick }) {
           indicator="functionalCompatibility"
           value={systemIndicators.functionalCompatibility}
           standard={systemStandard.기능적합성}
+          systemId={selectedSystemId}
           unit="%"
         />
         <IndicatorItem
@@ -101,6 +103,7 @@ function SystemManagement({ systemIndicators, onClick }) {
           indicator="testCoverage"
           value={systemIndicators.testCoverage}
           standard={systemStandard.테스트커버리지}
+          systemId={selectedSystemId}
           unit="%"
         />
         <IndicatorItem
@@ -108,6 +111,7 @@ function SystemManagement({ systemIndicators, onClick }) {
           indicator="mtbf"
           value={systemIndicators.mtbf}
           standard={systemStandard.시스템신뢰도}
+          systemId={selectedSystemId}
         />
       </div>
     </Wrapper>
