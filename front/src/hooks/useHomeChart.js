@@ -229,7 +229,6 @@ const useHomeChart = (initSystems, initTeams, initPastSystem, initPastTeam) => {
           color: "#FFCC00",
         },
       },
-      {},
     ],
   };
   const codeReviewRateData = {
