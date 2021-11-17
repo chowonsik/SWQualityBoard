@@ -134,7 +134,7 @@ function MyTable({ data, setIndicator }) {
                   setIndicator("codeReviewRate");
                 }}
               >
-                <Indicator indicatorTitle={"코드리뷰율"} />
+                코드리뷰율
               </TableCell>
               <TableCell
                 align="center"
@@ -143,7 +143,7 @@ function MyTable({ data, setIndicator }) {
                   setIndicator("conventionRate");
                 }}
               >
-                <Indicator indicatorTitle={"코딩컨벤션"} />
+                코딩컨벤션
               </TableCell>
               <TableCell
                 align="center"
@@ -152,7 +152,7 @@ function MyTable({ data, setIndicator }) {
                   setIndicator("receptionRate");
                 }}
               >
-                <Indicator indicatorTitle={"시스템접수율"} />
+                시스템접수율
               </TableCell>
               <TableCell
                 align="center"
@@ -161,7 +161,7 @@ function MyTable({ data, setIndicator }) {
                   setIndicator("devLeadTime");
                 }}
               >
-                <Indicator indicatorTitle={"개발리드타임"} />
+                개발리드타임
               </TableCell>
               <TableCell
                 align="center"
@@ -170,7 +170,7 @@ function MyTable({ data, setIndicator }) {
                   setIndicator("deliveryRate");
                 }}
               >
-                <Indicator indicatorTitle={"정시납기율"} />
+                정시납기율
               </TableCell>
             </TableRow>
             <TableRow>
