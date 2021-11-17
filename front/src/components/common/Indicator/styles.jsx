@@ -18,7 +18,7 @@ export const IndicatorHelp = styled.div`
   position: absolute;
   display: none;
   top: 2rem;
-  width: 200px;
+  width: ${(props) => (props.width ? props.width + "px" : "none")};
   border-radius: 12px;
   background-color: ${colors.grayLine};
   padding: 0.5rem 1rem;

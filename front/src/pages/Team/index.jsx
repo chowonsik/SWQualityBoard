@@ -120,7 +120,7 @@ function Team() {
                 teamIndicators.receptionRate,
                 teamIndicators.devLeadTime,
               ],
-              name: "개발팀 평균",
+              name: selectedTeam.name,
             },
             {
               value: [
@@ -130,7 +130,7 @@ function Team() {
                 wholeTeamIndicators.receptionRate,
                 wholeTeamIndicators.devLeadTime,
               ],
-              name: selectedTeam.name,
+              name: "개발팀 평균",
             },
           ],
         },

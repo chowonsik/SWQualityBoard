@@ -45,12 +45,12 @@ function getDate(past) {
 }
 
 function handleLight(value) {
-  return parseInt(value) < 80;
+  return parseInt(value) < 70;
 }
 
 function Home() {
   const [curWidth, setCurWidth] = useState(window.outerWidth);
-  const [cardWidth, setCardWidth] = useState(550);
+  const [cardWidth, setCardWidth] = useState(500);
   const [cardHeight, setCardHeight] = useState(250);
   const [startDate, setStartDate] = useState(new Date());
   const [today, setToday] = useState(getToday());
@@ -215,15 +215,15 @@ function Home() {
 
   useEffect(() => {
     if (curWidth > 768 && curWidth <= 1024) {
-      setCardWidth(450);
+      setCardWidth(400);
       setCardHeight(240);
       setDateContainerWidth("100vw");
     } else if (curWidth > 375 && curWidth <= 768) {
-      setCardWidth(400);
+      setCardWidth(350);
       setCardHeight(200);
       setDateContainerWidth("100vw");
     } else if (curWidth <= 375) {
-      setCardWidth(360);
+      setCardWidth(320);
       setCardHeight(200);
       setDateContainerWidth("100vw");
     }
@@ -459,11 +459,15 @@ function Home() {
                   indicatorTitle={"중대결함수"}
                   fontSize={"lg"}
                   isBold={true}
+                  width={200}
                 />
                 <Warning isLight={homeChart.defectsData[0].nowValue > 0} />
               </TitleAndWarn>
 
-              <BoxArrowUpRight onClick={handleClickMoreMenu} />
+              <BoxArrowUpRight
+                onClick={handleClickMoreMenu}
+                style={{ marginTop: "0.25rem" }}
+              />
             </TitleAndMoreBtn>
             <CardContent>
               <CountValue
@@ -493,8 +497,12 @@ function Home() {
                 indicatorTitle={"시스템신뢰도"}
                 fontSize={"lg"}
                 isBold={true}
+                width={200}
               />
-              <BoxArrowUpRight onClick={handleClickMoreMenu} />
+              <BoxArrowUpRight
+                onClick={handleClickMoreMenu}
+                style={{ marginTop: "0.25rem" }}
+              />
             </TitleAndMoreBtn>
             <CardContent>
               <CountValue
@@ -530,10 +538,14 @@ function Home() {
                   indicatorTitle={"테스트커버리지"}
                   fontSize={"lg"}
                   isBold={true}
+                  width={200}
                 />
                 <Warning isLight={handleLight(systemAvg["testCoverage"])} />
               </TitleAndWarn>
-              <BoxArrowUpRight onClick={handleClickMoreMenu} />
+              <BoxArrowUpRight
+                onClick={handleClickMoreMenu}
+                style={{ marginTop: "0.25rem" }}
+              />
             </TitleAndMoreBtn>
             <CardContent>
               <PercentValue
@@ -568,10 +580,14 @@ function Home() {
                   indicatorTitle={"시스템접수율"}
                   fontSize={"lg"}
                   isBold={true}
+                  width={200}
                 />
                 <Warning isLight={handleLight(teamAvg["receptionRate"])} />
               </TitleAndWarn>
-              <BoxArrowUpRight onClick={handleClickMoreMenu} />
+              <BoxArrowUpRight
+                onClick={handleClickMoreMenu}
+                style={{ marginTop: "0.25rem" }}
+              />
             </TitleAndMoreBtn>
             <CardContent>
               <PercentValue
@@ -605,10 +621,14 @@ function Home() {
                   indicatorTitle={"코드리뷰율"}
                   fontSize={"lg"}
                   isBold={true}
+                  width={200}
                 />
                 <Warning isLight={handleLight(teamAvg["codeReviewRate"])} />
               </TitleAndWarn>
-              <BoxArrowUpRight onClick={handleClickMoreMenu} />
+              <BoxArrowUpRight
+                onClick={handleClickMoreMenu}
+                style={{ marginTop: "0.25rem" }}
+              />
             </TitleAndMoreBtn>
             <CardContent>
               <PercentValue
@@ -642,12 +662,16 @@ function Home() {
                   indicatorTitle={"기능적합성"}
                   fontSize={"lg"}
                   isBold={true}
+                  width={200}
                 />
                 <Warning
                   isLight={handleLight(systemAvg["functionalCompatibility"])}
                 />
               </TitleAndWarn>
-              <BoxArrowUpRight onClick={handleClickMoreMenu} />
+              <BoxArrowUpRight
+                onClick={handleClickMoreMenu}
+                style={{ marginTop: "0.25rem" }}
+              />
             </TitleAndMoreBtn>
             <CardContent>
               <PercentValue
@@ -682,10 +706,14 @@ function Home() {
                   indicatorTitle={"코딩컨벤션"}
                   fontSize={"lg"}
                   isBold={true}
+                  width={200}
                 />
                 <Warning isLight={handleLight(teamAvg["conventionRate"])} />
               </TitleAndWarn>
-              <BoxArrowUpRight onClick={handleClickMoreMenu} />
+              <BoxArrowUpRight
+                onClick={handleClickMoreMenu}
+                style={{ marginTop: "0.25rem" }}
+              />
             </TitleAndMoreBtn>
             <CardContent>
               <PercentValue
@@ -719,10 +747,14 @@ function Home() {
                   indicatorTitle={"정시납기율"}
                   fontSize={"lg"}
                   isBold={true}
+                  width={200}
                 />
                 <Warning isLight={handleLight(teamAvg["deliveryRate"])} />
               </TitleAndWarn>
-              <BoxArrowUpRight onClick={handleClickMoreMenu} />
+              <BoxArrowUpRight
+                onClick={handleClickMoreMenu}
+                style={{ marginTop: "0.25rem" }}
+              />
             </TitleAndMoreBtn>
             <CardContent>
               <PercentValue
@@ -751,8 +783,12 @@ function Home() {
                 indicatorTitle={"구조품질지수"}
                 fontSize={"lg"}
                 isBold={true}
+                width={200}
               />
-              <BoxArrowUpRight onClick={handleClickMoreMenu} />
+              <BoxArrowUpRight
+                onClick={handleClickMoreMenu}
+                style={{ marginTop: "0.25rem" }}
+              />
             </TitleAndMoreBtn>
             <CardContent>
               <CountValue
