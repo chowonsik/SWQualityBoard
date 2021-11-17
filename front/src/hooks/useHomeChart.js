@@ -215,7 +215,7 @@ const useHomeChart = (initSystems, initTeams, initPastSystem, initPastTeam) => {
     pastValue: pastSystem["functionalCompatibility"],
   };
   const codeReviewRate = {
-    xData: ["전체 개발 인원", "전체 코드리뷰 참가 인원"],
+    xData: ["전체 개발 인원", {}, "전체 코드리뷰 참가 인원"],
     yData: [
       {
         value: teams["totalNumberPeople"],
@@ -223,6 +223,7 @@ const useHomeChart = (initSystems, initTeams, initPastSystem, initPastTeam) => {
           color: "#1A75FF",
         },
       },
+      {},
       {
         value: teams["reviewedNumberPeople"],
         itemStyle: {

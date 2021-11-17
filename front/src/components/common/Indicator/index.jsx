@@ -21,7 +21,7 @@ function getIndicatorHelp(indicatorTitle) {
   return helpDict[indicatorTitle];
 }
 
-function Indicator({ indicatorTitle, fontSize, isBold }) {
+function Indicator({ indicatorTitle, fontSize, isBold, width }) {
   const [help, setHelp] = useState(getIndicatorHelp(indicatorTitle));
 
   return (
@@ -29,7 +29,7 @@ function Indicator({ indicatorTitle, fontSize, isBold }) {
       <Title fontSize={fontSize} isBold={isBold}>
         {indicatorTitle}
       </Title>
-      <IndicatorHelp>{help}</IndicatorHelp>
+      <IndicatorHelp width={width}>{help}</IndicatorHelp>
     </Wrapper>
   );
 }
