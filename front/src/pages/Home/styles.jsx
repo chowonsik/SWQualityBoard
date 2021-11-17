@@ -26,10 +26,14 @@ export const CardContent = styled.div`
 `;
 
 export const DateContainer = styled.div`
-  width: ${(props) => props.width};
+  width: 100%;
   display: flex;
   align-items: center;
   padding: 1.5rem;
+  @media screen and (max-width: 415px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 export const TodayContainer = styled.div`
@@ -52,6 +56,9 @@ export const DateWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-left: 2rem;
+  @media screen and (max-width: 415px) {
+    margin-bottom: 1rem;
+  }
 `;
 
 export const DateTitle = styled.div`
