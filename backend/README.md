@@ -141,7 +141,7 @@ custom:
 - `controller/` : 클라이언트의 요청을 받아, 처리한 후 응답 데이터를 넘겨주는 역할을 한다.
 - `dao/` : DB에 실질적으로 접근하는 객체들이 행하는 기능들이 정의되어 있다.
 - `dto/` : 계층간 데이터 교환을 위한 객체가 정의되어 있다.
-- `entity/` : DB의 엔티티가 Spring Boot JPA에 맞게 세팅되어 있다.
+- `entity/` : DB의 엔티티가 Spring Data MongoDB에 맞게 세팅되어 있다.
 - `response/` : 처리에 대한 응답 구조와 응답 리스트가 정의되어 있다.
 - `service/` : 실질적으로 클라이언트의 요청을 처리하는 business logic이 정의되어 있다.
 - `serviceImpl/` : service interface로부터 받은 business logic이 구현되어 있다.
@@ -159,6 +159,6 @@ custom:
 
 - [Link](https://docs.google.com/spreadsheets/d/1g4YQfqu9_MgherBk5dLr-NoHycCmPqpspBtxpwq_22c/edit#gid=624760907)
 
-2. API Document
+2. API Document - 링크의 html 파일 다운로드 후 열기
 
 - [Link](src/main/resources/static/docs/api-doc.html)
