@@ -45,12 +45,12 @@ function getDate(past) {
 }
 
 function handleLight(value) {
-  return parseInt(value) < 80;
+  return parseInt(value) < 70;
 }
 
 function Home() {
   const [curWidth, setCurWidth] = useState(window.outerWidth);
-  const [cardWidth, setCardWidth] = useState(550);
+  const [cardWidth, setCardWidth] = useState(500);
   const [cardHeight, setCardHeight] = useState(250);
   const [startDate, setStartDate] = useState(new Date());
   const [today, setToday] = useState(getToday());
@@ -215,15 +215,15 @@ function Home() {
 
   useEffect(() => {
     if (curWidth > 768 && curWidth <= 1024) {
-      setCardWidth(450);
+      setCardWidth(400);
       setCardHeight(240);
       setDateContainerWidth("100vw");
     } else if (curWidth > 375 && curWidth <= 768) {
-      setCardWidth(400);
+      setCardWidth(350);
       setCardHeight(200);
       setDateContainerWidth("100vw");
     } else if (curWidth <= 375) {
-      setCardWidth(360);
+      setCardWidth(320);
       setCardHeight(200);
       setDateContainerWidth("100vw");
     }
