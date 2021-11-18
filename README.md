@@ -12,7 +12,7 @@
 
 
 
-### :heavy_check_mark:개발 기간
+### :heavy_check_mark: 개발 기간
 
 ---
 
@@ -20,7 +20,7 @@
 
 
 
-### :heavy_check_mark:프로젝트 개요
+### :heavy_check_mark: 프로젝트 개요
 
 ---
 
@@ -30,7 +30,7 @@
 
 ### :heavy_check_mark:기술 스택
 
-![stack](D:\S05P31F003\README.assets\stack.JPG)
+![stack](./exec/assets/stack.JPG)
 
 
 
