@@ -1,15 +1,36 @@
 # S/W 품질지표 Dash Board 시스템 개발
 
-> - 다양한 S/W 시스템 및 모듈에서 전송된 품질 Raw데이터를 활용하여 전사 S/W 품질지표 현황을 한 눈에 확인 가능한 Dash Board 개발
+
+
+### :bulb: Contributor
+
+---
+
+- #### Frontend : 김민환 남하은 변대웅
+
+- #### Backend : 조원식 진수연
 
 
 
-### :bulb: 주요 기능
+### :heavy_check_mark:개발 기간
 
-- 전체 / 시스템 / 팀별 지표 조회
-- 통계 그래프 사용
-- 기준 미달 지표에 대한 하이라이트 표시
-- S/W관련 용어 설명
+---
+
+#### 2021.10.12 ~ 2021.11.19 (6주)
+
+
+
+### :heavy_check_mark:프로젝트 개요
+
+---
+
+- 다양한 S/W 시스템 및 모듈에서 전송된 품질 Raw데이터를 활용하여 전사 S/W 품질지표 현황을 한 눈에 확인 가능한 Dash Board 개발
+
+
+
+### :heavy_check_mark:기술 스택
+
+![stack](D:\S05P31F003\README.assets\stack.JPG)
 
 
 
@@ -55,12 +76,12 @@
 - develop : 다음 출시 버전을 개발하는 브랜치
 - feature : 기능을 개발하는 브랜치
 - release : 이번 출시 버전을 준비하는 브랜치
-- hotfix : 출시 버전에서 발생한 버그를 수정 하는 브랜치
+- fix : 출시 버전에서 발생한 버그를 수정 하는 브랜치
 
 ```shell
 main
 	└── release
-	└── hotfix
+	└── fix
 	└── develop
          └── feature/front/기능이름
          └── feature/back/기능이름
