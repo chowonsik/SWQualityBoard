@@ -3,7 +3,13 @@ import styled from "styled-components";
 import { fonts, colors } from "../../../styles";
 
 export const Wrapper = styled.div`
+  border-radius: 6px;
+
   .react-datepicker__input-container input {
+    :hover {
+      box-shadow: 0 4px 16px 0 rgba(47, 47, 48, 0.3);
+    }
+    transition: all ease 0.3s;
     width: 150px;
     text-align: center;
     color: white;
