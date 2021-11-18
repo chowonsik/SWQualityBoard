@@ -1,70 +1,39 @@
-# Getting Started with Create React App
+# SW Quality board Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Generic badge](https://img.shields.io/badge/react-v17.0.2-green.svg) ![Generic badge](https://img.shields.io/badge/node-14.17.1-yellow.svg) ![node](https://img.shields.io/npm/v/node) ![styled-components](https://img.shields.io/npm/v/styled-components?color=ff69b4&label=styled-components) ![webpack](https://img.shields.io/npm/v/webpack?color=yellow&label=webpack)![echarts](https://img.shields.io/npm/v/echarts?color=orange&label=echarts)
 
-## Available Scripts
+<br>
 
-In the project directory, you can run:
+## ✔ How to start project in local environment
 
-### `yarn start`
+```
+// 레포지토리 클론
+$ git clone <https://lab.ssafy.com/s05-final/S05P31F003.git>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+// 경로 변경
+$ cd S05P31F003/front
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+// npm package install
+$ npm install
 
-### `yarn test`
+// 프로젝트 실행
+$ npm start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## ✔ Tech Stack
 
-### `yarn build`
+| Usage               | Stack           |
+| ------------------- | --------------- |
+| `React`             | Fronted Library |
+| `HTML/JSX`          | Markup Language |
+| `Styled-components` | Styling         |
+| `echarts`           | Chart Library   |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## ✔ Project Structure
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- `src/` 하위 폴더들은 다음과 같은 역할을 한다.
+- `pages/` : 최상위 컴포넌트들을 포함하며 로직 구현에 집중한다.
+- `components/` : `page/` 의 최상위 컴포넌트에 포함되는 하위 컴포넌트를 정의하며 표현에 집중한다.
+- `hooks/` : 커스텀 훅들이 정의되어 있다.
+- `lib/` : URL 접근 제한을 위한 컴포넌트가 정의되어 있다.
+- `styles/` :  전역 스타일이 변수로 지정되어 있다.
