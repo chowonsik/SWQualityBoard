@@ -8,11 +8,7 @@ export const StyledForm = styled.form`
   justify-content: space-between;
 `;
 
-export const InputBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: ${(props) => (props.isEnd ? "flex-end" : "flex-start")};
-`;
+export const InputBox = styled.div``;
 
 export const StyledInput = styled.input`
   width: ${(props) => props.inputWidth + "px"};

@@ -103,12 +103,15 @@ function Login() {
         setIsActive={setToastActive}
         message={toastMessage}
       />
-      <LoginForm
-        email={email}
-        password={password}
-        inputWidth={inputWidth}
-        onClick={handleClickLogin}
-      ></LoginForm>
+      <div className="login">
+        <img className="logo-image" src="samsung-logo.png" />
+        <LoginForm
+          email={email}
+          password={password}
+          inputWidth={inputWidth}
+          onClick={handleClickLogin}
+        ></LoginForm>
+      </div>
     </Wrapper>
   );
 }
