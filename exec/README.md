@@ -208,7 +208,7 @@ $ sudo vi docker-compose.yml
 version: "3"
 
 services:
-  cafein-api:
+  swqualityboard-api:
     build:
       context: ./backend
     ports:
