@@ -8,6 +8,7 @@ function Header({ toggleSidebar }) {
         <List />
       </Icon>
       <Title>SW 품질지표 대시보드</Title>
+      <div className="display-logo">SAMSUNG DISPLAY</div>
     </Wrapper>
   );
 }
