@@ -4,6 +4,7 @@ import Card from "../../components/common/Card";
 
 export const Wrapper = styled.div`
   margin: 40px;
+  padding: 0 20px;
   width: 100%;
   display: flex;
   flex-direction: column;

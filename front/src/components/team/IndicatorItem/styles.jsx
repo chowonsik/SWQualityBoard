@@ -2,8 +2,14 @@ import styled from "styled-components";
 import { colors } from "../../../styles";
 
 export const Wrapper = styled.dl`
+  transition: all ease 0.3s;
   display: flex;
   flex-direction: column;
+  :hover {
+    opacity: 0.65;
+    transition: all ease 0.4s;
+  }
+
   .emoji {
     margin-right: 10px;
     font-size: 36px;
