@@ -56,6 +56,7 @@ export const TitleAndMoreBtn = styled.div`
 export const DateWrapper = styled.div`
   display: flex;
   align-items: center;
+  margin-right: 20px;
   @media screen and (max-width: 415px) {
     margin-bottom: 1rem;
   }

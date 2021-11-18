@@ -4,7 +4,7 @@ import { fonts } from "../../styles";
 
 export const Wrapper = styled.div`
   width: 100%;
-  padding: 20px 20px 20px 20px;
+  padding: 1.8rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,12 +39,12 @@ export const SystemSelectorContainer = styled.div`
 export const DateSelectorContainer = styled.div``;
 
 export const ChartContainer = styled(Card)`
-  width: 80%;
+  width: 85%;
   padding: 20px;
   height: 450px;
 `;
 export const TableContainer = styled(Card)`
-  width: 80%;
+  width: 85%;
   height: auto;
 `;
 
