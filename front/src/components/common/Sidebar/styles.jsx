@@ -6,9 +6,6 @@ export const Side = styled.div`
   top: 65px;
   left: ${(props) => (props.sidebarOpened ? 0 : "-200px")};
   bottom: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 200px;
   background-color: ${colors.white};
   z-index: 50;
@@ -19,7 +16,6 @@ export const Menu = styled.ul`
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: space-between;
 `;
 
@@ -39,31 +35,19 @@ export const Profile = styled.div`
   }
 `;
 export const ItemContainer = styled.div`
-  li {
-    position: relative;
+  :hover {
+    background-color: ${colors.grayLine};
+    color: ${colors.navy};
   }
-  li::before {
-    content: "";
-    position: absolute;
-    top: 1.7rem;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: ${colors.navy};
-  }
+  transition: all ease 0.3s;
 
-  &:hover li::before {
-    width: 100%;
-    transition: width 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
-  }
+  padding: 20px;
+  margin-bottom: 10px;
 `;
 
 export const MenuItem = styled.li`
-  margin-bottom: 40px;
+  gap: 10px;
   font-size: ${fonts.md};
-  :hover {
-    color: ${colors.black};
-  }
 `;
 export const NickName = styled.p`
   color: ${colors.black};
@@ -83,7 +67,10 @@ export const LoginButton = styled.p`
 `;
 
 export const LogoutButton = styled.div`
-  color: ${colors.navy};
+  :hover {
+    color: ${colors.navy};
+  }
+  color: ${colors.gray};
   font-size: ${fonts.md};
   cursor: pointer;
   width: 100%;

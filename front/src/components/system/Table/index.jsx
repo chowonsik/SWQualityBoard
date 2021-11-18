@@ -8,7 +8,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { flexbox } from "@mui/system";
 import { useEffect, useState } from "react";
-import { PencilFill, PencilSquare } from "react-bootstrap-icons";
+import { StickiesFill, PencilSquare } from "react-bootstrap-icons";
 import { colors } from "../../../styles";
 import Indicator from "../../common/Indicator";
 
@@ -16,13 +16,13 @@ import Indicator from "../../common/Indicator";
 const criteria = {
   // 얘보다 크면 하이라이트
   critical: 1,
-  high: 1,
-  medium: 1,
-  low: 1,
+  high: 3,
+  medium: 5,
+  low: 7,
 
   // 얘보다 작으면 하이라이트
   testCoverage: 60,
-  mtbf: 400,
+  mtbf: 320,
   functionalCompatibility: 60,
 };
 
@@ -230,7 +230,13 @@ function MyTable({ data, openMemo, setIndicator }) {
                                 openMemo(value);
                               }}
                             >
-                              {value.id ? <PencilSquare /> : <PencilFill />}
+                              {value.id ? (
+                                <StickiesFill
+                                  style={{ color: `${colors.navy}` }}
+                                />
+                              ) : (
+                                <PencilSquare />
+                              )}
                             </div>
                           ) : column.format && typeof value === "number" ? (
                             <div style={{ color: isEnough ? "black" : "red" }}>
