@@ -6,21 +6,23 @@ import {
   StyledButton,
 } from "./styles";
 
-function LoginForm({ userId, password }) {
+function LoginForm({ email, password, inputWidth, onClick }) {
   return (
     <StyledForm>
       <InputBox>
         <StyledInput
-          value={userId.value}
-          onChange={userId.onChange}
-          placeholder="아이디"
+          value={email.value}
+          onChange={email.onChange}
+          inputWidth={inputWidth}
+          placeholder="E-Mail"
         />
-        <ErrorMessage>{userId.isValid ? "" : userId.errorMessage}</ErrorMessage>
+        <ErrorMessage>{email.isValid ? "" : email.errorMessage}</ErrorMessage>
       </InputBox>
       <InputBox>
         <StyledInput
           type="password"
           value={password.value}
+          inputWidth={inputWidth}
           onChange={password.onChange}
           placeholder="비밀번호"
         />
@@ -28,8 +30,8 @@ function LoginForm({ userId, password }) {
           {password.isValid ? "" : password.errorMessage}
         </ErrorMessage>
       </InputBox>
-      <InputBox>
-        <StyledButton>로그인</StyledButton>
+      <InputBox onClick={onClick}>
+        <StyledButton width={inputWidth}>로그인</StyledButton>
       </InputBox>
     </StyledForm>
   );

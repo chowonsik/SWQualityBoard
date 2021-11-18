@@ -1,0 +1,1202 @@
+[
+    {
+      "team": "개발 1팀",
+      "system": "A",
+      "devLeadTime": 103,
+      "numberRequest": 169,
+      "numberOnTimeRequest": 100,
+      "date": "2020-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "B",
+      "devLeadTime": 67,
+      "numberRequest": 279,
+      "numberOnTimeRequest": 238,
+      "date": "2020-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "C",
+      "devLeadTime": 97,
+      "numberRequest": 212,
+      "numberOnTimeRequest": 139,
+      "date": "2020-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "D",
+      "devLeadTime": 31,
+      "numberRequest": 183,
+      "numberOnTimeRequest": 124,
+      "date": "2020-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "E",
+      "devLeadTime": 57,
+      "numberRequest": 226,
+      "numberOnTimeRequest": 190,
+      "date": "2020-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "F",
+      "devLeadTime": 96,
+      "numberRequest": 300,
+      "numberOnTimeRequest": 254,
+      "date": "2020-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "G",
+      "devLeadTime": 94,
+      "numberRequest": 197,
+      "numberOnTimeRequest": 184,
+      "date": "2020-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "H",
+      "devLeadTime": 54,
+      "numberRequest": 254,
+      "numberOnTimeRequest": 234,
+      "date": "2020-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "I",
+      "devLeadTime": 71,
+      "numberRequest": 168,
+      "numberOnTimeRequest": 123,
+      "date": "2020-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "J",
+      "devLeadTime": 87,
+      "numberRequest": 160,
+      "numberOnTimeRequest": 127,
+      "date": "2020-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "A",
+      "devLeadTime": 109,
+      "numberRequest": 160,
+      "numberOnTimeRequest": 118,
+      "date": "2020-11-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "B",
+      "devLeadTime": 62,
+      "numberRequest": 283,
+      "numberOnTimeRequest": 236,
+      "date": "2020-11-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "C",
+      "devLeadTime": 104,
+      "numberRequest": 205,
+      "numberOnTimeRequest": 143,
+      "date": "2020-11-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "D",
+      "devLeadTime": 31,
+      "numberRequest": 191,
+      "numberOnTimeRequest": 156,
+      "date": "2020-11-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "E",
+      "devLeadTime": 51,
+      "numberRequest": 224,
+      "numberOnTimeRequest": 212,
+      "date": "2020-11-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "F",
+      "devLeadTime": 104,
+      "numberRequest": 294,
+      "numberOnTimeRequest": 220,
+      "date": "2020-11-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "G",
+      "devLeadTime": 85,
+      "numberRequest": 205,
+      "numberOnTimeRequest": 191,
+      "date": "2020-11-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "H",
+      "devLeadTime": 60,
+      "numberRequest": 245,
+      "numberOnTimeRequest": 184,
+      "date": "2020-11-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "I",
+      "devLeadTime": 79,
+      "numberRequest": 164,
+      "numberOnTimeRequest": 153,
+      "date": "2020-11-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "J",
+      "devLeadTime": 96,
+      "numberRequest": 153,
+      "numberOnTimeRequest": 127,
+      "date": "2020-11-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "A",
+      "devLeadTime": 102,
+      "numberRequest": 158,
+      "numberOnTimeRequest": 120,
+      "date": "2020-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "B",
+      "devLeadTime": 69,
+      "numberRequest": 277,
+      "numberOnTimeRequest": 199,
+      "date": "2020-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "C",
+      "devLeadTime": 113,
+      "numberRequest": 207,
+      "numberOnTimeRequest": 136,
+      "date": "2020-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "D",
+      "devLeadTime": 40,
+      "numberRequest": 191,
+      "numberOnTimeRequest": 134,
+      "date": "2020-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "E",
+      "devLeadTime": 56,
+      "numberRequest": 227,
+      "numberOnTimeRequest": 150,
+      "date": "2020-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "F",
+      "devLeadTime": 109,
+      "numberRequest": 300,
+      "numberOnTimeRequest": 269,
+      "date": "2020-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "G",
+      "devLeadTime": 80,
+      "numberRequest": 199,
+      "numberOnTimeRequest": 183,
+      "date": "2020-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "H",
+      "devLeadTime": 67,
+      "numberRequest": 250,
+      "numberOnTimeRequest": 181,
+      "date": "2020-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "I",
+      "devLeadTime": 87,
+      "numberRequest": 170,
+      "numberOnTimeRequest": 147,
+      "date": "2020-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "J",
+      "devLeadTime": 87,
+      "numberRequest": 148,
+      "numberOnTimeRequest": 100,
+      "date": "2020-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "A",
+      "devLeadTime": 107,
+      "numberRequest": 155,
+      "numberOnTimeRequest": 118,
+      "date": "2021-01-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "B",
+      "devLeadTime": 61,
+      "numberRequest": 272,
+      "numberOnTimeRequest": 260,
+      "date": "2021-01-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "C",
+      "devLeadTime": 107,
+      "numberRequest": 217,
+      "numberOnTimeRequest": 177,
+      "date": "2021-01-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "D",
+      "devLeadTime": 35,
+      "numberRequest": 198,
+      "numberOnTimeRequest": 148,
+      "date": "2021-01-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "E",
+      "devLeadTime": 65,
+      "numberRequest": 218,
+      "numberOnTimeRequest": 202,
+      "date": "2021-01-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "F",
+      "devLeadTime": 101,
+      "numberRequest": 300,
+      "numberOnTimeRequest": 243,
+      "date": "2021-01-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "G",
+      "devLeadTime": 71,
+      "numberRequest": 196,
+      "numberOnTimeRequest": 186,
+      "date": "2021-01-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "H",
+      "devLeadTime": 62,
+      "numberRequest": 251,
+      "numberOnTimeRequest": 223,
+      "date": "2021-01-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "I",
+      "devLeadTime": 93,
+      "numberRequest": 162,
+      "numberOnTimeRequest": 135,
+      "date": "2021-01-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "J",
+      "devLeadTime": 78,
+      "numberRequest": 156,
+      "numberOnTimeRequest": 118,
+      "date": "2021-01-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "A",
+      "devLeadTime": 112,
+      "numberRequest": 154,
+      "numberOnTimeRequest": 100,
+      "date": "2021-02-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "B",
+      "devLeadTime": 54,
+      "numberRequest": 282,
+      "numberOnTimeRequest": 220,
+      "date": "2021-02-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "C",
+      "devLeadTime": 100,
+      "numberRequest": 221,
+      "numberOnTimeRequest": 189,
+      "date": "2021-02-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "D",
+      "devLeadTime": 44,
+      "numberRequest": 192,
+      "numberOnTimeRequest": 171,
+      "date": "2021-02-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "E",
+      "devLeadTime": 70,
+      "numberRequest": 227,
+      "numberOnTimeRequest": 210,
+      "date": "2021-02-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "F",
+      "devLeadTime": 107,
+      "numberRequest": 300,
+      "numberOnTimeRequest": 233,
+      "date": "2021-02-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "G",
+      "devLeadTime": 81,
+      "numberRequest": 203,
+      "numberOnTimeRequest": 174,
+      "date": "2021-02-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "H",
+      "devLeadTime": 72,
+      "numberRequest": 244,
+      "numberOnTimeRequest": 166,
+      "date": "2021-02-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "I",
+      "devLeadTime": 103,
+      "numberRequest": 162,
+      "numberOnTimeRequest": 151,
+      "date": "2021-02-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "J",
+      "devLeadTime": 69,
+      "numberRequest": 156,
+      "numberOnTimeRequest": 129,
+      "date": "2021-02-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "A",
+      "devLeadTime": 120,
+      "numberRequest": 148,
+      "numberOnTimeRequest": 105,
+      "date": "2021-03-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "B",
+      "devLeadTime": 47,
+      "numberRequest": 281,
+      "numberOnTimeRequest": 224,
+      "date": "2021-03-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "C",
+      "devLeadTime": 95,
+      "numberRequest": 223,
+      "numberOnTimeRequest": 145,
+      "date": "2021-03-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "D",
+      "devLeadTime": 53,
+      "numberRequest": 197,
+      "numberOnTimeRequest": 117,
+      "date": "2021-03-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "E",
+      "devLeadTime": 76,
+      "numberRequest": 227,
+      "numberOnTimeRequest": 193,
+      "date": "2021-03-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "F",
+      "devLeadTime": 101,
+      "numberRequest": 291,
+      "numberOnTimeRequest": 260,
+      "date": "2021-03-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "G",
+      "devLeadTime": 88,
+      "numberRequest": 201,
+      "numberOnTimeRequest": 133,
+      "date": "2021-03-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "H",
+      "devLeadTime": 64,
+      "numberRequest": 243,
+      "numberOnTimeRequest": 204,
+      "date": "2021-03-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "I",
+      "devLeadTime": 113,
+      "numberRequest": 156,
+      "numberOnTimeRequest": 112,
+      "date": "2021-03-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "J",
+      "devLeadTime": 62,
+      "numberRequest": 154,
+      "numberOnTimeRequest": 100,
+      "date": "2021-03-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "A",
+      "devLeadTime": 120,
+      "numberRequest": 147,
+      "numberOnTimeRequest": 100,
+      "date": "2021-04-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "B",
+      "devLeadTime": 55,
+      "numberRequest": 273,
+      "numberOnTimeRequest": 226,
+      "date": "2021-04-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "C",
+      "devLeadTime": 101,
+      "numberRequest": 216,
+      "numberOnTimeRequest": 188,
+      "date": "2021-04-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "D",
+      "devLeadTime": 62,
+      "numberRequest": 207,
+      "numberOnTimeRequest": 175,
+      "date": "2021-04-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "E",
+      "devLeadTime": 67,
+      "numberRequest": 224,
+      "numberOnTimeRequest": 213,
+      "date": "2021-04-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "F",
+      "devLeadTime": 95,
+      "numberRequest": 297,
+      "numberOnTimeRequest": 269,
+      "date": "2021-04-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "G",
+      "devLeadTime": 81,
+      "numberRequest": 195,
+      "numberOnTimeRequest": 157,
+      "date": "2021-04-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "H",
+      "devLeadTime": 72,
+      "numberRequest": 253,
+      "numberOnTimeRequest": 205,
+      "date": "2021-04-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "I",
+      "devLeadTime": 120,
+      "numberRequest": 151,
+      "numberOnTimeRequest": 110,
+      "date": "2021-04-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "J",
+      "devLeadTime": 69,
+      "numberRequest": 147,
+      "numberOnTimeRequest": 119,
+      "date": "2021-04-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "A",
+      "devLeadTime": 120,
+      "numberRequest": 147,
+      "numberOnTimeRequest": 126,
+      "date": "2021-05-03T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "B",
+      "devLeadTime": 46,
+      "numberRequest": 272,
+      "numberOnTimeRequest": 197,
+      "date": "2021-05-03T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "C",
+      "devLeadTime": 94,
+      "numberRequest": 226,
+      "numberOnTimeRequest": 216,
+      "date": "2021-05-03T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "D",
+      "devLeadTime": 70,
+      "numberRequest": 217,
+      "numberOnTimeRequest": 168,
+      "date": "2021-05-03T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "E",
+      "devLeadTime": 62,
+      "numberRequest": 216,
+      "numberOnTimeRequest": 169,
+      "date": "2021-05-03T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "F",
+      "devLeadTime": 103,
+      "numberRequest": 289,
+      "numberOnTimeRequest": 230,
+      "date": "2021-05-03T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "G",
+      "devLeadTime": 86,
+      "numberRequest": 200,
+      "numberOnTimeRequest": 126,
+      "date": "2021-05-03T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "H",
+      "devLeadTime": 77,
+      "numberRequest": 262,
+      "numberOnTimeRequest": 205,
+      "date": "2021-05-03T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "I",
+      "devLeadTime": 120,
+      "numberRequest": 157,
+      "numberOnTimeRequest": 101,
+      "date": "2021-05-03T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "J",
+      "devLeadTime": 64,
+      "numberRequest": 139,
+      "numberOnTimeRequest": 100,
+      "date": "2021-05-03T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "A",
+      "devLeadTime": 120,
+      "numberRequest": 146,
+      "numberOnTimeRequest": 100,
+      "date": "2021-06-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "B",
+      "devLeadTime": 56,
+      "numberRequest": 272,
+      "numberOnTimeRequest": 201,
+      "date": "2021-06-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "C",
+      "devLeadTime": 85,
+      "numberRequest": 234,
+      "numberOnTimeRequest": 215,
+      "date": "2021-06-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "D",
+      "devLeadTime": 61,
+      "numberRequest": 223,
+      "numberOnTimeRequest": 197,
+      "date": "2021-06-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "E",
+      "devLeadTime": 70,
+      "numberRequest": 218,
+      "numberOnTimeRequest": 183,
+      "date": "2021-06-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "F",
+      "devLeadTime": 113,
+      "numberRequest": 289,
+      "numberOnTimeRequest": 235,
+      "date": "2021-06-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "G",
+      "devLeadTime": 82,
+      "numberRequest": 192,
+      "numberOnTimeRequest": 123,
+      "date": "2021-06-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "H",
+      "devLeadTime": 68,
+      "numberRequest": 257,
+      "numberOnTimeRequest": 228,
+      "date": "2021-06-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "I",
+      "devLeadTime": 113,
+      "numberRequest": 160,
+      "numberOnTimeRequest": 100,
+      "date": "2021-06-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "J",
+      "devLeadTime": 57,
+      "numberRequest": 139,
+      "numberOnTimeRequest": 100,
+      "date": "2021-06-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "A",
+      "devLeadTime": 113,
+      "numberRequest": 147,
+      "numberOnTimeRequest": 100,
+      "date": "2021-07-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "B",
+      "devLeadTime": 48,
+      "numberRequest": 267,
+      "numberOnTimeRequest": 223,
+      "date": "2021-07-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "C",
+      "devLeadTime": 94,
+      "numberRequest": 226,
+      "numberOnTimeRequest": 207,
+      "date": "2021-07-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "D",
+      "devLeadTime": 55,
+      "numberRequest": 226,
+      "numberOnTimeRequest": 206,
+      "date": "2021-07-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "E",
+      "devLeadTime": 75,
+      "numberRequest": 218,
+      "numberOnTimeRequest": 193,
+      "date": "2021-07-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "F",
+      "devLeadTime": 120,
+      "numberRequest": 287,
+      "numberOnTimeRequest": 233,
+      "date": "2021-07-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "G",
+      "devLeadTime": 73,
+      "numberRequest": 184,
+      "numberOnTimeRequest": 158,
+      "date": "2021-07-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "H",
+      "devLeadTime": 76,
+      "numberRequest": 266,
+      "numberOnTimeRequest": 198,
+      "date": "2021-07-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "I",
+      "devLeadTime": 120,
+      "numberRequest": 153,
+      "numberOnTimeRequest": 106,
+      "date": "2021-07-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "J",
+      "devLeadTime": 51,
+      "numberRequest": 133,
+      "numberOnTimeRequest": 100,
+      "date": "2021-07-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "A",
+      "devLeadTime": 120,
+      "numberRequest": 144,
+      "numberOnTimeRequest": 100,
+      "date": "2021-08-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "B",
+      "devLeadTime": 40,
+      "numberRequest": 259,
+      "numberOnTimeRequest": 200,
+      "date": "2021-08-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "C",
+      "devLeadTime": 86,
+      "numberRequest": 224,
+      "numberOnTimeRequest": 192,
+      "date": "2021-08-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "D",
+      "devLeadTime": 47,
+      "numberRequest": 217,
+      "numberOnTimeRequest": 171,
+      "date": "2021-08-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "E",
+      "devLeadTime": 70,
+      "numberRequest": 219,
+      "numberOnTimeRequest": 142,
+      "date": "2021-08-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "F",
+      "devLeadTime": 120,
+      "numberRequest": 293,
+      "numberOnTimeRequest": 229,
+      "date": "2021-08-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "G",
+      "devLeadTime": 78,
+      "numberRequest": 179,
+      "numberOnTimeRequest": 157,
+      "date": "2021-08-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "H",
+      "devLeadTime": 85,
+      "numberRequest": 275,
+      "numberOnTimeRequest": 230,
+      "date": "2021-08-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "I",
+      "devLeadTime": 113,
+      "numberRequest": 150,
+      "numberOnTimeRequest": 100,
+      "date": "2021-08-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "J",
+      "devLeadTime": 45,
+      "numberRequest": 135,
+      "numberOnTimeRequest": 100,
+      "date": "2021-08-02T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "A",
+      "devLeadTime": 112,
+      "numberRequest": 150,
+      "numberOnTimeRequest": 117,
+      "date": "2021-09-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "B",
+      "devLeadTime": 36,
+      "numberRequest": 260,
+      "numberOnTimeRequest": 238,
+      "date": "2021-09-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "C",
+      "devLeadTime": 93,
+      "numberRequest": 228,
+      "numberOnTimeRequest": 179,
+      "date": "2021-09-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "D",
+      "devLeadTime": 52,
+      "numberRequest": 219,
+      "numberOnTimeRequest": 183,
+      "date": "2021-09-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "E",
+      "devLeadTime": 80,
+      "numberRequest": 228,
+      "numberOnTimeRequest": 214,
+      "date": "2021-09-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "F",
+      "devLeadTime": 120,
+      "numberRequest": 292,
+      "numberOnTimeRequest": 262,
+      "date": "2021-09-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "G",
+      "devLeadTime": 73,
+      "numberRequest": 187,
+      "numberOnTimeRequest": 148,
+      "date": "2021-09-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "H",
+      "devLeadTime": 94,
+      "numberRequest": 266,
+      "numberOnTimeRequest": 198,
+      "date": "2021-09-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "I",
+      "devLeadTime": 107,
+      "numberRequest": 155,
+      "numberOnTimeRequest": 132,
+      "date": "2021-09-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "J",
+      "devLeadTime": 37,
+      "numberRequest": 130,
+      "numberOnTimeRequest": 100,
+      "date": "2021-09-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "A",
+      "devLeadTime": 105,
+      "numberRequest": 160,
+      "numberOnTimeRequest": 100,
+      "date": "2021-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "B",
+      "devLeadTime": 46,
+      "numberRequest": 259,
+      "numberOnTimeRequest": 209,
+      "date": "2021-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "C",
+      "devLeadTime": 88,
+      "numberRequest": 226,
+      "numberOnTimeRequest": 189,
+      "date": "2021-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "D",
+      "devLeadTime": 61,
+      "numberRequest": 226,
+      "numberOnTimeRequest": 177,
+      "date": "2021-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "E",
+      "devLeadTime": 85,
+      "numberRequest": 219,
+      "numberOnTimeRequest": 185,
+      "date": "2021-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "F",
+      "devLeadTime": 120,
+      "numberRequest": 291,
+      "numberOnTimeRequest": 279,
+      "date": "2021-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "G",
+      "devLeadTime": 82,
+      "numberRequest": 197,
+      "numberOnTimeRequest": 178,
+      "date": "2021-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "H",
+      "devLeadTime": 102,
+      "numberRequest": 259,
+      "numberOnTimeRequest": 207,
+      "date": "2021-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "I",
+      "devLeadTime": 101,
+      "numberRequest": 161,
+      "numberOnTimeRequest": 102,
+      "date": "2021-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "J",
+      "devLeadTime": 47,
+      "numberRequest": 134,
+      "numberOnTimeRequest": 100,
+      "date": "2021-10-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "A",
+      "devLeadTime": 111,
+      "numberRequest": 151,
+      "numberOnTimeRequest": 111,
+      "date": "2021-11-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "B",
+      "devLeadTime": 40,
+      "numberRequest": 256,
+      "numberOnTimeRequest": 207,
+      "date": "2021-11-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "C",
+      "devLeadTime": 96,
+      "numberRequest": 233,
+      "numberOnTimeRequest": 174,
+      "date": "2021-11-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "D",
+      "devLeadTime": 56,
+      "numberRequest": 221,
+      "numberOnTimeRequest": 211,
+      "date": "2021-11-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "E",
+      "devLeadTime": 95,
+      "numberRequest": 228,
+      "numberOnTimeRequest": 207,
+      "date": "2021-11-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "F",
+      "devLeadTime": 112,
+      "numberRequest": 295,
+      "numberOnTimeRequest": 238,
+      "date": "2021-11-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "G",
+      "devLeadTime": 87,
+      "numberRequest": 203,
+      "numberOnTimeRequest": 159,
+      "date": "2021-11-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "H",
+      "devLeadTime": 107,
+      "numberRequest": 253,
+      "numberOnTimeRequest": 202,
+      "date": "2021-11-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "I",
+      "devLeadTime": 109,
+      "numberRequest": 155,
+      "numberOnTimeRequest": 130,
+      "date": "2021-11-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "J",
+      "devLeadTime": 39,
+      "numberRequest": 132,
+      "numberOnTimeRequest": 100,
+      "date": "2021-11-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "A",
+      "devLeadTime": 117,
+      "numberRequest": 150,
+      "numberOnTimeRequest": 134,
+      "date": "2021-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "B",
+      "devLeadTime": 48,
+      "numberRequest": 252,
+      "numberOnTimeRequest": 208,
+      "date": "2021-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 1팀",
+      "system": "C",
+      "devLeadTime": 91,
+      "numberRequest": 239,
+      "numberOnTimeRequest": 189,
+      "date": "2021-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "D",
+      "devLeadTime": 47,
+      "numberRequest": 213,
+      "numberOnTimeRequest": 144,
+      "date": "2021-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "E",
+      "devLeadTime": 90,
+      "numberRequest": 237,
+      "numberOnTimeRequest": 202,
+      "date": "2021-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "F",
+      "devLeadTime": 119,
+      "numberRequest": 300,
+      "numberOnTimeRequest": 259,
+      "date": "2021-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 2팀",
+      "system": "G",
+      "devLeadTime": 92,
+      "numberRequest": 213,
+      "numberOnTimeRequest": 182,
+      "date": "2021-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "H",
+      "devLeadTime": 101,
+      "numberRequest": 245,
+      "numberOnTimeRequest": 195,
+      "date": "2021-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "I",
+      "devLeadTime": 119,
+      "numberRequest": 156,
+      "numberOnTimeRequest": 128,
+      "date": "2021-12-01T09:00:00.000Z"
+    },
+    {
+      "team": "개발 3팀",
+      "system": "J",
+      "devLeadTime": 31,
+      "numberRequest": 142,
+      "numberOnTimeRequest": 130,
+      "date": "2021-12-01T09:00:00.000Z"
+    }
+]

@@ -6,7 +6,6 @@ import com.swqualityboard.configuration.security.SecurityConfig;
 import com.swqualityboard.dto.auth.LoginDto;
 import com.swqualityboard.dto.auth.TokenDto;
 import com.swqualityboard.exception.user.UserNotFoundException;
-import com.swqualityboard.response.Response;
 import com.swqualityboard.service.AuthService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,14 +17,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -33,9 +29,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import static com.swqualityboard.ApiDocumentUtils.getDocumentRequest;
 import static com.swqualityboard.ApiDocumentUtils.getDocumentResponse;
-import static com.swqualityboard.response.ResponseStatus.SUCCESS_SIGN_IN;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -84,7 +78,7 @@ class AuthControllerTest {
         TokenDto tokenDto = TokenDto.builder().accessToken("eyJhbGciOiJIUzUxMiJ9.eyJlbWFpbCI6InNzYWZ5QGdtYWlsLmNvbSIsIm5pY2tuYW1lIjoiYWRtaW4xIiwicm9sZSI6IlJPTEVfRVhFQ1VUSVZFIiwiZXhwIjoxNjM1OTkyNjMxfQ.NRZ-TGDwHPtWILCXT_8WhD4WIAB_Ks1wafScDd8UMDJy93mJMo2rrE4yZkZuM2JEjukA2eMudthkrYi5EzF21A").build();
 
         //when
-        doReturn(ResponseEntity.status(HttpStatus.OK).body(new Response<>(tokenDto, SUCCESS_SIGN_IN))).when(authService).authorize(any(LoginDto.class));
+        doReturn(tokenDto).when(authService).authorize(any(LoginDto.class));
 
         //then
         mockMvc.perform(post("/api/authenticate")
