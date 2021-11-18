@@ -6,11 +6,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { flexbox } from "@mui/system";
 import { useEffect, useState } from "react";
 import { StickiesFill, PencilSquare } from "react-bootstrap-icons";
 import { colors } from "../../../styles";
-import Indicator from "../../common/Indicator";
 
 // 지표 하이라이트 기준
 const criteria = {

@@ -1,6 +1,4 @@
-import { Wrapper } from "./styles";
-
-function HomeChartValue({ valueType }) {
+function HomeChartValue() {
   return <></>;
 }
 
