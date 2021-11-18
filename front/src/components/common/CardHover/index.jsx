@@ -45,7 +45,7 @@ function CardHover({ width, height, dataType, onClickClose }) {
   return (
     <Wrapper width={width} height={height}>
       <CloseBtn id="close">
-        <X onClick={onClickClose} />
+        <X onClick={onClickClose} style={{ cursor: "pointer" }} />
       </CloseBtn>
       <Content>
         <ItemBox onClick={handleClickSequel}>
