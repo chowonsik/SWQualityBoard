@@ -73,19 +73,19 @@
 
 #### 2. 과거 일자와 오늘 데이터 비교
 
-![home2](./exec/assets\home2.JPG)
+![home2](./exec/assets/home2.JPG)
 
 
 
 #### 3. 기준 미달 지표에 대한 하이라이트
 
-![하이라이트](./exec/assets\하이라이트.JPG)
+![하이라이트](./exec/assets/하이라이트.JPG)
 
 
 
 #### 4. 일정 기간에 대한 지표 추이
 
-![지표추이](./exec/assets\지표추이.JPG)
+![지표추이](./exec/assets/지표추이.JPG)
 
 
 
@@ -94,7 +94,7 @@
 - 문제되는 지표 표시
 - 메모 기능
 
-![시스템테이블](./exec/assets\시스템테이블.JPG)
+![시스템테이블](./exec/assets/시스템테이블.JPG)
 
 
 
@@ -103,7 +103,7 @@
 - 지표의 상태를 표정으로 출력
 - 전체 개발팀과 소속된 팀의 지표 비교 기능
 
-![팀관리](./exec/assets\팀관리.JPG)
+![팀관리](./exec/assets/팀관리.JPG)
 
 
 
