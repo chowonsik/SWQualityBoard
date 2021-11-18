@@ -15,13 +15,13 @@ function CardHover({ width, height, dataType, onClickClose }) {
       case "defect":
         history.push({
           pathname: "/system",
-          state: { dataType: "critical" },
+          state: { dataType: "critical", systemId: "ALL" },
         });
         break;
       case "structure":
         history.push({
           pathname: "/system",
-          state: { dataType: "complexity" },
+          state: { dataType: "complexity", systemId: "ALL" },
         });
         break;
       case "functionalCompatibility":
@@ -29,7 +29,7 @@ function CardHover({ width, height, dataType, onClickClose }) {
       case "mtbf":
         history.push({
           pathname: "/system",
-          state: { dataType },
+          state: { dataType, systemId: "ALL" },
         });
         break;
       case "codeReviewRate":
