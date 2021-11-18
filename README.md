@@ -30,7 +30,80 @@
 
 ### :heavy_check_mark:기술 스택
 
+---
+
 ![stack](./exec/assets/stack.JPG)
+
+
+
+### :heavy_check_mark: 아키텍처
+
+---
+
+
+
+![아키텍처](./exec/assets/아키텍처.JPG)
+
+
+
+
+
+### :heavy_check_mark: 프로젝트 세팅 방법
+
+----
+
+- [Frontend](./front)
+- [Backend](./backend)
+
+
+
+### :heavy_check_mark: Dash Baord 주요 기능
+
+---
+
+
+
+#### 1. 9개의 지표 차트화
+
+![home](./exec/assets/home.JPG)
+
+
+
+
+
+#### 2. 과거 일자와 오늘 데이터 비교
+
+![home2](./exec/assets\home2.JPG)
+
+
+
+#### 3. 기준 미달 지표에 대한 하이라이트
+
+![하이라이트](./exec/assets\하이라이트.JPG)
+
+
+
+#### 4. 일정 기간에 대한 지표 추이
+
+![지표추이](./exec/assets\지표추이.JPG)
+
+
+
+#### 5. 테이블 형태로 데이터 출력
+
+- 문제되는 지표 표시
+- 메모 기능
+
+![시스템테이블](./exec/assets\시스템테이블.JPG)
+
+
+
+####  6. 팀관련 지표 
+
+- 지표의 상태를 표정으로 출력
+- 전체 개발팀과 소속된 팀의 지표 비교 기능
+
+![팀관리](./exec/assets\팀관리.JPG)
 
 
 
@@ -62,7 +135,7 @@
 
 
 
-## 개발
+## :heavy_check_mark: 프로젝트 기여방법
 
 
 
