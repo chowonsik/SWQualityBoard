@@ -7,7 +7,6 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useEffect, useState } from "react";
-import Indicator from "../../common/Indicator";
 
 const criteria = {
   codeReviewRate: 50,

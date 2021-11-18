@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React from "react";
 import DatePicker, { registerLocale } from "react-datepicker";
 import ko from "date-fns/locale/ko";
 import { Wrapper } from "./styles";
