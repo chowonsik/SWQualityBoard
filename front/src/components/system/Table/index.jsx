@@ -136,10 +136,10 @@ function MyTable({ data, openMemo, setIndicator }) {
                 시스템
               </TableCell>
               <TableCell align="center" colSpan={4}>
-                <Indicator indicatorTitle="중대결함수" />
+                중대결함수
               </TableCell>
               <TableCell align="center" colSpan={3}>
-                <Indicator indicatorTitle="구조품질지수" />
+                구조품질지수
               </TableCell>
               <TableCell
                 align="center"
@@ -148,7 +148,7 @@ function MyTable({ data, openMemo, setIndicator }) {
                   changeIndicator("mtbf");
                 }}
               >
-                <Indicator indicatorTitle="시스템신뢰도" />
+                시스템신뢰도
               </TableCell>
               <TableCell
                 align="center"
@@ -157,7 +157,7 @@ function MyTable({ data, openMemo, setIndicator }) {
                   changeIndicator("testCoverage");
                 }}
               >
-                <Indicator indicatorTitle="테스트커버리지" />
+                테스트커버리지
               </TableCell>
               <TableCell
                 align="center"
@@ -166,7 +166,7 @@ function MyTable({ data, openMemo, setIndicator }) {
                   changeIndicator("functionalCompatibility");
                 }}
               >
-                <Indicator indicatorTitle="기능적합성" />
+                기능적합성
               </TableCell>
               <TableCell align="center" colSpan={1}>
                 비고

@@ -5,6 +5,7 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 2rem;
 `;
 
 export const Grid = styled.div`
@@ -26,10 +27,14 @@ export const CardContent = styled.div`
 `;
 
 export const DateContainer = styled.div`
-  width: ${(props) => props.width};
+  width: 100%;
   display: flex;
   align-items: center;
   padding: 1.5rem;
+  @media screen and (max-width: 415px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 export const TodayContainer = styled.div`
@@ -45,13 +50,15 @@ export const CardWrapper = styled.div`
 export const TitleAndMoreBtn = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0 0.75rem;
+  padding: 0 1rem;
 `;
 
 export const DateWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 2rem;
+  @media screen and (max-width: 415px) {
+    margin-bottom: 1rem;
+  }
 `;
 
 export const DateTitle = styled.div`
