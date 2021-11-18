@@ -10,6 +10,7 @@
 - Frontend IDE: Visual Studio 1.60.2
 - Backend IDE: Intellij Ultimate 2021.1
 - MongoDB 5.0.3
+- MYSQL 8.0.27
 - Docker: 20.10.7
 - Docker-compose: 1.26.2
 
