@@ -130,24 +130,15 @@ public class JobConfiguration {
                 if (system == null) continue;
 
                 Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(item.getDate());
-                Query query = new Query();
-                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(date));
-                Update update = new Update();
-                update.set("system_id", system.getId());
-                update.set("mtbf", item.getMtbf());
-                update.set("createdAt", date);
-
-                mongoTemplate.upsert(query, update, Reliability.class);
-
                 String pattern = "yyyy-MM";
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
                 String createdAt = simpleDateFormat.format(date);
-                Query query2 = new Query();
-                query2.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
+                Query query = new Query();
+                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
                 Update updateSystem = new Update();
                 updateSystem.set("mtbf", item.getMtbf());
 
-                mongoTemplate.updateMulti(query2, updateSystem, SystemQuality.class);
+                mongoTemplate.updateMulti(query, updateSystem, SystemQuality.class);
             }
         };
     }
@@ -171,27 +162,18 @@ public class JobConfiguration {
                 if (team == null) continue;
 
                 Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(item.getDate());
-                Query query = new Query();
-                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(date));
-                Update update = new Update();
-                update.set("system_id", system.getId());
-                update.set("receptionRate", item.getRate());
-                update.set("createdAt", date);
-
-                mongoTemplate.upsert(query, update, ReceptionRate.class);
-
                 String pattern = "yyyy-MM-dd";
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
                 String createdAt = simpleDateFormat.format(date);
-                Query query2 = new Query();
-                query2.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
+                Query query = new Query();
+                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
                 Update updateTeam = new Update();
                 updateTeam.set("team_id", team.getId());
                 updateTeam.set("system_id", system.getId());
                 updateTeam.set("receptionRate", item.getRate());
                 updateTeam.set("createdAt", createdAt);
 
-                mongoTemplate.upsert(query2, updateTeam, TeamQuality.class);
+                mongoTemplate.upsert(query, updateTeam, TeamQuality.class);
             }
         };
     }
@@ -213,27 +195,11 @@ public class JobConfiguration {
                 if (system == null) continue;
 
                 Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(item.getDate());
-                Query query = new Query();
-                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(date));
-                Update update = new Update();
-                update.set("system_id", system.getId());
-                update.set("critical", item.getCritical());
-                update.set("high", item.getHigh());
-                update.set("medium", item.getMedium());
-                update.set("low", item.getLow());
-                update.set("complexity", item.getComplexity());
-                update.set("overlapping", item.getOverlapping());
-                update.set("scale", item.getScale());
-                update.set("testCoverage", item.getTestCoverage());
-                update.set("createdAt", date);
-
-                mongoTemplate.upsert(query, update, StaticAnalysis.class);
-
                 String pattern = "yyyy-MM-dd";
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
                 String createdAt = simpleDateFormat.format(date);
-                Query query2 = new Query();
-                query2.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
+                Query query = new Query();
+                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
                 Update updateSystem = new Update();
                 updateSystem.set("system_id", system.getId());
                 updateSystem.set("critical", item.getCritical());
@@ -246,7 +212,7 @@ public class JobConfiguration {
                 updateSystem.set("testCoverage", item.getTestCoverage());
                 updateSystem.set("createdAt", createdAt);
 
-                mongoTemplate.upsert(query2, updateSystem, SystemQuality.class);
+                mongoTemplate.upsert(query, updateSystem, SystemQuality.class);
             }
         };
     }
@@ -270,28 +236,17 @@ public class JobConfiguration {
                 if (team == null) continue;
 
                 Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(item.getDate());
-                Query query = new Query();
-                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(date));
-                Update update = new Update();
-                update.set("system_id", system.getId());
-                update.set("devLeadTime", item.getDevLeadTime());
-                update.set("numberRequest", item.getNumberRequest());
-                update.set("numberOnTimeRequest", item.getNumberOnTimeRequest());
-                update.set("createdAt", date);
-
-                mongoTemplate.upsert(query, update, LeadTimeAndDeliveryRate.class);
-
                 String pattern = "yyyy-MM";
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
                 String createdAt = simpleDateFormat.format(date);
-                Query query2 = new Query();
-                query2.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
+                Query query = new Query();
+                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
                 Update updateTeam = new Update();
                 updateTeam.set("devLeadTime", item.getDevLeadTime());
                 updateTeam.set("numberRequest", item.getNumberRequest());
                 updateTeam.set("numberOnTimeRequest", item.getNumberOnTimeRequest());
 
-                mongoTemplate.updateMulti(query2, updateTeam, TeamQuality.class);
+                mongoTemplate.updateMulti(query, updateTeam, TeamQuality.class);
             }
         };
     }
@@ -313,29 +268,18 @@ public class JobConfiguration {
                 if (system == null) continue;
 
                 Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(item.getDate());
-
-                Query query = new Query();
-                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(date));
-                Update update = new Update();
-                update.set("system_id", system.getId());
-                update.set("numberRequest", item.getNumberRequest());
-                update.set("numberSuitableImplementation", item.getNumberSuitableImplementation());
-                update.set("createdAt", date);
-
-                mongoTemplate.upsert(query, update, FunctionalSuitability.class);
-
                 String pattern = "yyyy-MM-dd";
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
                 String createdAt = simpleDateFormat.format(date);
-                Query query2 = new Query();
-                query2.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
+                Query query = new Query();
+                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
                 Update updateSystem = new Update();
                 updateSystem.set("system_id", system.getId());
                 updateSystem.set("numberRequest", item.getNumberRequest());
                 updateSystem.set("numberSuitableImplementation", item.getNumberSuitableImplementation());
                 updateSystem.set("createdAt", createdAt);
 
-                mongoTemplate.upsert(query2, updateSystem, SystemQuality.class);
+                mongoTemplate.upsert(query, updateSystem, SystemQuality.class);
             }
         };
     }
@@ -359,27 +303,18 @@ public class JobConfiguration {
                 if (team == null) continue;
 
                 Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(item.getDate());
-                Query query = new Query();
-                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(date));
-                Update update = new Update();
-                update.set("system_id", system.getId());
-                update.set("conventionRate", item.getRate());
-                update.set("createdAt", date);
-
-                mongoTemplate.upsert(query, update, ConventionRate.class);
-
                 String pattern = "yyyy-MM-dd";
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
                 String createdAt = simpleDateFormat.format(date);
-                Query query2 = new Query();
-                query2.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
+                Query query = new Query();
+                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
                 Update updateTeam = new Update();
                 updateTeam.set("team_id", team.getId());
                 updateTeam.set("system_id", system.getId());
                 updateTeam.set("conventionRate", item.getRate());
                 updateTeam.set("createdAt", createdAt);
 
-                mongoTemplate.upsert(query2, updateTeam, TeamQuality.class);
+                mongoTemplate.upsert(query, updateTeam, TeamQuality.class);
             }
         };
     }
@@ -403,21 +338,11 @@ public class JobConfiguration {
                 if (team == null) continue;
 
                 Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(item.getDate());
-                Query query = new Query();
-                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").is(date));
-                Update update = new Update();
-                update.set("system_id", system.getId());
-                update.set("totalNumberPeople", item.getTotalNumberPeople());
-                update.set("reviewedNumberPeople", item.getReviewedNumberPeople());
-                update.set("createdAt", date);
-
-                mongoTemplate.upsert(query, update, CodeReview.class);
-
                 String pattern = "yyyy-MM-dd";
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
                 String createdAt = simpleDateFormat.format(date);
-                Query query2 = new Query();
-                query2.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
+                Query query = new Query();
+                query.addCriteria(Criteria.where("system_id").is(system.getId()).and("createdAt").regex(createdAt));
                 Update updateTeam = new Update();
                 updateTeam.set("team_id", team.getId());
                 updateTeam.set("system_id", system.getId());
@@ -425,7 +350,7 @@ public class JobConfiguration {
                 updateTeam.set("reviewedNumberPeople", item.getReviewedNumberPeople());
                 updateTeam.set("createdAt", createdAt);
 
-                mongoTemplate.upsert(query2, updateTeam, TeamQuality.class);
+                mongoTemplate.upsert(query, updateTeam, TeamQuality.class);
             }
         };
     }

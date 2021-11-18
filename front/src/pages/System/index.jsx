@@ -19,6 +19,9 @@ import ToastMessage from "../../components/common/ToastMessage";
 import { requestGet } from "../../lib/apis";
 
 function System() {
+  const storageSystemList = JSON.parse(
+    sessionStorage.getItem("systemTableList")
+  );
   const [selectShow, setSelectShow] = useState(false);
   const [systems, setSystems] = useState([]);
   const [indicator, setIndicator] = useState("testCoverage");
@@ -92,10 +95,13 @@ function System() {
     return `${selectedSystems[0].name}외 ${selectedSystems.length - 1}개`;
   }
 
-  // 시스템 설정(api로할지)
   function initSystems() {
     if (!localStorage.getItem("loginUser")) {
       history.push("/login");
+      return;
+    }
+    if (storageSystemList && !location.state) {
+      setSystems(storageSystemList);
       return;
     }
     const userTeams = JSON.parse(localStorage.getItem("loginUser")).teams;
@@ -104,9 +110,22 @@ function System() {
       []
     );
     const newSystems = userSystems.map((systemInfo, i) => {
+      function isChecked() {
+        if (location.state?.systemId) {
+          // 홈에서 들어올때
+          if (location.state.systemId === "ALL") {
+            return true;
+            // 팀관리에서 들어올 때
+          } else {
+            return location.state.systemId === systemInfo.id ? true : false;
+          }
+        } else {
+          return i === 0 ? true : false;
+        }
+      }
       return {
         name: `시스템 ${systemInfo.name}`,
-        isChecked: i < 3 ? true : false,
+        isChecked: isChecked(),
         system: systemInfo.name,
         id: systemInfo.id,
       };
@@ -114,13 +133,18 @@ function System() {
     setSystems(newSystems);
   }
 
-  // 기간 일주일 전 ~ 오늘로 설정
+  //  디폴트 : 기간 일주일 전 ~ 오늘로 설정
   function initDateRange() {
-    const date = new Date();
-    const prevDate = new Date(date);
-    prevDate.setDate(prevDate.getDate() - 7);
-    prevDate.setHours(0, 0, 0);
-    setDateRange([prevDate, date]);
+    const storageDate = JSON.parse(sessionStorage.getItem("systemTableDate"));
+    if (storageDate && !location.state) {
+      setDateRange(storageDate.map((date) => new Date(date)));
+    } else {
+      const date = new Date();
+      const prevDate = new Date(date);
+      prevDate.setDate(date.getDate() - 7);
+      prevDate.setHours(0, 0, 0);
+      setDateRange([prevDate, date]);
+    }
   }
 
   function initData() {
@@ -184,7 +208,12 @@ function System() {
         allCheckRef.current.checked = false;
       }
     }
+    sessionStorage.setItem("systemTableList", JSON.stringify(systems));
   }, [systems]);
+
+  useEffect(() => {
+    sessionStorage.setItem("systemTableDate", JSON.stringify(dateRange));
+  }, [dateRange]);
 
   return (
     <Wrapper>
