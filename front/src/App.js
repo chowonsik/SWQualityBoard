@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 import "./App.css";
 import styled from "styled-components";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"; // 히스토리 모드 제거
+import { BrowserRouter as Router, Switch } from "react-router-dom"; // 히스토리 모드 제거
 import Header from "./components/common/Header";
 import Sidebar from "./components/common/Sidebar";
 import Home from "./pages/Home";

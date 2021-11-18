@@ -1,4 +1,3 @@
-import { color } from "echarts";
 import styled from "styled-components";
 import { fonts, colors } from "../../../styles";
 
