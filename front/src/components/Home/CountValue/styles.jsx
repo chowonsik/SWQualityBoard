@@ -18,9 +18,9 @@ export const ValueBox = styled.div`
 
 export const Category = styled.p`
   color: ${(props) => props.fontColor || "black"};
-  font-weight: 800;
+  font-weight: 700;
   margin-bottom: 0.25rem;
-  font-size: 0.8rem;
+  font-size: 1rem;
 `;
 
 export const ValueWrapper = styled.div`
@@ -29,7 +29,8 @@ export const ValueWrapper = styled.div`
 `;
 
 export const NowValue = styled.p`
-  font-size: 1rem;
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
 
   color: ${(props) =>
     props.isPastShow &&

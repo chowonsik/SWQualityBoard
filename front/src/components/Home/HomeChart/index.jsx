@@ -7,7 +7,6 @@ function getOption(chartType, chartData) {
         trigger: "item",
       },
       legend: {
-        top: "5%",
         left: "center",
       },
       series: [
@@ -24,6 +23,7 @@ function getOption(chartType, chartData) {
             show: false,
           },
           data: chartData.data,
+          bottom: "3%",
         },
       ],
     };

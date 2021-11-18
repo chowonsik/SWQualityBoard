@@ -6,4 +6,15 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .login {
+    justify-content: center;
+    align-items: center;
+  }
+  .logo-image {
+    width: 70%;
+    height: 180px;
+    object-fit: cover;
+    margin-bottom: 2rem;
+  }
 `;
