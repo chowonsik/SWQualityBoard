@@ -13,6 +13,17 @@ export const Wrapper = styled.div`
   font-weight: 700;
   padding-left: 24px;
   z-index: 99;
+
+  .display-logo {
+    display: flex;
+    justify-content: end;
+    flex: 1;
+    padding: 20px;
+    font-family: "Noto Sans KR";
+    @media screen and (max-width: 375px) {
+      display: none;
+    }
+  }
 `;
 
 export const Title = styled.div``;

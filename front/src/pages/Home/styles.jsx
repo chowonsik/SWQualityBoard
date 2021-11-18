@@ -31,6 +31,7 @@ export const DateContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 1.5rem;
+  gap: 20px;
   @media screen and (max-width: 415px) {
     flex-direction: column;
     align-items: flex-start;
@@ -45,6 +46,13 @@ export const TodayContainer = styled.div`
 
 export const CardWrapper = styled.div`
   position: relative;
+  .icon {
+    cursor: pointer;
+    transition: transform ease-in 0.1s;
+    &:hover {
+      transform: scale(1.15);
+    }
+  }
 `;
 
 export const TitleAndMoreBtn = styled.div`

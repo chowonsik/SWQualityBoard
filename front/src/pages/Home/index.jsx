@@ -465,6 +465,7 @@ function Home() {
               </TitleAndWarn>
 
               <BoxArrowUpRight
+                class="icon"
                 onClick={handleClickMoreMenu}
                 style={{ marginTop: "0.25rem" }}
               />
@@ -500,6 +501,7 @@ function Home() {
                 width={200}
               />
               <BoxArrowUpRight
+                class="icon"
                 onClick={handleClickMoreMenu}
                 style={{ marginTop: "0.25rem" }}
               />
@@ -543,6 +545,7 @@ function Home() {
                 <Warning isLight={handleLight(systemAvg["testCoverage"])} />
               </TitleAndWarn>
               <BoxArrowUpRight
+                class="icon"
                 onClick={handleClickMoreMenu}
                 style={{ marginTop: "0.25rem" }}
               />
@@ -585,6 +588,7 @@ function Home() {
                 <Warning isLight={handleLight(teamAvg["receptionRate"])} />
               </TitleAndWarn>
               <BoxArrowUpRight
+                class="icon"
                 onClick={handleClickMoreMenu}
                 style={{ marginTop: "0.25rem" }}
               />
@@ -626,6 +630,7 @@ function Home() {
                 <Warning isLight={handleLight(teamAvg["codeReviewRate"])} />
               </TitleAndWarn>
               <BoxArrowUpRight
+                class="icon"
                 onClick={handleClickMoreMenu}
                 style={{ marginTop: "0.25rem" }}
               />
@@ -669,6 +674,7 @@ function Home() {
                 />
               </TitleAndWarn>
               <BoxArrowUpRight
+                class="icon"
                 onClick={handleClickMoreMenu}
                 style={{ marginTop: "0.25rem" }}
               />
@@ -711,6 +717,7 @@ function Home() {
                 <Warning isLight={handleLight(teamAvg["conventionRate"])} />
               </TitleAndWarn>
               <BoxArrowUpRight
+                class="icon"
                 onClick={handleClickMoreMenu}
                 style={{ marginTop: "0.25rem" }}
               />
@@ -752,6 +759,7 @@ function Home() {
                 <Warning isLight={handleLight(teamAvg["deliveryRate"])} />
               </TitleAndWarn>
               <BoxArrowUpRight
+                class="icon"
                 onClick={handleClickMoreMenu}
                 style={{ marginTop: "0.25rem" }}
               />
@@ -786,6 +794,7 @@ function Home() {
                 width={200}
               />
               <BoxArrowUpRight
+                class="icon"
                 onClick={handleClickMoreMenu}
                 style={{ marginTop: "0.25rem" }}
               />
