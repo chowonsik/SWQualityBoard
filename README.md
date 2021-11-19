@@ -120,14 +120,14 @@
 
 참고: https://techblog.woowahan.com/2553/
 
-- main : 최종적으로 배포되는 브랜치
+- master : 최종적으로 배포되는 브랜치
 - develop : 다음 출시 버전을 개발하는 브랜치
 - feature : 기능을 개발하는 브랜치
 - release : 이번 출시 버전을 준비하는 브랜치
 - hotfix : 출시 버전에서 발생한 버그를 수정 하는 브랜치
 
 ```shell
-main
+master
 	└── release
 	└── fix
 	└── develop
