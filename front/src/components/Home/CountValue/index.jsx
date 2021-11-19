@@ -18,7 +18,7 @@ function CountValue({ data, isPastShow, dataType }) {
             <PastValue isPastShow={isPastShow}>
               {item.pastValue ? item.pastValue : 0}
             </PastValue>
-            {isPastShow && <ArrowRight />}
+            {isPastShow && <ArrowRight className="icon" />}
             <NowValue
               pastValue={item.pastValue}
               nowValue={item.nowValue}
