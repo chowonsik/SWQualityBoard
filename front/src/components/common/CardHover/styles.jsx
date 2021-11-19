@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { fonts, colors } from "../../../styles";
+
 export const Wrapper = styled.div`
   position: absolute;
   top: 0;
@@ -34,6 +35,8 @@ export const ItemBox = styled.div`
   cursor: pointer;
   &:hover {
     color: ${colors.yellow};
+    transform: scale(1.1);
+    transition: all ease 0.4s;
   }
 `;
 
@@ -46,5 +49,6 @@ export const CloseBtn = styled.div`
   font-size: 2rem;
 `;
 export const MenuTitle = styled.p`
+  margin-top: 8px;
   font-size: ${fonts.lg};
 `;
