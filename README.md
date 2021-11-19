@@ -28,7 +28,7 @@
 
 
 
-### :heavy_check_mark:기술 스택
+### :heavy_check_mark: 기술 스택
 
 ---
 
@@ -43,6 +43,8 @@
 
 
 ![아키텍처](./exec/assets/아키텍처.JPG)
+
+![아키텍처2](./exec/assets/아키텍처2.PNG)
 
 
 
