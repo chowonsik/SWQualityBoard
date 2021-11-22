@@ -34,18 +34,18 @@ const columns = [
   { id: "complexity", label: "복잡도", minWidth: 80, align: "center" },
   { id: "overlapping", label: "중복도", minWidth: 80, align: "center" },
   { id: "scale", label: "규모", minWidth: 70, align: "center" },
-  { id: "mtbf", label: "", minWidth: 100, align: "center" },
+  { id: "mtbf", label: "", minWidth: 140, align: "center" },
   {
     id: "testCoverage",
     label: "",
-    minWidth: 100,
+    minWidth: 140,
     format: (value) => `${value}%`,
     align: "center",
   },
   {
     id: "functionalCompatibility",
     label: "",
-    minWidth: 100,
+    minWidth: 140,
     align: "center",
     format: (value) => `${value}%`,
   },
@@ -145,6 +145,7 @@ function MyTable({ data, openMemo, setIndicator }) {
                 onClick={() => {
                   changeIndicator("mtbf");
                 }}
+                style={{ cursor: "pointer" }}
               >
                 시스템신뢰도
               </TableCell>
@@ -154,6 +155,7 @@ function MyTable({ data, openMemo, setIndicator }) {
                 onClick={() => {
                   changeIndicator("testCoverage");
                 }}
+                style={{ cursor: "pointer" }}
               >
                 테스트커버리지
               </TableCell>
@@ -163,6 +165,7 @@ function MyTable({ data, openMemo, setIndicator }) {
                 onClick={() => {
                   changeIndicator("functionalCompatibility");
                 }}
+                style={{ cursor: "pointer" }}
               >
                 기능적합성
               </TableCell>
