@@ -82,6 +82,11 @@ function MyTable({ data, setIndicator }) {
     setPage(0);
   };
 
+  function changeIndicator(indicator) {
+    setIndicator(indicator);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   //columns
   function isEnoughValue(indicator, value) {
     if (criteria[indicator] > value) return false;
@@ -130,8 +135,9 @@ function MyTable({ data, setIndicator }) {
                 align="center"
                 colSpan={3}
                 onClick={() => {
-                  setIndicator("codeReviewRate");
+                  changeIndicator("codeReviewRate");
                 }}
+                style={{ cursor: "pointer" }}
               >
                 코드리뷰율
               </TableCell>
@@ -139,8 +145,9 @@ function MyTable({ data, setIndicator }) {
                 align="center"
                 colSpan={1}
                 onClick={() => {
-                  setIndicator("conventionRate");
+                  changeIndicator("conventionRate");
                 }}
+                style={{ cursor: "pointer" }}
               >
                 코딩컨벤션
               </TableCell>
@@ -148,8 +155,9 @@ function MyTable({ data, setIndicator }) {
                 align="center"
                 colSpan={1}
                 onClick={() => {
-                  setIndicator("receptionRate");
+                  changeIndicator("receptionRate");
                 }}
+                style={{ cursor: "pointer" }}
               >
                 시스템접수율
               </TableCell>
@@ -157,8 +165,9 @@ function MyTable({ data, setIndicator }) {
                 align="center"
                 colSpan={1}
                 onClick={() => {
-                  setIndicator("devLeadTime");
+                  changeIndicator("devLeadTime");
                 }}
+                style={{ cursor: "pointer" }}
               >
                 개발리드타임
               </TableCell>
@@ -166,8 +175,9 @@ function MyTable({ data, setIndicator }) {
                 align="center"
                 colSpan={1}
                 onClick={() => {
-                  setIndicator("deliveryRate");
+                  changeIndicator("deliveryRate");
                 }}
+                style={{ cursor: "pointer" }}
               >
                 정시납기율
               </TableCell>
