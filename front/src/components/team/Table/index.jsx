@@ -9,11 +9,11 @@ import TableRow from "@mui/material/TableRow";
 import { useEffect, useState } from "react";
 
 const criteria = {
-  codeReviewRate: 50,
-  conventionRate: 50,
-  receptionRate: 40,
+  codeReviewRate: 70,
+  conventionRate: 70,
+  receptionRate: 70,
   devLeadTime: 200,
-  deliveryRate: 50,
+  deliveryRate: 70,
 };
 
 const columns = [
